@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 继承父模块 -->
+    <parent>
+        <groupId>com.zxiaosi</groupId>
+        <artifactId>backend</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath> <!-- 指定依赖父项目的依赖 -->
+    </parent>
+
+    <!-- 模块信息 -->
+    <artifactId>weapp</artifactId> <!-- 模块 -->
+    <version>0.0.1-SNAPSHOT</version>  <!-- 版本 -->
+    <name>weapp</name> <!-- 名称 -->
+    <description>weapp - 小程序模块</description> <!-- 描述 -->
+
+    <!--
+        打包类型: pom、 jar、 war
+        pom: 父模块
+        jar: 内部调用或者作为服务使用
+        war: 打包项目, 用于在容器上(Tomcat、 Jetty)运行
+    -->
+    <packaging>jar</packaging>
+
+    <!-- 以变量的方式声明模块版本号 -->
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <!-- 依赖 -->
+    <dependencies>
+        <!-- 公共模块 -->
+        <dependency>
+            <groupId>com.zxiaosi</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
+
+        <!-- spring-boot-web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- spring-boot-test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.zxiaosi.weapp.WeappApplication</mainClass> <!-- 指定该Main Class为全局的唯一入口 -->
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal> <!--可以把依赖的包都打包到生成的Jar包中-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

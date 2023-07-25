@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- 父模块 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.14</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <!-- 子模块 -->
+    <modules>
+        <module>common</module>
+        <module>web</module>
+        <module>weapp</module>
+    </modules>
+
+    <!-- 模块信息 -->
+    <groupId>com.zxiaosi</groupId> <!-- 组 -->
+    <artifactId>backend</artifactId> <!-- 模块 -->
+    <version>0.0.1-SNAPSHOT</version> <!-- 版本 -->
+    <name>backend</name> <!-- 名称 -->
+    <description>Demo - 父模块</description> <!-- 描述 -->
+
+    <!--
+        打包类型: pom、 jar、 war
+        pom: 父模块
+        jar: 内部调用或者作为服务使用
+        war: 打包项目, 用于在容器上(Tomcat、 Jetty)运行
+    -->
+    <packaging>pom</packaging>
+
+    <!-- 以变量的方式声明模块版本号 -->
+    <properties>
+        <java.version>1.8</java.version> <!-- JDK 版本 -->
+    </properties>
+
+    <!-- 统一管理版本号: 只是声明依赖，并不自动实现引入 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- 公共模块 -->
+            <dependency>
+                <groupId>com.zxiaosi</groupId>
+                <artifactId>common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- 后台模块 -->
+            <dependency>
+                <groupId>com.zxiaosi</groupId>
+                <artifactId>web</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <!-- 小程序模块 -->
+            <dependency>
+                <groupId>com.zxiaosi</groupId>
+                <artifactId>weapp</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 依赖 -->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- 构建 -->
+    <build>
+        <plugins>
+            <!-- 打包插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <skipTests>true</skipTests> <!-- 默认关闭单元检测 -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
