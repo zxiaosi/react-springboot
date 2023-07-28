@@ -27,6 +27,8 @@
 
     <!-- 以变量的方式声明模块版本号 -->
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
     </properties>
 
@@ -58,7 +60,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.zxiaosi.weapp.WeappApplication</mainClass> <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.zxiaosi.web.WebApplication</mainClass> <!-- 指定该Main Class为全局的唯一入口 -->
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>
