@@ -1,11 +1,6 @@
 import { Component, PropsWithChildren } from "react";
 
-// 按需引入 TaroUI 组件
-import "taro-ui/dist/style/components/icon.scss"; // icon
-import "taro-ui/dist/style/components/button.scss"; // button
-import "taro-ui/dist/style/components/loading.scss"; // loading
-
-import "./app.less";
+import "./app.scss"; // 按需引入样式
 
 class App extends Component<PropsWithChildren> {
   componentDidMount() {}

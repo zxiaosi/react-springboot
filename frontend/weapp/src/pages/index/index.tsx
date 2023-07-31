@@ -1,7 +1,7 @@
 import { View, Text } from '@tarojs/components'
 import { AtButton, AtIcon } from 'taro-ui'
 
-import styles from './index.module.less'
+import styles from './index.module.scss'
 
 export default function Index() {
 
