@@ -19,8 +19,8 @@ const Home = () => {
 
   const menuItems = useMemo(() => generateMenu(mockData), []);
 
+  /** 监听浏览器地址栏路由变化 */
   useEffect(() => {
-    // 从浏览器地址栏中获取当前路由路径
     const pageCurrentMenu = location.pathname;
     const parts = pageCurrentMenu.split("/");
     const pageParentMenu = parts.length > 2 ? ["/" + parts[1]] : []; // 当选中二级菜单时，重新设置父级菜单
@@ -32,13 +32,21 @@ const Home = () => {
     setLocal("parentMenu", pageParentMenu);
   }, [location.pathname]);
 
+  /** 点击菜单触发事件 */
   const handleMenu: MenuProps["onClick"] = (e) => {
     navigate(e.key);
   };
 
-  const onOpenChange: MenuProps["onOpenChange"] = (keys: any) => {
+  /** 点击父菜单触发事件 */
+  const handleParentMenu: MenuProps["onOpenChange"] = (keys) => {
     const latestOpenKey = keys.find((key: any) => parentMenu.indexOf(key) === -1); // 最后打开的菜单
     setParentMenu(latestOpenKey ? [latestOpenKey] : []); // 如果有最后打开的菜单，就展开，否则收起
+  };
+
+  /** 点击展开/收缩菜单按钮触发事件 */
+  const handleCollapsed = () => {
+    setCollapsed(!collapsed);
+    setTimeout(() => setParentMenu(getLocal("parentMenu")), 1000);
   };
 
   return (
@@ -56,7 +64,7 @@ const Home = () => {
           selectedKeys={[currentMenu]}
           items={menuItems}
           onClick={handleMenu}
-          onOpenChange={onOpenChange}
+          onOpenChange={handleParentMenu}
         />
       </Sider>
       <Layout>
@@ -65,7 +73,7 @@ const Home = () => {
             type="text"
             className={styles.collapsed}
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={handleCollapsed}
           />
         </Header>
 

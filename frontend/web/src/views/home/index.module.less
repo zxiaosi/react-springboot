@@ -25,6 +25,7 @@
 
     .title {
       margin-left: 8px;
+      animation  : write 1s forwards;
     }
   }
 }
@@ -45,4 +46,17 @@
   padding   : 24px;
   min-height: 280px;
   background: @colorBg;
+}
+
+@keyframes write {
+
+  /*默认div 宽度为0 则不会显示内容*/
+  0% {
+    opacity: 0;
+  }
+
+  /*通过增加div宽度实现内容的显示*/
+  100% {
+    opacity: 1;
+  }
 }
