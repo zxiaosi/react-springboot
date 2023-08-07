@@ -45,13 +45,6 @@ interface Props {
 const MyLayout = (props: Props) => {
   const { tabId, leftIcon } = props;
 
-  Taro.useDidShow(() => {
-    // 获取不到 getTabBar
-    // const pageObj = Taro.getCurrentInstance().page;
-    // const tabbar = Taro.getTabBar(pageObj);
-    // console.log("tabbar", tabbar);
-  });
-
   return (
     <View>
       {/* 顶部导航栏 */}
