@@ -6,8 +6,8 @@ const { Header, Sider, Content } = Layout;
 import logo from "@/assets/images/logo.png";
 import { generateMenu } from "@/router";
 import mockData from "@/apis/mock.json";
-import styles from "./index.module.less";
 import { getLocal, setLocal } from "@/request/auth";
+import styles from "./index.module.less";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const Home = () => {
     const pageCurrentMenu = location.pathname;
     const parts = pageCurrentMenu.split("/");
     const pageParentMenu = parts.length > 2 ? ["/" + parts[1]] : []; // 当选中二级菜单时，重新设置父级菜单
-    console.log("pageCurrentMenu", pageCurrentMenu, pageParentMenu);
+    // console.log("pageCurrentMenu", pageCurrentMenu, pageParentMenu);
 
     setCurrentMenu(pageCurrentMenu);
     setParentMenu(pageParentMenu);
