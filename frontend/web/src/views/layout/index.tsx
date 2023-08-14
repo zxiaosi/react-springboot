@@ -8,6 +8,7 @@ import { generateMenu } from "@/router";
 import mockData from "@/apis/mock.json";
 import { getLocal, setLocal } from "@/request/auth";
 import styles from "./index.module.less";
+import { TITLE } from "@/assets/js/global";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const Home = () => {
       <Sider className={styles.sider} trigger={null} collapsible collapsed={collapsed}>
         <div className={styles.logo_title}>
           <Image className={styles.logo} preview={false} src={logo} />
-          {!collapsed && <div className={styles.title}>后台管理系统</div>}
+          {!collapsed && <div className={styles.title}>{TITLE}</div>}
         </div>
 
         <Menu

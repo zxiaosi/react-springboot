@@ -1,7 +1,7 @@
 /**
  * 全局标题
  */
-export const TITLE: string = "后台管理系统";
+export const TITLE: string = "小四先生的栈";
 
 /**
  * 认证前缀

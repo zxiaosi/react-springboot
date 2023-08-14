@@ -2,3 +2,8 @@ server:
   port: 8081
   servlet:
     context-path: /api
+
+config:
+  weixin:
+    appid: wx25adff2e6b2572ed
+    secret: wx25adff2e6b2572edwx25adff2e6b25

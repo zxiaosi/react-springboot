@@ -17,18 +17,18 @@ export function getLocal(Key?: string | undefined) {
  * */
 export function setLocal(Key?: string, params?: any) {
   if (params instanceof Object) params = JSON.stringify(params);
-  return localStorage.setItem(Key ? Key : AUTH_PREFIX, params);
+  localStorage.setItem(Key ? Key : AUTH_PREFIX, params);
 }
 /*
  * 移除removeItem
  * */
 export function removeLocal(key?: string) {
-  return localStorage.removeItem(key ? key : AUTH_PREFIX);
+  localStorage.removeItem(key ? key : AUTH_PREFIX);
 }
 
 /*
  * 清空所有Item
  * */
 export function clearLocal() {
-  return localStorage.clear();
+  localStorage.clear();
 }

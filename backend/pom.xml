@@ -39,6 +39,8 @@
         <common.version>0.0.1-SNAPSHOT</common.version>
         <web.version>0.0.1-SNAPSHOT</web.version>
         <weapp.version>0.0.1-SNAPSHOT</weapp.version>
+        <hutool.version>5.8.16</hutool.version>
+        <fastjson2.version>2.0.15</fastjson2.version>
     </properties>
 
     <!-- 统一管理版本号: 只是声明依赖，并不自动实现引入 -->
@@ -63,6 +65,22 @@
                 <groupId>com.zxiaosi</groupId>
                 <artifactId>weapp</artifactId>
                 <version>${weapp.version}</version>
+            </dependency>
+
+            <!-- fastjson2 -->
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2.version}</version>
+            </dependency>
+
+            <!-- hutool -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool.version}</version>
+                <type>pom</type>
+                <scope>import</scope> <!-- 注意这里是import -->
             </dependency>
         </dependencies>
     </dependencyManagement>

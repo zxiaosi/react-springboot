@@ -1,7 +1,7 @@
 import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { AtIcon } from "taro-ui";
-import { getNavBarHeight } from "../utils";
+import { getNavBarHeight } from "@/utils";
 import styles from "./index.module.scss";
 
 const {

@@ -1,6 +1,117 @@
 .pages {
+  width          : 100vw;
+  height         : 100%;
   display        : flex;
   flex-direction : column;
   align-items    : center;
   justify-content: center;
+
+  .noticebar {
+    width: 100vw;
+  }
+
+  .table {
+    margin: 40rpx 0;
+
+    .row {
+      height    : 100rpx;
+      display   : flex;
+      border-top: 1px solid #ccc;
+
+      .col {
+        width          : 50vw;
+        display        : flex;
+        align-items    : center;
+        justify-content: center;
+
+        button {
+          padding        : 0;
+          margin         : 0;
+          width          : 100%;
+          border         : none;
+          outline        : none;
+          border-radius  : none;
+          background     : #fff;
+          display        : flex;
+          align-items    : center;
+          justify-content: center;
+
+          image {
+            width : 80rpx;
+            height: 80rpx;
+          }
+        }
+
+        button::after {
+          border: none;
+          color : transparent;
+        }
+      }
+
+      .col:first-child {
+        border-right: 1px solid #ccc;
+      }
+    }
+
+    .row:last-child {
+      border-bottom: 1px solid #ccc;
+    }
+  }
+
+  .floatLayout {
+    z-index: 9999;
+
+    .title {
+      display: flex;
+      margin : 40rpx 20rpx;
+
+      image {
+        width        : 40rpx;
+        height       : 40rpx;
+        border-radius: 50%;
+        margin-right : 20rpx;
+      }
+    }
+
+    .info {
+      margin: 0 20rpx;
+    }
+
+    .btn {
+      margin         : 40rpx 20rpx 40rpx;
+      display        : flex;
+      align-items    : center;
+      justify-content: center;
+
+      button {
+        width      : 200rpx;
+        height     : 70rpx;
+        line-height: 70rpx;
+        margin     : 0;
+      }
+
+      button:first-child {
+        margin-right: 40rpx;
+      }
+
+      button::after {
+        border: none;
+        color : transparent;
+      }
+    }
+  }
+
+  :global {
+    .at-float-layout__container {
+      min-height             : max-content;
+      border-top-left-radius : 16rpx;
+      border-top-right-radius: 16rpx;
+    }
+
+    .layout-body,
+    .layout-body__content {
+      min-height: max-content;
+      max-height: max-content;
+    }
+  }
 }
