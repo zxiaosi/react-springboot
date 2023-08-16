@@ -51,10 +51,16 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!-- hutool -->
+        <!-- hutool-crypto -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-crypto</artifactId>
+        </dependency>
+
+        <!-- hutool-jwt -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-jwt</artifactId>
         </dependency>
     </dependencies>
 

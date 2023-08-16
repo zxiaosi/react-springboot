@@ -1,6 +1,6 @@
 import { View, Image, Input, Button } from "@tarojs/components";
 import { AtNoticebar } from "taro-ui";
-import { useReady } from "@tarojs/taro";
+import Taro, { useReady } from "@tarojs/taro";
 import { useState } from "react";
 import MyLayout from "@/components/myLayout";
 import { getLocalSync, setLocalSync } from "@/request/auth";
@@ -29,6 +29,19 @@ function Home() {
     const newUseInfo = { ...useInfo, [type]: e.detail.value || e.detail.avatarUrl };
     setUserInfo(newUseInfo);
     setLocalSync(userInfoStorage, newUseInfo)
+  }
+
+  /**
+   * 获取用户手机号
+   */
+  const getUserPhone = (e: any) => {
+    // e.detail = {
+    //   cloudID: "xxx", // 云ID (新方式)
+    //   code: "xxx", // 后端向微信服务端换取 真实手机号 的 code, 不是 wx.login 的 code (新方式)
+    //   encryptedData: "xxx", // 加密数据 (旧方式)
+    //   iv: "xxx" // 加密算法的初始向量 (旧方式)
+    // }
+    console.log("getUserPhone", e.detail);
   }
 
   return (
@@ -66,6 +79,9 @@ function Home() {
             </View>
           </View>
         }
+
+        {/* 获取用户手机号 */}
+        {/* <Button type="primary" openType="getPhoneNumber" onGetPhoneNumber={getUserPhone}>获取手机号</Button> */}
       </View>
     </MyLayout>
   );
