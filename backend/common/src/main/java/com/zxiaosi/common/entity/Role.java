@@ -6,43 +6,28 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 用户实体类
+ * 角色实体类
  *
  * @author zxiaosi
- * @date 2023-08-16 16:58
+ * @date 2023-08-16 18:02
  */
 @Data
-public class User implements Serializable {
+public class Role implements Serializable {
 
     /**
-     * 用户id
+     * 角色id
      */
     private Long id;
 
     /**
-     * 用户昵称
+     * 角色名
      */
     private String name;
 
     /**
-     * 用户头像
+     * 角色code
      */
-    private String avatar;
-
-    /**
-     * 用户手机号
-     */
-    private String phone;
-
-    /**
-     * 用户密码
-     */
-    private String password;
-
-    /**
-     * openid
-     */
-    private String openid;
+    private String code;
 
     /**
      * 创建时间

@@ -72,6 +72,10 @@ public class Result<T> implements Serializable {
         return new Result<>(SUCCESS_CODE, SUCCESS_MSG, data, total);
     }
 
+    public static <T> Result<T> success(T data, String msg) {
+        return new Result<>(SUCCESS_CODE, msg, data, 0L);
+    }
+
     public static <T> Result<T> success(String msg, T data) {
         return new Result<>(SUCCESS_CODE, msg, data, 0L);
     }

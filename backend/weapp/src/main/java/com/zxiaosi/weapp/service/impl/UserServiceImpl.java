@@ -36,21 +36,19 @@ public class UserServiceImpl implements UserService {
      * @return token
      */
     @Override
-    public String generateTokenService(String code) {
+    public JSONObject getOpenidSessionKeyService(String code) {
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code";
         String replaceUrl = url.replace("{0}", appid).replace("{1}", secret).replace("{2}", code);
-        String res = HttpUtil.get(replaceUrl);
+        String result = HttpUtil.get(replaceUrl);
 
-        JSONObject object = JSON.parseObject(res);
+        JSONObject object = JSON.parseObject(result);
+
         String openId = object.getString("openid");
         if (StrUtil.isEmpty(openId)) {
             throw new CustomException("向微信服务器发送请求: code换取openId请求错误!");
         }
 
-        // 生成 token
-        System.out.println("object: " + object);
-
-        return null;
+        return object;
     }
 
     /**
@@ -99,12 +97,9 @@ public class UserServiceImpl implements UserService {
             params.put("code", code);
             String requestParams = JSON.toJSONString(params);
 
-            HttpResponse response = HttpRequest.post(requestUrl)
-                    .header(Header.CONTENT_TYPE, "application/json")
-                    .body(requestParams)
-                    .execute();
+            String result = HttpUtil.post(requestUrl, requestParams);
 
-            JSONObject object = JSONObject.parseObject(response.body());
+            JSONObject object = JSONObject.parseObject(result);
             Integer errcode = object.getInteger("errcode");
 
             if (errcode != 0) {
@@ -136,17 +131,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String decryptPhoneService(String code, String encryptedData, String iv) {
-        String url = "https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code";
-        String replaceUrl = url.replace("{0}", appid).replace("{1}", secret).replace("{2}", code);
-        String res = HttpUtil.get(replaceUrl);
+        JSONObject openidSessionKey = getOpenidSessionKeyService(code);
 
-        JSONObject object = JSON.parseObject(res);
-        String openId = object.getString("openid");
-        if (StrUtil.isEmpty(openId)) {
-            throw new CustomException("向微信服务器发送请求: code换取openId请求错误!");
-        }
-
-        String session_key = object.getString("session_key");
+        String session_key = openidSessionKey.getString("session_key");
         String decrypt = AesCbUtil.decrypt(encryptedData, session_key, iv);
         System.out.println("decrypt: " + JSON.parseObject(decrypt));
 

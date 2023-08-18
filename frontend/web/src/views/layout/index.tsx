@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Layout, Menu, Button, Image, MenuProps } from "antd";
+import { DownOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { Layout, Menu, Button, Image, MenuProps, Dropdown, Space } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 const { Header, Sider, Content } = Layout;
 import logo from "@/assets/images/logo.png";
 import { generateMenu } from "@/router";
 import mockData from "@/apis/mock.json";
-import { getLocal, setLocal } from "@/request/auth";
+import { clearLocal, getLocal, setLocal } from "@/request/auth";
 import styles from "./index.module.less";
 import { TITLE } from "@/assets/js/global";
 
@@ -50,6 +50,14 @@ const Home = () => {
     setTimeout(() => setParentMenu(getLocal("parentMenu")), 1000);
   };
 
+  /**
+   * 退出登录
+   */
+  const handleLogout = () => {
+    clearLocal();
+    navigate("/login", { replace: true });
+  }
+
   return (
     <Layout>
       <Sider className={styles.sider} trigger={null} collapsible collapsed={collapsed}>
@@ -58,29 +66,49 @@ const Home = () => {
           {!collapsed && <div className={styles.title}>{TITLE}</div>}
         </div>
 
-        <Menu
-          theme="dark"
-          mode="inline"
-          openKeys={parentMenu}
-          selectedKeys={[currentMenu]}
-          items={menuItems}
-          onClick={handleMenu}
-          onOpenChange={handleParentMenu}
-        />
+        <Menu theme="dark" mode="inline" openKeys={parentMenu} selectedKeys={[currentMenu]} items={menuItems} onClick={handleMenu} onOpenChange={handleParentMenu} />
       </Sider>
       <Layout>
         <Header className={styles.header}>
-          <Button
-            type="text"
-            className={styles.collapsed}
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={handleCollapsed}
-          />
+          <Button type="text" className={styles.collapsed} icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={handleCollapsed} />
+
+          <div className={styles.right}>
+            <Dropdown
+              menu={{
+                items: [
+                  {
+                    key: "1",
+                    label: (
+                      <a target="_blank" rel="noopener noreferrer" href="https://github.com/zxiaosi/react-springboot">
+                        Github仓库
+                      </a>
+                    ),
+                  },
+                  {
+                    key: "2",
+                    label: (
+                      <div onClick={handleLogout}>
+                        退出登录
+                      </div>
+                    ),
+                  },
+                ],
+              }}>
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  admin
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          </div>
         </Header>
 
         <Content style={{}} className={styles.content}>
+
           {/* 指定路由组件呈现的位置, Vue中的路由出口 */}
           <Outlet />
+
         </Content>
       </Layout>
     </Layout>

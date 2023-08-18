@@ -1,6 +1,5 @@
 package com.zxiaosi.weapp.controller;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.zxiaosi.common.utils.Result;
 import com.zxiaosi.weapp.service.UserService;
 import org.slf4j.Logger;
@@ -24,6 +23,7 @@ public class UserController {
     @GetMapping("/user")
     public Result<?> getUserInfo(String code, String iv, String encryptedData) {
         logger.info("code: {}, encryptedData: {}, iv: {}", code, encryptedData, iv);
+        userService.getOpenidSessionKeyService(code);
         return Result.success("wxLogin");
     }
 

@@ -39,8 +39,10 @@
         <common.version>0.0.1-SNAPSHOT</common.version>
         <web.version>0.0.1-SNAPSHOT</web.version>
         <weapp.version>0.0.1-SNAPSHOT</weapp.version>
-        <hutool.version>5.8.16</hutool.version>
+        <mysql.version>8.0.30</mysql.version>
+        <mybatis.version>2.2.0</mybatis.version>
         <fastjson2.version>2.0.15</fastjson2.version>
+        <hutool.version>5.8.16</hutool.version>
     </properties>
 
     <!-- 统一管理版本号: 只是声明依赖，并不自动实现引入 -->
@@ -65,6 +67,20 @@
                 <groupId>com.zxiaosi</groupId>
                 <artifactId>weapp</artifactId>
                 <version>${weapp.version}</version>
+            </dependency>
+
+            <!-- mysql -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <!-- mybatis-spring-boot-stater -->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
             </dependency>
 
             <!-- fastjson2 -->

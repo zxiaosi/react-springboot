@@ -13,7 +13,7 @@ const Dashboard = () => {
     <div>
       <h1>Dashboard</h1>
 
-      <Card title="测试接口" style={{ width: 300, marginBottom: 20 }}>
+      <Card title="测试接口" style={{ width: "auto", marginBottom: 20 }}>
         {
           repsonse ? <div>
             <p>业务码: {repsonse?.code}</p>
