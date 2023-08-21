@@ -1,0 +1,62 @@
+/**
+ * tabBar 的高度问题
+ * 通过计算: 高度 1rpx(tabBar上边框) + 12rpx(tabBar上边距) + 24rpx(item上下边距) + 48rpx(图标) + 28rpx(文字) + 12rpx(文字上下边距) = 125rpx 
+ * 但实际只有 120rpx, 不得不佩服 Taro 的设计
+ * 主要在于 line-height: 1 , line-height 默认约 1.2 .
+ * 实际文字的高度约等于为 28rpx / 1.2 = 23rpx
+ * 最后计算: 高度 1rpx(tabBar上边框) + 12rpx(tabBar上边距) + 24rpx(item上下边距) + 48rpx(图标) + 23rpx(文字) + 12rpx(文字上下边距) = 120rpx
+ */
+
+.tabBar {
+  width          : 100%;
+  padding-top    : 12rpx;
+  border-top     : 1rpx solid #F2F6FA;
+  background     : #fff;
+  display        : flex;
+  justify-content: space-around;
+  align-items    : center;
+  position       : fixed;
+  bottom         : 0;
+  left           : 0;
+  z-index        : 9999;
+  /*兼容 IOS<11.2*/
+  padding-bottom : constant(safe-area-inset-bottom);
+  /*兼容 IOS>11.2*/
+  padding-bottom : env(safe-area-inset-bottom);
+
+  .tabBarItem {
+    flex           : 1;
+    padding        : 12rpx;
+    color          : #333;
+    display        : flex;
+    flex-direction : column;
+    justify-content: center;
+    align-items    : center;
+    transition     : all 0.2s;
+
+    .iconType {
+      font-size: 48rpx;
+    }
+
+    .title {
+      display      : block;
+      padding      : 6rpx 0;
+      max-width    : 200rpx;
+      font-size    : 28rpx;
+      line-height  : 1;
+      white-space  : nowrap;
+      overflow     : hidden;
+      text-overflow: ellipsis;
+    }
+
+    &.active {
+      .iconType {
+        color: #6190E8;
+      }
+
+      .title {
+        color: #6190E8;
+      }
+    }
+  }
+}

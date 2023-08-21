@@ -1,4 +1,5 @@
 import Taro from "@tarojs/taro";
+import { MyRegEx } from "./constant";
 
 /**
  * 获取系统环境
@@ -87,3 +88,27 @@ export function getNavBarHeight() {
     capsuleSumWidth,
   };
 }
+
+/**
+ * 判断机型是否为Android
+ */
+export function getSysInfo() {
+  const { system } = Taro.getSystemInfoSync();
+  return MyRegEx.Android.test(system);
+}
+
+/** 
+ * 判断机型是否为苹果手机
+ */
+export const getIsIphone = () => {
+  const { model } = Taro.getSystemInfoSync();
+  return MyRegEx.IPhone.test(model);
+};
+
+/**
+ * 判断手机是否含有底部虚拟键
+ */
+export const JudgmentModel = () => {
+  const { model } = Taro.getSystemInfoSync();
+  return MyRegEx.HasNavigator.test(model);
+};

@@ -1,6 +1,8 @@
+import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { useEffect, useState } from "react";
 import { AtTabBar } from "taro-ui";
+import styles from "./index.module.scss";
 
 /**
  * 使用须知
@@ -9,16 +11,20 @@ import { AtTabBar } from "taro-ui";
  * 3. 文件名必须是 index.后缀
  */
 
-interface Props {
-  tabList: any; // TabBar 列表
+export interface CustomTabBarProps {
+  /** TabBar 列表 */
+  tabList: any;
+
+  /** 切换Tab事件 */
+  onClick?: (index: number) => void;
 }
 
 /**
  * 自定义 TabBar 组件
- * @param props {@link Props}
+ * @param props {@link CustomTabBarProps}
  */
-const CustomTabBar = (props: Props) => {
-  const { tabList } = props;
+const CustomTabBar = (props: CustomTabBarProps) => {
+  const { tabList, onClick } = props;
   const [selected, setSelected] = useState(0);
 
   const pages = Taro.getCurrentPages(); // 获取当前页面栈
@@ -40,12 +46,26 @@ const CustomTabBar = (props: Props) => {
   }, [currentPage.route]);
 
   /** 切换Tab */
-  const switchTab = (index: number) => {
-    Taro.switchTab({ url: tabList[index].url });
+  const switchTab = (index: number, url: string) => {
+    Taro.switchTab({ url });
+    onClick?.(index);
   };
 
   return (
-    <AtTabBar fixed tabList={tabList} current={selected} onClick={switchTab} />
+    <View className={styles.page}>
+      <View className={styles.tabBar}>
+        {tabList?.map((item: any, index: number) => (
+          <View
+            key={index}
+            onClick={() => switchTab(index, item.url)}
+            className={`${styles.tabBarItem} ${selected === index && styles.active}`}
+          >
+            <View className={`at-icon at-icon-${item.iconType} ${styles.iconType}`} />
+            <View className={styles.title}>{item.title}</View>
+          </View>
+        ))}
+      </View>
+    </View>
   );
 };
 

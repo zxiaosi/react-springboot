@@ -12,7 +12,7 @@ const {
   capsuleSumWidth,
 } = getNavBarHeight(); // 顶部状态栏高度
 
-interface Props {
+export interface MyNavBarProps {
   /** 标题 */
   title?: string;
 
@@ -28,21 +28,25 @@ interface Props {
   /** 弹窗提示 */
   modalText?: string;
 
+  /** 自定义导航栏样式 */
+  navBarClass?: string;
+
   /** 自定义返回事件 */
   backFunc?: () => void;
 }
 
 /**
- * 顶部导航栏
- * @param props {@link Props}
+ * 顶部导航栏: 状态栏 + 导航栏
+ * @param props {@link MyNavBarProps}
  */
-const MyNavBar = (props: Props) => {
+const MyNavBar = (props: MyNavBarProps) => {
   const {
     title = "",
     leftIcon = "",
     iconColor = "#000",
     backUrl,
     modalText,
+    navBarClass,
     backFunc,
   } = props;
 
@@ -83,7 +87,7 @@ const MyNavBar = (props: Props) => {
 
   return (
     <View
-      className={styles.navBar}
+      className={`${styles.navBar} ${navBarClass}`}
       style={{
         height: statusBarHeight + navHeight + "px",
         paddingTop: statusBarHeight + "px",

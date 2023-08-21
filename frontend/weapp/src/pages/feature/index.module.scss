@@ -1,6 +1,21 @@
-.pages {
-  display        : flex;
-  flex-direction : column;
-  align-items    : center;
-  justify-content: center;
+.page {
+
+  .changeLog {
+    margin: 20rpx;
+
+    .timeline {
+      margin-top: 20rpx;
+    }
+  }
+
+  .swiper {
+    margin: 20rpx;
+
+    .swiperItem {
+      display        : flex;
+      align-items    : center;
+      justify-content: center;
+      font-size      : 40rpx;
+    }
+  }
 }

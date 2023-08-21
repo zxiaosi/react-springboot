@@ -1,15 +1,14 @@
-import { View } from "@tarojs/components";
-import Taro from "@tarojs/taro";
-import { TabItem } from "taro-ui/types/tab-bar";
-import MyNavBar from "@/components/myNavBar";
-import CustomTabBar from "@/custom-tab-bar";
-import { ReactNode, useEffect, useState } from "react";
+import { ScrollView, View } from "@tarojs/components";
+import MyNavBar, { MyNavBarProps } from "@/components/myNavBar";
+import CustomTabBar, { CustomTabBarProps } from "@/custom-tab-bar";
+import { ReactNode } from "react";
+import { getNavBarHeight } from "@/utils";
+import styles from "./index.module.scss";
 
-interface MyTabItem extends Partial<TabItem> {
-  url: string; // 跳转路径
-}
+const { statusBarHeight, navHeight } = getNavBarHeight(); // 顶部状态栏高度
 
-const tabList: MyTabItem[] = [
+/** tab列表 */
+const tabList = [
   {
     title: "首页",
     iconType: "home",
@@ -27,34 +26,43 @@ const tabList: MyTabItem[] = [
   },
 ];
 
-interface Props {
+interface Props extends Partial<MyNavBarProps & CustomTabBarProps> {
   /** 当前 tabId */
   tabId: number;
 
-  /** 是否显示返回图标  */
-  leftIcon?: boolean;
-
-  /** 子组件 */
+  /** MyLayout子组件 */
   children?: ReactNode;
 }
 
 /**
- * 自定义 Layout 组件
+ * 自定义 Layout 组件: 顶部导航栏 + 页面内容 + 底部导航栏
  * @param props {@link Props}
  */
 const MyLayout = (props: Props) => {
-  const { tabId, leftIcon } = props;
+  const { tabId, leftIcon, navBarClass } = props;
 
   return (
     <View>
       {/* 顶部导航栏 */}
       <MyNavBar
+        navBarClass={navBarClass}
         title={tabList[tabId]?.title}
         leftIcon={leftIcon ? "chevron-left" : ""}
       />
-      {/* <MyNavBar title="首页" leftIcon="chevron-left" /> */}
 
-      {props.children}
+      {/* 
+        页面内容 
+        顶部导航栏((statusBarHeight + navHeight)px) + 底部tabBar(120rpx) + 安全区域(env(safe-area-inset-bottom))
+      */}
+      <ScrollView
+        scrollY
+        scrollWithAnimation
+        style={{
+          height: `calc(100vh - ${statusBarHeight + navHeight}px - 120rpx - env(safe-area-inset-bottom))`,
+        }}
+      >
+        {props?.children}
+      </ScrollView>
 
       {/* 底部导航栏 */}
       <CustomTabBar tabList={tabList} />
