@@ -21,8 +21,13 @@ export interface ISwrOption extends Partial<SWRConfiguration> {
    * @default true
    */
   isImmutable?: boolean;
-}
 
+  /**
+   * 启用/禁用错误重试 (SWRConfiguration中官方属性)
+   * @default false
+   */
+  shouldRetryOnError?: boolean;
+}
 
 /**
  * 自定义请求返回数据类型
@@ -46,10 +51,10 @@ export interface Return extends SWRResponse {
  * @returns
  */
 export default function useRequest(reqtOption: IRequestOption, swrOption: ISwrOption): Return {
-  const allReqOption = { isReq: true, ...reqtOption, };
-  const allSwrOption = { isImmutable: true, ...swrOption };
+  const allReqOption = { isReq: true, ...reqtOption, }; // 默认启动请求
+  const allSwrOption = { isImmutable: true, shouldRetryOnError: false, ...swrOption }; // 默认禁用自动重新请求, 禁用错误重试
 
-  const requestKey = allReqOption.isReq ? reqtOption && JSON.stringify(reqtOption) : null; // 生成请求key
+  const requestKey = allReqOption.isReq ? allReqOption && JSON.stringify(allReqOption) : null; // 生成请求key
 
   if (allSwrOption.isImmutable) {
     allSwrOption.revalidateIfStale = false;

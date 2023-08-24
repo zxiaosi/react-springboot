@@ -3,9 +3,9 @@ package com.zxiaosi.web.controller;
 import com.zxiaosi.common.entity.User;
 import com.zxiaosi.common.utils.Result;
 import com.zxiaosi.web.service.LoginService;
+import com.zxiaosi.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -19,20 +19,28 @@ import java.util.Random;
 public class UserController {
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private LoginService loginService;
 
-    @GetMapping("/user")
+    @GetMapping("/list")
+    public Result<?> list() {
+        return Result.success(userService.listUser());
+    }
+
+    @GetMapping("/test")
     public Result<User> user() {
         User user = new User();
         Random random = new Random();
-        user.setId((long) random.nextInt(10));
-        user.setName("web" + random.nextInt(100));
+        user.setId(random.nextInt(10));
+        user.setUsername("web" + random.nextInt(100));
         user.setOpenid(String.valueOf(8082));
-        return random.nextInt(10) > 5 ? Result.success(user) : Result.success("成功", user);
+        return random.nextInt(10) > 5 ? Result.success(user) : Result.success(user, "成功");
     }
 
-    @GetMapping(value = "/wechat/qrcode")
-    public Result<?> login() throws IOException {
+    @GetMapping("/wechat/qrcode")
+    public Result<?> qrcode() throws IOException {
         String accessToken = loginService.getAccessTokenService();
         String path = "pages/home/index";
         byte[] qrcode = loginService.getWeappQrcodeService(accessToken, path, 100);

@@ -9,6 +9,7 @@ import mockData from "@/apis/mock.json";
 import { clearLocal, getLocal, setLocal } from "@/request/auth";
 import styles from "./index.module.less";
 import { TITLE } from "@/assets/js/global";
+import { useLogout } from "@/apis";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Home = () => {
   const [currentMenu, setCurrentMenu] = useState("/dashboard");
   const [parentMenu, setParentMenu] = useState<any>([]);
 
+  const { mutate } = useLogout({}, { revalidateOnMount: false });
   const menuItems = useMemo(() => generateMenu(mockData), []);
 
   /** 监听浏览器地址栏路由变化 */
@@ -53,9 +55,12 @@ const Home = () => {
   /**
    * 退出登录
    */
-  const handleLogout = () => {
-    clearLocal();
-    navigate("/login", { replace: true });
+  const handleLogout = async () => {
+    const { data: { code } }: any = await mutate();
+    if (code == 0) {
+      clearLocal();
+      navigate("/login", { replace: true });
+    }
   }
 
   return (

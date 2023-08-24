@@ -3,7 +3,7 @@ import { Button, Card } from "antd";
 import { useEffect } from "react";
 
 const Dashboard = () => {
-  const { data: userData, mutate, repsonse } = useTestApi();
+  const { mutate, repsonse } = useTestApi();
 
   useEffect(() => {
     console.log("data", repsonse);
@@ -23,9 +23,7 @@ const Dashboard = () => {
         }
       </Card>
 
-      <Button type="primary" onClick={async () => {
-        mutate({ ...userData })
-      }}>点我更新接口</Button>
+      <Button type="primary" onClick={() => mutate()}>点我更新接口</Button>
     </div>
   );
 };

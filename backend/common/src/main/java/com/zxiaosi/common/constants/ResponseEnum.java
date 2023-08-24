@@ -20,6 +20,7 @@ public enum ResponseEnum {
     UNAUTHORIZED(401, "登录凭证过期!"),
     FORBIDDEN(403, "抱歉，你无权限访问!"),
     NOT_FOUND(404, "请求的资源找不到!"),
+    METHOD_NOT_ALLOWED(405, "请求的方法不允许!"),
 
     // 500系列
     INTERNAL_SERVER_ERROR(500, "服务器内部错误!"),
@@ -30,16 +31,28 @@ public enum ResponseEnum {
     /**
      * 错误码
      */
-    private final int code;
+    private final Integer code;
 
     /**
      * 错误描述
      */
     private final String msg;
 
-    ResponseEnum(int code, String msg) {
+    ResponseEnum(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
+    }
+
+    /**
+     * 根据code获取message
+     */
+    public static String getMsgByCode(int code) {
+        for (ResponseEnum response : ResponseEnum.values()) {
+            if (response.getCode().equals(code)) {
+                return response.getMsg();
+            }
+        }
+        return null;
     }
 
 }

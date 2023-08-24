@@ -17,7 +17,7 @@ public class Role implements Serializable {
     /**
      * 角色id
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 角色名

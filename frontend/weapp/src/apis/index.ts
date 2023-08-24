@@ -2,4 +2,7 @@ import { get } from "@/request";
 import { GetUserInfoApi } from "./model";
 
 /** 测试接口 */
+export const getTestApi = () => get("/test", {}, { isNeedToken: false, isShowFailToast: true })
+
+/** 获取用户信息 */
 export const getUserInfoApi = (data: GetUserInfoApi) => get("/user", { ...data }, { isNeedToken: false, isShowFailToast: true })

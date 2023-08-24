@@ -6,6 +6,7 @@ import MyLayout from "@/components/myLayout";
 import { getLocalSync, setLocalSync } from "@/request/auth";
 import { defaultAvatar, userInfoStorage } from "@/global";
 import styles from "./index.module.scss";
+import { getTestApi } from "@/apis";
 
 // index.config.ts
 definePageConfig({});
@@ -20,6 +21,9 @@ function Home() {
   useReady(async () => {
     const userInfo = getLocalSync(userInfoStorage);
     userInfo && setUser(userInfo);
+    const resp = await getTestApi();
+    console.log("getUserInfoApi", resp);
+
   });
 
   /**

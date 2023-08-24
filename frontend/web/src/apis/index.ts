@@ -11,14 +11,20 @@ enum Method {
  * 创建通用请求hook
  * 不想每次都写 reqtOption?: IReqOption, swrOption?: ISwrOption x.x
  */
-export const createApiHook = (defaultReqOptions: IReqOption = {}, defaultSWROptions: ISwrOption = {}) => {
+export const createApiHook = (defaultReq: IReqOption = {}, defaultSWR: ISwrOption = {}) => {
   return (reqtOption?: IReqOption, swrOption?: ISwrOption) => {
-    return useRequest({ ...defaultReqOptions, ...reqtOption }, { ...defaultSWROptions, ...swrOption });
+    return useRequest({ ...defaultReq, ...reqtOption }, { ...defaultSWR, ...swrOption });
   }
 };
 
 /** 测试 */
-export const useTestApi = createApiHook({ url: "/user", method: Method.GET }, { isImmutable: true });
+export const useTestApi = createApiHook({ url: "/test", method: Method.GET });
 
-/** 得到微信二维码 */
-export const useGetWechatQrcode = createApiHook({ url: "/wechat/qrcode", method: Method.GET }, { isImmutable: true });
+/** 获取小程序二维码 */
+export const useGetWeappQrcode = createApiHook({ url: "/wechat/qrcode", method: Method.GET });
+
+/** 用户登录 */
+export const useLogin = createApiHook({ url: "/login", method: Method.POST });
+
+/** 用户退出 */
+export const useLogout = createApiHook({ url: "/logout", method: Method.GET });

@@ -1,10 +1,11 @@
-import { useGetWechatQrcode } from "@/apis";
+import { useGetWeappQrcode, useLogin } from "@/apis";
 import { AUTH_PREFIX, DefaultImage } from "@/assets/js/global";
 import { setLocal } from "@/request/auth";
 import { KeyOutlined, LockOutlined, UserOutlined, WechatOutlined } from "@ant-design/icons";
 import { Button, Image, Input, Tabs } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import beian from "@/assets/images/beian.png";
 import styles from "./index.module.less";
 
 const Login = () => {
@@ -16,8 +17,8 @@ const Login = () => {
     password: "123456",
   }); // 表单
 
-
-  const { repsonse } = useGetWechatQrcode({ isReq: tab === "2" }, {});
+  const { mutate } = useLogin({ data: { ...form } }, { revalidateOnMount: false }); // 登录请求
+  const { repsonse } = useGetWeappQrcode({ isReq: tab === "2" }); // 获取小程序二维码
 
   /**
    * 切换选项卡
@@ -29,9 +30,12 @@ const Login = () => {
   /**
    * 登录
    */
-  const handleLogin = () => {
-    setLocal(AUTH_PREFIX, "zxiaosi");
-    navigate("/dashboard", { replace: true });
+  const handleLogin = async () => {
+    const { data: { data, code } }: any = await mutate();
+    if (code === 0) {
+      setLocal(AUTH_PREFIX, data.username);
+      navigate("/dashboard", { replace: true });
+    }
   };
 
   return (
@@ -67,7 +71,7 @@ const Login = () => {
               label: (
                 <span>
                   <WechatOutlined twoToneColor="#1AAD19" />
-                  扫码登录
+                  扫码注册
                 </span>
               ),
               children: <Image src={repsonse?.data ? "data:image/jpeg;base64," + repsonse?.data : DefaultImage} preview={false} />,
@@ -75,7 +79,18 @@ const Login = () => {
           ]}
         />
       </div>
-    </div>
+
+      <div className={styles.footer}>
+        <div className={styles.top}>
+          ©{new Date().getFullYear()} By Mr.XiaoSi
+        </div>
+
+        <div className={styles.bottom} onClick={() => window.open("https://beian.miit.gov.cn/", "_blank")}>
+          <img src={beian} />
+          <div>豫ICP备2022013376号</div>
+        </div>
+      </div>
+    </div >
   );
 };
 

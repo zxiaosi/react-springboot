@@ -17,7 +17,7 @@ public class resource implements Serializable {
     /**
      * 资源id
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 资源名

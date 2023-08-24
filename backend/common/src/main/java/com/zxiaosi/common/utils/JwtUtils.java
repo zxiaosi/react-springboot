@@ -14,7 +14,7 @@ import java.util.HashMap;
  * @author zxiaosi
  * @date 2023-08-14 18:39
  */
-@Component
+//@Component
 public class JwtUtils {
     /**
      * 密钥

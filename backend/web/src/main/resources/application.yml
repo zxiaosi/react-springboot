@@ -1,9 +1,17 @@
-server:
-  port: 8082
-  servlet:
-    context-path: /api
+spring:
+  profiles:
+    active: dev # 配置环境
+  session:
+    store-type: redis # 配置session存储类型
+    redis:
+      namespace: spring:session # 配置session存储命名空间
 
-# 配置
+server:
+  port: 8082 # 配置端口
+  servlet:
+    context-path: /api # 配置接口前缀
+
+# 自定义配置
 config:
   weixin:
     appid: wx25adff2e6b2572ed
