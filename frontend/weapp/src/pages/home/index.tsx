@@ -3,10 +3,11 @@ import { AtNoticebar } from "taro-ui";
 import Taro, { useReady } from "@tarojs/taro";
 import { useState } from "react";
 import MyLayout from "@/components/myLayout";
+import { userInfoStorage } from "@/global";
+import { getUserInfoApi } from "@/apis";
 import { getLocalSync, setLocalSync } from "@/request/auth";
-import { defaultAvatar, userInfoStorage } from "@/global";
 import styles from "./index.module.scss";
-import { getTestApi } from "@/apis";
+import defaultAvatar from "@/images/defaultAvatar.jpg";
 
 // index.config.ts
 definePageConfig({});
@@ -19,11 +20,14 @@ function Home() {
   });
 
   useReady(async () => {
-    const userInfo = getLocalSync(userInfoStorage);
-    userInfo && setUser(userInfo);
-    const resp = await getTestApi();
-    console.log("getUserInfoApi", resp);
+    let userInfo = getLocalSync(userInfoStorage);
+    if (!userInfo) {
+      const resp = await getUserInfoApi();
+      userInfo = resp.data.data
+      setLocalSync(userInfoStorage, userInfo);
+    }
 
+    setUser({ nickName: userInfo?.username, avatarUrl: userInfo?.avatar });
   });
 
   /**
@@ -88,7 +92,7 @@ function Home() {
                   openType="chooseAvatar"
                   onChooseAvatar={(e) => handleNameAvatar(e, "avatarUrl")}
                 >
-                  <Image src={user.avatarUrl} />
+                  <Image src={user.avatarUrl || defaultAvatar} />
                 </Button>
               </View>
             </View>

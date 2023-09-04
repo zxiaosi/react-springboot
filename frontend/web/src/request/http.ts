@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
-import { API_URL } from "@/assets/js/global";
+import { API_URL, LOGIN_ROUTE } from "@/assets/js/global";
 import { clearLocal } from "./auth";
 import { message } from "antd";
 
@@ -52,12 +52,11 @@ axios.interceptors.response.use(
       const { status, data } = response as AxiosResponse;
       errMsg = data.msg || `url:${(url || "").toString()},statusCode:${status}`;
 
-      if (status == 401) {
-        // 跳转登录
+      if (status == 401) { // 跳转登录
         stateMsg = "warning";
         clearLocal();
         setTimeout(() => {
-          window.location.href = "/login";
+          window.location.href = LOGIN_ROUTE;
         }, 2000);
       }
     } else { // 请求已经成功发起，但没有收到响应
@@ -81,6 +80,7 @@ export interface IResponseData<T = any> {
   msg: string;
   data: T;
   total?: number;
+  [key: string]: any;
 }
 
 /** 自定义配置项 */
@@ -119,8 +119,7 @@ class Http {
   transformParam(options: IRequestOption, param: any, url: string) {
     if (options.method == "GET" || options.method == "DELETE") {
       let paramStr = "";
-      for (const i in param) {
-        // 防止特殊字符
+      for (const i in param) { // 防止特殊字符
         if (paramStr === "") paramStr += "?" + i + "=" + encodeURIComponent(param[i]);
         else paramStr += "&" + i + "=" + encodeURIComponent(param[i]);
       }

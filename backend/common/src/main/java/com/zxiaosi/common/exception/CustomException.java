@@ -1,6 +1,5 @@
 package com.zxiaosi.common.exception;
 
-import com.zxiaosi.common.constants.ResponseEnum;
 import lombok.Getter;
 import lombok.Setter;
 

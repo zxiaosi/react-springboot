@@ -1,8 +1,9 @@
-import MyLayout from "@/components/myLayout";
-import { defaultAvatar, userInfoStorage } from "@/global";
+import { useState } from "react";
 import { View, Image, Button } from "@tarojs/components";
 import Taro, { useReady } from "@tarojs/taro";
-import { useState } from "react";
+import MyLayout from "@/components/myLayout";
+import { userInfoStorage } from "@/global";
+import defaultAvatar from "@/images/defaultAvatar.jpg";
 
 import styles from "./index.module.scss";
 

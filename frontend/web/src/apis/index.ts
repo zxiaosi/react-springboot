@@ -18,13 +18,16 @@ export const createApiHook = (defaultReq: IReqOption = {}, defaultSWR: ISwrOptio
 };
 
 /** 测试 */
-export const useTestApi = createApiHook({ url: "/test", method: Method.GET });
+export const useUserInfoApi = createApiHook({ url: "/userInfo", method: Method.GET });
 
 /** 获取小程序二维码 */
-export const useGetWeappQrcode = createApiHook({ url: "/wechat/qrcode", method: Method.GET });
+export const useWeappQrcodeApi = createApiHook({ url: "/wechat/qrcode", method: Method.POST });
 
 /** 用户登录 */
-export const useLogin = createApiHook({ url: "/login", method: Method.POST });
+export const useLoginApi = createApiHook({ url: "/login", method: Method.POST });
 
 /** 用户退出 */
-export const useLogout = createApiHook({ url: "/logout", method: Method.GET });
+export const useLogoutApi = createApiHook({ url: "/logout", method: Method.GET });
+
+/** 用户菜单 */
+export const useMenuApi = createApiHook({ url: "/menu", method: Method.GET });

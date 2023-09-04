@@ -1,9 +1,11 @@
 package com.zxiaosi.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 角色实体类
@@ -25,18 +27,25 @@ public class Role implements Serializable {
     private String name;
 
     /**
-     * 角色code
+     * 角色描述
      */
-    private String code;
+    private String description;
+
+    /**
+     * 是否删除
+     */
+    private Short isDeleted;
 
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    private LocalDateTime updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updateTime;
 
 }

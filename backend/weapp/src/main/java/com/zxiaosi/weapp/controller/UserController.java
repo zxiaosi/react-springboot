@@ -2,11 +2,14 @@ package com.zxiaosi.weapp.controller;
 
 import com.zxiaosi.common.entity.User;
 import com.zxiaosi.common.utils.Result;
+import com.zxiaosi.weapp.config.SecurityConfig;
 import com.zxiaosi.weapp.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.zxiaosi.weapp.service.WxUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Random;
@@ -18,26 +21,23 @@ import java.util.Random;
 @RestController
 public class UserController {
 
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user")
-    public Result<?> getUserInfo(String code, String iv, String encryptedData) {
-        logger.info("code: {}, encryptedData: {}, iv: {}", code, encryptedData, iv);
-        userService.getOpenidSessionKeyService(code);
-        return Result.success("wxLogin");
+    @PostMapping("/login")
+    public Result<?> login(String code, String appId) {
+        if (!userService.checkAppidService(appId)) {
+            return Result.fail("appid错误");
+        }
+
+        String token = userService.createTokenService(code);
+        return Result.success(token);
     }
 
-    @GetMapping("/test")
-    public Result<User> user() {
-        User user = new User();
-        Random random = new Random();
-        user.setId(random.nextInt(10));
-        user.setUsername("web" + random.nextInt(100));
-        user.setOpenid(String.valueOf(8082));
-        return random.nextInt(10) > 5 ? Result.success(user) : Result.success(user, "成功");
+    @GetMapping("/userInfo")
+    public Result<?> getUserInfo() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return Result.success(principal);
     }
 
 }

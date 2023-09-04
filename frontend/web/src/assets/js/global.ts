@@ -23,7 +23,12 @@ export const API_URL: string = BASE_URL + "/api";
 /**
  * 认证前缀
  */
-export const AUTH_PREFIX: string = "Token";
+export const AUTH_PREFIX: string = "SESSION";
+
+/**
+ * 首页路由
+ */
+export const LOGIN_ROUTE: string = "/login";
 
 /**
  * 布局页面文件名称 eg: layout
@@ -31,13 +36,17 @@ export const AUTH_PREFIX: string = "Token";
  *    1. 修改此处
  *    2. 修改 src\view\${layout}\index.tsx 文件名
  */
-export const LayoutPage: string = "layout";
+export const LAYOUT_PAGE: string = "layout";
 
+/**
+ * localStorage中存储的菜单key
+ */
+export const MENU_STORAGE: string = "menus";
 
 /**
  * 默认图片
  */
-export const DefaultImage: string = "\
+export const DEFAULT_IMAGE: string = "\
 data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMIAAADDCAYAAADQvc6UAAABRWlDQ1BJQ0MgUHJvZmlsZQAAKJFjYGASSSwoyGFhYGDIzSspCnJ3UoiIjFJgf8\
 LAwSDCIMogwMCcmFxc4BgQ4ANUwgCjUcG3awyMIPqyLsis7PPOq3QdDFcvjV3jOD1boQVTPQrgSkktTgbSf4A4LbmgqISBgTEFyFYuLykAsTuAbJEioKOA7DkgdjqEvQHETo\
 Kwj4DVhAQ5A9k3gGyB5IxEoBmML4BsnSQk8XQkNtReEOBxcfXxUQg1Mjc0dyHgXNJBSWpFCYh2zi+oLMpMzyhRcASGUqqCZ16yno6CkYGRAQMDKMwhqj/fAIcloxgHQqxAjI\

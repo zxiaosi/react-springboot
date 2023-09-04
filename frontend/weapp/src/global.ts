@@ -28,6 +28,3 @@ export const locationStorage = "userLocation";
 
 /** 全局事件 */
 export const globalEvents = new Taro.Events();
-
-/** 默认用户头像 */
-export const defaultAvatar = "https://thirdwx.qlogo.cn/mmopen/vi_32/POgEwh4mIHO4nibH0KlMECNjjGxQUq24ZEaGT4poC6icRiccVGKSyXwibcPq4BWmiaIGuG1icwxaQX6grC9VemZoJ8rg/132";

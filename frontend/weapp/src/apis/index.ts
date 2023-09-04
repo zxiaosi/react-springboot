@@ -1,8 +1,8 @@
-import { get } from "@/request";
+import { get, post } from "@/request";
 import { GetUserInfoApi } from "./model";
 
-/** 测试接口 */
-export const getTestApi = () => get("/test", {}, { isNeedToken: false, isShowFailToast: true })
-
 /** 获取用户信息 */
-export const getUserInfoApi = (data: GetUserInfoApi) => get("/user", { ...data }, { isNeedToken: false, isShowFailToast: true })
+export const getUserInfoApi = () => get("/userInfo", {}, { isShowFailToast: true })
+
+/** 更新用户手机号 */
+export const postPhoneApi = (data: GetUserInfoApi) => post("/phone", { ...data }, { isShowFailToast: true })

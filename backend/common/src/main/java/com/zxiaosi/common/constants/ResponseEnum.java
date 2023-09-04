@@ -11,7 +11,7 @@ import lombok.Getter;
 @Getter
 public enum ResponseEnum {
 
-    // 自定义系列
+    // 常用系列
     SUCCESS(0, "success"),
     ERROR(1, "error"),
 
@@ -24,7 +24,14 @@ public enum ResponseEnum {
 
     // 500系列
     INTERNAL_SERVER_ERROR(500, "服务器内部错误!"),
-    SERVICE_UNAVAILABLE(503, "服务器正忙，请稍后再试!");
+    SERVICE_UNAVAILABLE(503, "服务器正忙，请稍后再试!"),
+
+    // 自定义系列
+    TOKEN_FORMAT_ISSUES(40101, "token格式不正确!"),
+    TOKEN_EXPIRED(40102, "token已过期!"),
+    OFFSITE_LOGIN(40103, "您的账号已经在别的地方登录!"),
+    EMPTY_USERNAME(40401, "用户名不能为空!"),
+    EMPTY_PASSWORD(40402, "密码不能为空!");
 
     // 以上是枚举的成员，必须先定义，而且使用分号结束
 

@@ -42,7 +42,7 @@
         <mysql.version>8.0.30</mysql.version>
         <druid.version>1.2.16</druid.version>
         <mybatis.version>2.2.0</mybatis.version>
-        <fastjson2.version>2.0.15</fastjson2.version>
+        <fastjson2.version>2.0.39</fastjson2.version>
         <hutool.version>5.8.16</hutool.version>
     </properties>
 

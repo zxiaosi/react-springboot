@@ -1,8 +1,10 @@
-import { AUTH_PREFIX, LayoutPage, TITLE } from "@/assets/js/global";
+import { LAYOUT_PAGE, LOGIN_ROUTE } from "@/assets/js/global";
 import { lazy, Suspense } from "react";
-import { Navigate, RouteObject } from "react-router-dom";
+import { LoaderFunctionArgs, Navigate, RouteObject } from "react-router-dom";
 import * as Icons from "@ant-design/icons";
 import React from "react";
+import IsAuth from "./isAuth";
+import DomTitle from "./domTitle";
 // 参考 https://juejin.cn/post/7132393527501127687
 
 /** 导入指定文件下的路由模块 */
@@ -26,19 +28,6 @@ const dynamicIcon = (icon: string) => {
   return DynamicIcon;
 };
 
-/** 判断是否登录 -- 路由拦截 */
-const IsAuth = ({ children }: { children: JSX.Element }) => {
-  const token = localStorage.getItem(AUTH_PREFIX);
-  console.log("token", token);
-  return token ? children : <Navigate to={"/login"} replace />;
-};
-
-/** 动态设置页面标题 -- 可不要 */
-const DomTitle = ({ title, children }: { title?: string; children: JSX.Element }) => {
-  document.title = `${title} | ${TITLE}`; // 页面名
-  return children;
-};
-
 /** 路由元信息 */
 interface Meta {
   meta?: {
@@ -57,14 +46,14 @@ export const routers: MyRouteObject[] = [
     element: <Navigate to="/dashboard" replace={true} />,
   },
   {
-    path: "/login",
+    path: LOGIN_ROUTE,
     meta: { title: "登录" },
-    element: lazyLoad("/login"),
+    element: lazyLoad(LOGIN_ROUTE),
   },
   {
     path: "/",
-    id: LayoutPage,
-    element: <IsAuth>{lazyLoad("/" + LayoutPage)}</IsAuth>,
+    id: LAYOUT_PAGE,
+    element: <IsAuth>{lazyLoad("/" + LAYOUT_PAGE)}</IsAuth>,
   },
   {
     path: "*",
@@ -76,9 +65,10 @@ export const routers: MyRouteObject[] = [
 /** 生成菜单 */
 export const generateMenu = (data: any) => {
   const result: any = [];
+
   data.forEach((item: any, index: number) => {
     result.push({
-      key: item.menu_url,
+      key: item.menuUrl,
       label: item.name,
       icon: dynamicIcon(item.icon),
     });
@@ -94,15 +84,17 @@ const iterateRouter = (data: any) => {
   const result: MyRouteObject[] = [];
 
   // 动态路由
-  data.forEach((item: any, index: number) => {
+  data?.forEach((item: any, index: number) => {
+
     result.push({
-      path: item.menu_url,
+      path: item.menuUrl,
       meta: { title: item.name, icon: item.icon },
-      element: <DomTitle title={item.name}>{lazyLoad("/" + LayoutPage + item.menu_url)}</DomTitle>,
+      element: <DomTitle title={item.name}>{lazyLoad("/" + LAYOUT_PAGE + item.menuUrl)}</DomTitle>,
     });
 
-    if (item.children.length > 0) result[index].children = iterateRouter(item.children);
+    if (item.children?.length > 0) result[index].children = iterateRouter(item.children);
   });
+
 
   return result;
 };
@@ -110,16 +102,17 @@ const iterateRouter = (data: any) => {
 /** 生成路由  */
 export const generateRouter = (data: any) => {
   // 1. 迭代动态路由
-  const dynamicRouters = iterateRouter(data);
+  const dynamicRouters = data ? iterateRouter(data) : [];
 
   // 2. 合并所有路由 = 动态路由 + 静态路由
-  const idx = routers.findIndex((item: any) => item.id == LayoutPage);
+  const idx = routers.findIndex((item: any) => item.id == LAYOUT_PAGE);
   routers[idx].children = [...dynamicRouters];
 
+  // 3. 静态路由添加标题 document.title - 可不要
   routers.map((item) => {
-    item.element = <DomTitle title={item.meta?.title}>{item.element as any}</DomTitle>; // 静态路由添加标题
+    item.element = <DomTitle title={item.meta?.title}>{item.element as any}</DomTitle>;
     return item;
   });
 
-  return routers.slice(); // 深拷贝, 防止地址引用
+  return routers.slice();
 };

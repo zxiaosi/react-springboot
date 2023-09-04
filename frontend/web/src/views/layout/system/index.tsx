@@ -1,7 +1,5 @@
 import { Outlet } from "react-router-dom";
 
-const System = () => {
-  return <Outlet />;
-};
+const System = () => <Outlet />;
 
 export default System;

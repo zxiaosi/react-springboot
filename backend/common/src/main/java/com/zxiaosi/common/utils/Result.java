@@ -1,7 +1,6 @@
 package com.zxiaosi.common.utils;
 
 import com.zxiaosi.common.constants.ResponseEnum;
-import com.zxiaosi.common.constants.SystemConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

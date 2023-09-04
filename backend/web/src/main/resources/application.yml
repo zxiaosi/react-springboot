@@ -1,15 +1,17 @@
 spring:
   profiles:
     active: dev # 配置环境
-  session:
-    store-type: redis # 配置session存储类型
-    redis:
-      namespace: spring:session # 配置session存储命名空间
 
 server:
   port: 8082 # 配置端口
   servlet:
     context-path: /api # 配置接口前缀
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.zxiaosi.common.entity
+  configuration:
+    map-underscore-to-camel-case: true # 大小写转换
 
 # 自定义配置
 config:

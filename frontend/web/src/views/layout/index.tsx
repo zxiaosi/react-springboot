@@ -1,15 +1,16 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { DownOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Layout, Menu, Button, Image, MenuProps, Dropdown, Space } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-const { Header, Sider, Content } = Layout;
 import logo from "@/assets/images/logo.png";
 import { generateMenu } from "@/router";
-import mockData from "@/apis/mock.json";
 import { clearLocal, getLocal, setLocal } from "@/request/auth";
 import styles from "./index.module.less";
-import { TITLE } from "@/assets/js/global";
-import { useLogout } from "@/apis";
+import { LOGIN_ROUTE, MENU_STORAGE, TITLE } from "@/assets/js/global";
+const { Header, Sider, Content } = Layout;
+import { useLogoutApi } from "@/apis";
+
+const menuItems = generateMenu(getLocal(MENU_STORAGE)); // 获取菜单 - 放到全局, 防止每次渲染都重新生成
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,8 +20,7 @@ const Home = () => {
   const [currentMenu, setCurrentMenu] = useState("/dashboard");
   const [parentMenu, setParentMenu] = useState<any>([]);
 
-  const { mutate } = useLogout({}, { revalidateOnMount: false });
-  const menuItems = useMemo(() => generateMenu(mockData), []);
+  const { mutate } = useLogoutApi({}, { revalidateOnMount: false });
 
   /** 监听浏览器地址栏路由变化 */
   useEffect(() => {
@@ -59,7 +59,7 @@ const Home = () => {
     const { data: { code } }: any = await mutate();
     if (code == 0) {
       clearLocal();
-      navigate("/login", { replace: true });
+      navigate(LOGIN_ROUTE, { replace: true });
     }
   }
 

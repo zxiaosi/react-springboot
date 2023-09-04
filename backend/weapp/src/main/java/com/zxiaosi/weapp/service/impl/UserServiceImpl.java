@@ -1,20 +1,23 @@
 package com.zxiaosi.weapp.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.*;
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.zxiaosi.common.mapper.RoleMapper;
+import com.zxiaosi.common.mapper.UserMapper;
+import com.zxiaosi.common.entity.User;
 import com.zxiaosi.common.exception.CustomException;
-import com.zxiaosi.common.utils.AesCbUtil;
+import com.zxiaosi.weapp.utils.JwtUtils;
 import com.zxiaosi.weapp.service.UserService;
+import com.zxiaosi.weapp.service.WxUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
+import org.springframework.util.ObjectUtils;
 
 /**
  * @author zxiaosi
- * @date 2023-08-11 18:23
+ * @date 2023-08-28 18:51
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,122 +25,55 @@ public class UserServiceImpl implements UserService {
     @Value("${config.weixin.appid}")
     private String appid;
 
-    @Value("${config.weixin.secret}")
-    private String secret;
+    @Value("${config.jwt.expire}")
+    private String expire;
 
-    /**
-     * <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/login/auth.code2Session.html">
-     * 官网链接【根据appid、secret、code换取session_key、openid】
-     * </a>
-     * <p>
-     * 根据 appid 和 appSecret 获取 openid 和 session_key, 进而创建 Token
-     *
-     * @param code 前端 wx.login 获取的动态令牌 code
-     * @return token
-     */
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private WxUserService wxUserService;
+
     @Override
-    public JSONObject getOpenidSessionKeyService(String code) {
-        String url = "https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code";
-        String replaceUrl = url.replace("{0}", appid).replace("{1}", secret).replace("{2}", code);
-        String result = HttpUtil.get(replaceUrl);
+    public boolean checkAppidService(String appId) {
+        return appid.equals(appId);
+    }
 
-        JSONObject object = JSON.parseObject(result);
+    @Override
+    public String createTokenService(String code) {
+        JSONObject openidSessionKey = wxUserService.getOpenIdSessionKeyService(code);
+        String openId = openidSessionKey.getString("openid");
 
-        String openId = object.getString("openid");
         if (StrUtil.isEmpty(openId)) {
             throw new CustomException("向微信服务器发送请求: code换取openId请求错误!");
         }
 
-        return object;
-    }
+        User user = userMapper.getUserByOpenId(openId);
 
-    /**
-     * <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/access-token/auth.getAccessToken.html">
-     * 官网链接【根据appid、secret换取access_token】
-     * </a>
-     * <p>
-     * 请求微信服务器获取用户手机号
-     * 1. 根据 appid 和 appSecret 获取能够解密手机号的 Token
-     *
-     * @return 能够解密手机号的 Token
-     */
-    @Override
-    public String getPhoneTokenService() {
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}";
-        String requestUrl = url.replace("{0}", appid).replace("{1}", secret);
-        String res = HttpUtil.get(requestUrl);
-
-        String accessToken = JSON.parseObject(res).getString("access_token");
-        if (StrUtil.isEmpty(accessToken)) {
-            throw new CustomException("向微信服务器发送请求: 获取解密手机号的token失败!");
+        if (ObjectUtils.isEmpty(user)) {
+            user = new User();
+            user.setOpenId(openId);
+            user.setUsername("微信用户");
+            user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+            userMapper.insertUser(user);
         }
 
-        return accessToken;
+        return JwtUtils.createToken(openId, user.getId(), Integer.parseInt(expire));
     }
 
-    /**
-     * <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/phonenumber/phonenumber.getPhoneNumber.html">
-     * 官网链接【根据accessToken、code换取phone】
-     * </a>
-     * <p>
-     * 请求微信服务器获取用户手机号
-     * 2. 根据 Token 和 Code 获取解密后的手机号
-     *
-     * @param accessToken 能够获取解密手机号的 access_token (通过 getUserTokenService 获取)
-     * @param code        前端 getPhoneNumber 获取的动态令牌 code
-     * @return 解密后的手机号
-     */
     @Override
-    public JSONObject byTokenCodeGetPhoneService(String accessToken, String code) {
-        try {
-            String url = "https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token={0}";
-            String requestUrl = url.replace("{0}", accessToken);
+    public User getUserRolesByUserIdService(Integer userId) {
+        User user = userMapper.getUserByUserId(userId);
 
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("code", code);
-            String requestParams = JSON.toJSONString(params);
+        if (ObjectUtils.isEmpty(user)) throw new CustomException("用户不存在!");
 
-            String result = HttpUtil.post(requestUrl, requestParams);
+        user.setRoles(roleMapper.getRolesByUserId(user.getId()));
 
-            JSONObject object = JSONObject.parseObject(result);
-            Integer errcode = object.getInteger("errcode");
-
-            if (errcode != 0) {
-                throw new CustomException("向微信服务器发送请求: 格式错误, 解密手机号失败!");
-            }
-
-            return object.getJSONObject("phone_info");
-        } catch (HttpException e) {
-            e.printStackTrace();
-            throw new CustomException("向微信服务器发送请求: 解密手机号请求出错!");
-        }
+        return user;
     }
 
-    /**
-     * <a href="https://developers.weixin.qq.com/miniprogram/dev/api-backend/open-api/login/auth.code2Session.html">
-     * 官网链接【根据appid、secret、code换取session_key、openid】
-     * </a>
-     * <p>
-     * <a href="https://doc.hutool.cn/pages/SymmetricCrypto/#aes%E5%B0%81%E8%A3%85">AES封装</a>
-     * <p>
-     * <a href="https://github.com/dromara/hutool/issues/2661#issuecomment-1280567307">Github示例</a>
-     * <p>
-     * 解密加密的用户手机号
-     *
-     * @param code          前端 wx.login 获取的动态令牌 code
-     * @param encryptedData 加密手机号的数据
-     * @param iv            加密算法的初始向量
-     * @return 解密后的手机号
-     */
-    @Override
-    public String decryptPhoneService(String code, String encryptedData, String iv) {
-        JSONObject openidSessionKey = getOpenidSessionKeyService(code);
-
-        String session_key = openidSessionKey.getString("session_key");
-        String decrypt = AesCbUtil.decrypt(encryptedData, session_key, iv);
-        System.out.println("decrypt: " + JSON.parseObject(decrypt));
-
-        return null;
-    }
 
 }

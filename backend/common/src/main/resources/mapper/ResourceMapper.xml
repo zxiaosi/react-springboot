@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?><!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zxiaosi.common.mapper.ResourceMapper">
+    <!-- id: sql语句的唯一标识 -->
+    <!-- resultType: 返回值类型 -->
+    <!-- parameterType: 参数类型 -->
+    <!-- 实体类字段和数据库一致直接用resultType -->
+
+    <!-- 根据 用户id 获取资源集合 -->
+    <select id="getResourcesByUserId" parameterType="integer" resultType="Resource">
+        select resource.*
+        from resource
+                 left join role_resource rr on rr.resource_id = resource.id
+                 left join user_role ur on rr.role_id = ur.role_id
+        where ur.user_id = #{userId}
+          and resource.level != 2
+          and resource.is_deleted = 0
+    </select>
+
+</mapper>

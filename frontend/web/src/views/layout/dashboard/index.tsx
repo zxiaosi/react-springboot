@@ -1,13 +1,8 @@
-import { useTestApi } from "@/apis";
+import { useUserInfoApi } from "@/apis";
 import { Button, Card } from "antd";
-import { useEffect } from "react";
 
 const Dashboard = () => {
-  const { mutate, repsonse } = useTestApi();
-
-  useEffect(() => {
-    console.log("data", repsonse);
-  }, [repsonse]);
+  const { mutate, repsonse } = useUserInfoApi();
 
   return (
     <div>
