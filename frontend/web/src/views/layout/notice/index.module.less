@@ -1,0 +1,160 @@
+.page {
+
+  .header {
+    width        : 100%;
+    border-bottom: 10px solid rgb(235, 230, 230);
+
+    // 搜索框
+    .searchBtn {
+      display        : flex;
+      justify-content: space-between;
+      margin-bottom  : 20px;
+
+      .search {
+        width: 300px;
+      }
+    }
+
+    // 面包屑
+    .breadcrumb {
+      margin-bottom: 20px;
+
+      .active {
+        color: rgba(0, 0, 0, 0.88);
+      }
+    }
+
+  }
+
+  .blog {
+    border-bottom: 1px solid rgb(235, 230, 230);
+
+    // 博客标题
+    .title {
+      margin-top     : 20px;
+      display        : flex;
+      justify-content: space-between;
+
+      div {
+        margin-right: 20px;
+        font-size   : 18px;
+        font-weight : bold;
+      }
+    }
+
+    // 博客身份
+    .identity {
+      margin: 20px 0;
+    }
+
+    // 博客内容
+    .article {
+      border-left : 5px solid rgb(235, 230, 230);
+      padding-left: 10px;
+      word-wrap   : break-word;
+    }
+
+    // 博客标签
+    .tag {
+      margin         : 20px 0;
+      display        : flex;
+      justify-content: space-between;
+
+      .tagLeft {
+        display    : flex;
+        align-items: center;
+
+        .tag {
+          margin-right: 10px;
+        }
+      }
+
+      .tagRight {}
+    }
+
+    // 博客信息
+    .otherInfo {
+      margin     : 20px 0;
+      display    : flex;
+      align-items: center;
+
+      .otherInfoItem {
+        display     : flex;
+        padding     : 0px 10px;
+        border-right: 1px solid #ccc;
+        line-height : 1;
+
+        div {
+          margin-left: 8px;
+        }
+      }
+
+      .otherInfoItem:last-child {
+        border-right: none;
+      }
+    }
+  }
+
+  .comment {
+    border-top: 10px solid rgb(235, 230, 230);
+
+    .sum {
+      font-size  : 18px;
+      font-weight: bold;
+      margin     : 20px 0;
+    }
+
+    .title {
+      display    : flex;
+      font-size  : 14px;
+      font-weight: normal;
+
+      div:first-child {
+        margin-right: 10px;
+        color       : rgba(0, 0, 0, 0.4);
+      }
+
+      div:last-child {
+        color: rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .desc {
+      margin-top: 10px;
+      color     : rgba(0, 0, 0, 1);
+    }
+
+    // 评论信息
+    .actions {
+      margin-left: 48px;
+      color      : rgba(0, 0, 0, 0.45);
+      display    : flex;
+
+      .otherInfoItem {
+        display     : flex;
+        padding     : 0px 16px;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        line-height : 1;
+        cursor      : pointer;
+
+        div {
+          margin-left: 8px;
+        }
+      }
+
+      .otherInfoItem:first-child {
+        padding-left : 0;
+        padding-right: 24px;
+      }
+
+      .otherInfoItem:last-child {
+        border-right: none;
+      }
+    }
+
+    // 子评论
+    .children {
+      margin: 20px 0 0 48px;
+    }
+  }
+}

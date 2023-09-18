@@ -1,24 +1,18 @@
 package com.zxiaosi.weapp.controller;
 
-import com.zxiaosi.common.entity.User;
+import com.zxiaosi.common.entity.vo.AccountVo;
 import com.zxiaosi.common.utils.Result;
-import com.zxiaosi.weapp.config.SecurityConfig;
 import com.zxiaosi.weapp.service.UserService;
-import com.zxiaosi.weapp.service.WxUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Random;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author zxiaosi
  * @date 2023-07-28 13:42
  */
 @RestController
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
@@ -38,6 +32,12 @@ public class UserController {
     public Result<?> getUserInfo() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return Result.success(principal);
+    }
+
+    @PostMapping("/updateUser")
+    public Result<?> updateUser(@RequestBody AccountVo accountVo) {
+        userService.updateUserService(accountVo);
+        return Result.success();
     }
 
 }

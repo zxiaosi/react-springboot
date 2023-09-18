@@ -1,4 +1,4 @@
-const Role = () => {
+const Index = () => {
   return (
     <div>
       <h1>Role</h1>
@@ -6,4 +6,4 @@ const Role = () => {
   );
 };
 
-export default Role;
+export default Index;

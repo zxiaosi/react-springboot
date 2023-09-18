@@ -1,5 +1,5 @@
 
-const Log = () => {
+const Index = () => {
   return (
     <div>
       <h1>Log</h1>
@@ -7,4 +7,4 @@ const Log = () => {
   );
 };
 
-export default Log;
+export default Index;

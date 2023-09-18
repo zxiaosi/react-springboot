@@ -2,6 +2,7 @@ package com.zxiaosi.weapp.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
+import com.zxiaosi.common.entity.vo.AccountVo;
 import com.zxiaosi.common.mapper.RoleMapper;
 import com.zxiaosi.common.mapper.UserMapper;
 import com.zxiaosi.common.entity.User;
@@ -75,5 +76,32 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public void updateUserService(AccountVo accountVo) {
+//        User user = userMapper.getUserByUsername(accountVo.getUsername());
+
+//        if (user != null && !user.getId().equals(accountVo.getId())) {
+//            throw new CustomException("用户名已存在!");
+//        }
+//
+//        if (user == null) {
+//            user = new User();
+//        }
+
+        try {
+            User user = new User();
+            user.setId(accountVo.getId());
+            user.setUsername(accountVo.getUsername());
+            if (!ObjectUtils.isEmpty(accountVo.getPassword())) {
+                user.setPassword(new BCryptPasswordEncoder().encode(accountVo.getPassword()));
+            }
+            user.setAvatar(accountVo.getAvatar());
+
+            userMapper.updateUserByUserId(user);
+        } catch (Exception e) {
+            throw new CustomException("用户不存在!");
+        }
+
+    }
 
 }

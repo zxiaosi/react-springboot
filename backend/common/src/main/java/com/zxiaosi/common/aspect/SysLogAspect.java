@@ -1,6 +1,7 @@
 package com.zxiaosi.common.aspect;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.filter.SimplePropertyPreFilter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zxiaosi.common.entity.SysLog;
 import com.zxiaosi.common.utils.IpUtils;
@@ -15,8 +16,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 日志切片
@@ -57,7 +61,7 @@ public class SysLogAspect {
         return result;
     }
 
-    public void saveSysLog(ProceedingJoinPoint joinPoint, long time) throws JsonProcessingException {
+    public void saveSysLog(ProceedingJoinPoint joinPoint, long time) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
 
@@ -70,6 +74,7 @@ public class SysLogAspect {
         sysLogVo.setSpendTime(time);
         sysLogVo.setCreateDate(new Date());
 
-        LOGGER.info("{}", JSON.toJSONString(sysLogVo));
+        SimplePropertyPreFilter filter = new SimplePropertyPreFilter("file"); // 过滤掉 MultipartFile file 字段
+        LOGGER.info("{}", JSON.toJSONString(sysLogVo, filter));
     }
 }

@@ -1,7 +1,9 @@
 package com.zxiaosi.common.mapper;
 
 import com.zxiaosi.common.entity.Resource;
+import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -11,8 +13,8 @@ import java.util.List;
 public interface ResourceMapper {
 
     /**
-     * 根据 用户id 获取资源集合
+     * 根据 角色名集合 获取资源集合
      */
-    List<Resource> getResourcesByUserId(Integer userId);
+    List<Resource> getResourcesByRoleNames(List<String> roleNames);
 
 }

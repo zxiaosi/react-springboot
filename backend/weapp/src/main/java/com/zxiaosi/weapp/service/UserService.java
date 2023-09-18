@@ -2,6 +2,7 @@ package com.zxiaosi.weapp.service;
 
 
 import com.zxiaosi.common.entity.User;
+import com.zxiaosi.common.entity.vo.AccountVo;
 
 /**
  * 用户服务
@@ -34,5 +35,11 @@ public interface UserService {
      * @return List<Role>
      */
     User getUserRolesByUserIdService(Integer userId);
+
+    /**
+     * 根据 用户id 更新用户信息
+     * @param accountVo 用户信息
+     */
+    void updateUserService(AccountVo accountVo);
 
 }

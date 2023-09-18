@@ -1,5 +1,6 @@
 package com.zxiaosi.web.service.impl;
 
+import com.zxiaosi.common.entity.Role;
 import com.zxiaosi.common.entity.User;
 import com.zxiaosi.common.mapper.RoleMapper;
 import com.zxiaosi.common.mapper.UserDetailsMapper;
@@ -10,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.util.List;
 
 /**
  * 实现 Spring Security 用户登录认证
@@ -33,7 +36,13 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserDetailsPa
         if (ObjectUtils.isEmpty(user)) throw new UsernameNotFoundException("用户名或密码错误");
 
         // 2. 设置用户角色
-        user.setRoles(roleMapper.getRolesByUserId(user.getId()));
+        List<Role> roles = roleMapper.getRolesByUserId(user.getId());
+        if (!roles.isEmpty()) {
+            user.setRoles(roles);
+        } else {
+            roleMapper.getGuestRole();
+            user.getRoles().add(roleMapper.getGuestRole()); // 未设置角色的用户默认为游客
+        }
 
         return user;
     }

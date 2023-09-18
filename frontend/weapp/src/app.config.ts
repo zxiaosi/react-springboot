@@ -22,6 +22,7 @@ export default defineAppConfig({
     custom: true, // 自定义tabbar
   },
   usingComponents: {}, // 全局引入组件
+  lazyCodeLoading: "requiredComponents", // 按需注入
   window: {
     navigationStyle: "custom", // 自定义的导航栏
     backgroundTextStyle: "light",

@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
   <React.StrictMode>
 
-    {/* react-router-dom 的 BrowserRouter 组件: 实现路由功能 */}
+    {/* react-router-dom 的 BrowserRouter 组件: 使用浏览器的内置历史记录堆栈进行导航 */}
     <BrowserRouter>
 
       {/* antd 的 ConfigProvider 组件: 实现中英文切换 */}

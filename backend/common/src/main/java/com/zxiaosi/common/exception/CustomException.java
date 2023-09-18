@@ -1,5 +1,6 @@
 package com.zxiaosi.common.exception;
 
+import com.zxiaosi.common.constants.ResponseEnum;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +18,7 @@ public class CustomException extends RuntimeException {
 
     private String msg;
 
-    private int code;
+    private int code = ResponseEnum.ERROR.getCode();
 
     public CustomException(String msg) {
         super(msg);

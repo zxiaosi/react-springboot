@@ -21,4 +21,9 @@ public interface RoleMapper {
      */
     List<Role> getRolesByRequestUrl(String requestUrl);
 
+    /**
+     * 得到游客角色
+     */
+    Role getGuestRole();
+
 }

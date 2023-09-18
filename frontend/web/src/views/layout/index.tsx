@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DownOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Layout, Menu, Button, Image, MenuProps, Dropdown, Space } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -6,21 +6,25 @@ import logo from "@/assets/images/logo.png";
 import { generateMenu } from "@/router";
 import { clearLocal, getLocal, setLocal } from "@/request/auth";
 import styles from "./index.module.less";
-import { LOGIN_ROUTE, MENU_STORAGE, TITLE } from "@/assets/js/global";
+import { LOGIN_ROUTE, MENU_STORAGE, TITLE, USER_STORAGE } from "@/assets/js/global";
 const { Header, Sider, Content } = Layout;
 import { useLogoutApi } from "@/apis";
+import { useSWRConfig } from "swr";
 
-const menuItems = generateMenu(getLocal(MENU_STORAGE)); // 获取菜单 - 放到全局, 防止每次渲染都重新生成
-
-const Home = () => {
+const Index = () => {
+  const { cache } = useSWRConfig();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [collapsed, setCollapsed] = useState(false);
-  const [currentMenu, setCurrentMenu] = useState("/dashboard");
-  const [parentMenu, setParentMenu] = useState<any>([]);
+  const [collapsed, setCollapsed] = useState(false); // 是否收缩菜单
+  const [currentMenu, setCurrentMenu] = useState("/dashboard"); // 当前菜单
+  const [parentMenu, setParentMenu] = useState<any>([]); // 父菜单
 
   const { mutate } = useLogoutApi({}, { revalidateOnMount: false });
+
+  const userInfo = getLocal(USER_STORAGE); // 用户信息
+
+  const menuItems = useMemo(() => generateMenu(getLocal(MENU_STORAGE) || []), []); // 防止每次渲染都重新生成
 
   /** 监听浏览器地址栏路由变化 */
   useEffect(() => {
@@ -31,8 +35,7 @@ const Home = () => {
 
     setCurrentMenu(pageCurrentMenu);
     setParentMenu(pageParentMenu);
-    setLocal("currentMenu", pageCurrentMenu);
-    setLocal("parentMenu", pageParentMenu);
+    setLocal("parentMenu", pageParentMenu); // 防止展开菜单时, 找不到父菜单
   }, [location.pathname]);
 
   /** 点击菜单触发事件 */
@@ -61,7 +64,14 @@ const Home = () => {
       clearLocal();
       navigate(LOGIN_ROUTE, { replace: true });
     }
+
+    clearCache();
   }
+
+  /**
+   * 清除useSwr所有缓存的数据
+   */
+  const clearCache = () => [...cache.keys()].forEach((key) => cache.delete(key));
 
   return (
     <Layout>
@@ -73,6 +83,7 @@ const Home = () => {
 
         <Menu theme="dark" mode="inline" openKeys={parentMenu} selectedKeys={[currentMenu]} items={menuItems} onClick={handleMenu} onOpenChange={handleParentMenu} />
       </Sider>
+
       <Layout>
         <Header className={styles.header}>
           <Button type="text" className={styles.collapsed} icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={handleCollapsed} />
@@ -101,7 +112,7 @@ const Home = () => {
               }}>
               <a onClick={(e) => e.preventDefault()}>
                 <Space>
-                  admin
+                  {userInfo?.username || "未知用户"}
                   <DownOutlined />
                 </Space>
               </a>
@@ -109,7 +120,7 @@ const Home = () => {
           </div>
         </Header>
 
-        <Content style={{}} className={styles.content}>
+        <Content className={styles.content}>
 
           {/* 指定路由组件呈现的位置, Vue中的路由出口 */}
           <Outlet />
@@ -120,4 +131,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Index;

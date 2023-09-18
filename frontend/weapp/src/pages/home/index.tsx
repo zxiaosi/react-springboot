@@ -3,44 +3,61 @@ import { AtNoticebar } from "taro-ui";
 import Taro, { useReady } from "@tarojs/taro";
 import { useState } from "react";
 import MyLayout from "@/components/myLayout";
-import { userInfoStorage } from "@/global";
-import { getUserInfoApi } from "@/apis";
+import { baseUrl, imageUrl, tokenStorage, userInfoStorage } from "@/global";
+import { getUserInfoApi, updateUserApi } from "@/apis";
 import { getLocalSync, setLocalSync } from "@/request/auth";
 import styles from "./index.module.scss";
-import defaultAvatar from "@/images/defaultAvatar.jpg";
+import defaultAvatar from "@/images/default-avatar.jpg";
+import eye from "@/images/eye.png";
+import eyeClose from "@/images/eye-close.png";
+import { MyRegEx } from "@/utils/constant";
 
 // index.config.ts
 definePageConfig({});
 
 function Home() {
-  // 用户信息
-  const [user, setUser] = useState({
-    nickName: "微信用户",
-    avatarUrl: defaultAvatar,
+  const [isShowPwd, setIsShowPwd] = useState(false); // 是否显示密码
+
+  const [user, setUser] = useState({ // 用户信息
+    username: "",
+    password: "",
+    avatar: "",
   });
 
   useReady(async () => {
     let userInfo = getLocalSync(userInfoStorage);
+
     if (!userInfo) {
       const resp = await getUserInfoApi();
       userInfo = resp.data.data
       setLocalSync(userInfoStorage, userInfo);
     }
 
-    setUser({ nickName: userInfo?.username, avatarUrl: userInfo?.avatar });
+    setUser({ ...userInfo });
   });
 
   /**
    * 设置用户名和头像
    */
-  const handleNameAvatar = (e: any, type: "nickName" | "avatarUrl") => {
-    console.log("handleNameAvatar", type, e.detail.value || e.detail.avatarUrl);
-    const newUseInfo = {
-      ...user,
-      [type]: e.detail.value || e.detail.avatarUrl,
-    };
-    setUser(newUseInfo);
-    setLocalSync(userInfoStorage, newUseInfo);
+  const handleAvatar = async (e: any) => {
+    console.log("handleAvatar", e.detail.avatarUrl);
+
+    Taro.uploadFile({
+      url: baseUrl + "/upload",
+      name: 'file',
+      filePath: e.detail.avatarUrl,
+      header: { Authorization: getLocalSync(tokenStorage) },
+      success: (res) => {
+        const resp = JSON.parse(res.data);
+        console.log("uploadFile-resp", resp);
+        const userInfo = { ...user, avatar: resp.data }
+        setUser(userInfo);
+        setLocalSync(userInfoStorage, userInfo);
+      },
+      fail: (err) => {
+        console.log("uploadFile-err", err);
+      }
+    })
   };
 
   /**
@@ -56,6 +73,49 @@ function Home() {
     console.log("getUserPhone", e.detail);
   };
 
+  /**
+   * 提交
+   */
+  const handleSumit = async () => {
+    console.log("handleSumit", user);
+    if (user.username?.length <= 0 || user.username == null) {
+      Taro.showToast({ title: '用户名不能为空', icon: 'none' })
+      return;
+    }
+
+    if (user.username == "微信用户") {
+      Taro.showToast({ title: '用户名不能为微信用户', icon: 'none' })
+      return;
+    }
+
+    if (!MyRegEx.UserName.test(user.username)) {
+      Taro.showToast({ title: '用户名格式不正确', icon: 'none' })
+      return;
+    }
+
+    if (user.password?.length > 0) {
+      if (user.password?.length < 6) {
+        Taro.showToast({ title: '密码至少6位', icon: 'none' })
+        return;
+      }
+
+      if (!MyRegEx.Password.test(user.password)) {
+        Taro.showToast({ title: '密码格式不正确', icon: 'none' })
+        return;
+      }
+    }
+
+    const userInfo = { ...getLocalSync(userInfoStorage), ...user };
+    const { data: { msg, code } } = await updateUserApi({ ...userInfo });
+    if (code == 0) {
+      Taro.showToast({ title: '更新成功', icon: 'success' })
+      delete userInfo.password;
+      setLocalSync(userInfoStorage, { ...userInfo });
+    } else {
+      Taro.showToast({ title: msg, icon: 'none' })
+    }
+  }
+
   return (
     <MyLayout tabId={0}>
       <View className={styles.page}>
@@ -70,34 +130,51 @@ function Home() {
           免责声明：本小程序仅供个人学习使用，不得用于商业用途，如有侵权，请联系作者删除！
         </AtNoticebar>
 
-        {user && (
-          <View className={styles.table}>
-            <View className={styles.row}>
-              <View className={styles.col}>用户名</View>
-              <View className={styles.col}>
-                {/* 获取用户名 */}
-                <Input
-                  type="nickname"
-                  placeholder="输入或更换用户名"
-                  onBlur={(e) => handleNameAvatar(e, "nickName")}
-                  value={user.nickName}
-                />
-              </View>
+        <View className={styles.content}>
+          <View className={styles.title}>后台账号</View>
+
+          <View className={styles.form}>
+            <View className={styles.formItem}>
+              <View className={styles.prefix}>用户名</View>
+              <Input
+                maxlength={20}
+                type="nickname"
+                placeholder="输入用户名(必填)"
+                onBlur={(e) => setUser({ ...user, username: e.detail.value })}
+                value={user.username}
+              />
             </View>
-            <View className={styles.row}>
-              <View className={styles.col}>头像</View>
-              <View className={styles.col}>
-                {/* 获取用户头像 */}
-                <Button
-                  openType="chooseAvatar"
-                  onChooseAvatar={(e) => handleNameAvatar(e, "avatarUrl")}
-                >
-                  <Image src={user.avatarUrl || defaultAvatar} />
-                </Button>
-              </View>
+
+            <View className={styles.formItem}>
+              <View className={styles.prefix}>密&nbsp;&nbsp;&nbsp;码</View>
+              <Input
+                maxlength={20}
+                type="text"
+                password={!isShowPwd}
+                placeholder="输入密码(默认密码123456)"
+                onInput={(e) => setUser({ ...user, password: e.detail.value })}
+                value={user.password}
+              />
+              <Image className={styles.eye} src={isShowPwd ? eye : eyeClose} onClick={() => { setIsShowPwd(!isShowPwd) }} />
+            </View>
+
+            <View className={styles.formItem}>
+              <View className={styles.prefix}>头&nbsp;&nbsp;&nbsp;像</View>
+
+              {/* 获取用户头像 */}
+              <Button
+                openType="chooseAvatar"
+                onChooseAvatar={handleAvatar}
+              >
+                <Image src={user.avatar ? (imageUrl + user.avatar) : defaultAvatar} />
+              </Button>
             </View>
           </View>
-        )}
+
+          <Button type="primary" className={styles.btn} onClick={handleSumit}>
+            更新账号信息
+          </Button>
+        </View>
 
         {/* 获取用户手机号 */}
         {/* <Button type="primary" openType="getPhoneNumber" onGetPhoneNumber={getUserPhone}>获取手机号</Button> */}

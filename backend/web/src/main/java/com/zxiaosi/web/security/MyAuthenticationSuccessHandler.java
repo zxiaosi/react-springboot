@@ -1,7 +1,9 @@
 package com.zxiaosi.web.security;
 
+import com.zxiaosi.common.entity.vo.UserVo;
 import com.zxiaosi.common.utils.GenericRespUtils;
 import com.zxiaosi.common.utils.Result;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -22,7 +24,9 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        GenericRespUtils.resp(response, Result.success(authentication.getPrincipal()));
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(authentication.getPrincipal(), userVo); // 深拷贝
+        GenericRespUtils.resp(response, Result.success(userVo));
     }
 
 }

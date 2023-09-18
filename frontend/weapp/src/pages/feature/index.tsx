@@ -9,9 +9,11 @@ definePageConfig({});
 const changeLog = [
   { title: "初始化项目", icon: "check-circle" },
   { title: "封装请求方法", icon: "check-circle" },
-  { title: "审核小程序", icon: "clock" },
-  { title: "调试后端接口", icon: "clock" },
-  { title: "调试用户功能", icon: "clock" },
+  { title: "审核小程序", icon: "check-circle" },
+  { title: "调试后端接口", icon: "check-circle" },
+  { title: "调试用户功能", icon: "check-circle" },
+  { title: "权限拦截", icon: "clock" },
+  { title: "开始业务详情", icon: "clock" },
 ];
 
 function Feature() {

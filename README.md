@@ -71,5 +71,79 @@
 ⊢ README.md
 ```
 
+### nginx
 
+```sh
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  zxiaosi.cn;
 
+    #charset koi8-r;
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location / {
+        root   /usr/share/nginx/html/vue3_fastapi;
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html; # 防止页面刷新404
+    }
+
+    location /api {
+        client_max_body_size 5m;
+        proxy_pass http://fastapi:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /static/avatar/ {
+        proxy_pass http://fastapi:8000/static/avatar/;
+    }
+
+    location /api/docs {
+        proxy_pass http://fastapi:8000/docs;
+    }
+
+    location /api/redoc {
+        proxy_pass http://fastapi:8000/redoc;
+    }
+
+    location /openapi.json { # openapi 地址 (如果代理上述文档地址, 请务必添加 openapi 的代理)
+        proxy_pass http://fastapi:8000/openapi.json;
+    }
+}
+
+server {
+    listen       443 ssl;
+    listen  [::]:443 ssl;
+    server_name  zxiaosi.cn;
+
+    ssl_certificate  /etc/nginx/conf.d/zxiaosi.cn_bundle.crt;
+    ssl_certificate_key /etc/nginx/conf.d/zxiaosi.cn.key;
+    ssl_session_timeout 5m;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+
+    location / {
+        root   /usr/share/nginx/html/weapp_web;
+        index  index.html index.htm;
+        try_files $uri $uri/ /index.html; # 防止页面刷新404
+    }
+
+    location /api {
+        client_max_body_size 5m;
+        proxy_pass http://springboot-web:8082;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /wxapi/ {
+        client_max_body_size 5m;
+        proxy_pass http://springboot-weapp:8081/api/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+```

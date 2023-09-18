@@ -1,4 +1,4 @@
-const User = () => {
+const Index = () => {
   return (
     <div>
       <h1>User</h1>
@@ -6,4 +6,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Index;

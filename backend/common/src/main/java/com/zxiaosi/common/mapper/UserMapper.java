@@ -1,9 +1,6 @@
 package com.zxiaosi.common.mapper;
 
-import com.zxiaosi.common.entity.Role;
 import com.zxiaosi.common.entity.User;
-
-import java.util.List;
 
 /**
  * 用户 Mapper
@@ -27,5 +24,15 @@ public interface UserMapper {
      * 插入用户信息
      */
     void insertUser(User user);
+
+    /**
+     * 根据 用户id 更新用户信息
+     */
+    void updateUserByUserId(User user);
+
+    /**
+     * 根据 用户名 获取用户信息
+     */
+    User getUserByUsername(String username);
 
 }

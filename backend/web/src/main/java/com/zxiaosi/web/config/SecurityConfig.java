@@ -92,6 +92,7 @@ public class SecurityConfig {
                 .disable()
 
                 // 配置请求授权
+                .antMatcher("/**")
                 .authorizeHttpRequests()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override

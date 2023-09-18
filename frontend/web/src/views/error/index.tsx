@@ -1,7 +1,8 @@
+import styles from "./index.module.less";
+
 const ErrorPage = () => {
   return (
-    <div>
-      <h1>404</h1>
+    <div className={styles.page}>
     </div>
   );
 };

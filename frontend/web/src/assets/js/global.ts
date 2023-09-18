@@ -6,7 +6,7 @@ export const TITLE: string = "小四先生的栈";
 /**
  * 是否是开发环境
  */
-export const IS_DEV: boolean = true;
+export const IS_DEV: boolean = false;
 
 /**
  * 开发、测试、线上环境
@@ -39,9 +39,14 @@ export const LOGIN_ROUTE: string = "/login";
 export const LAYOUT_PAGE: string = "layout";
 
 /**
- * localStorage中存储的菜单key
+ * localStorage中存储的菜单信息key
  */
 export const MENU_STORAGE: string = "menus";
+
+/**
+ * localStorage中存储的用户信息key
+ */
+export const USER_STORAGE: string = "user";
 
 /**
  * 默认图片

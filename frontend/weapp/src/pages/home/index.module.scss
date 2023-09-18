@@ -6,6 +6,64 @@
     width: calc(100vw - 48rpx);
   }
 
+  .content {
+
+    .title {
+      margin     : 40rpx 0;
+      font-size  : 40rpx;
+      font-weight: bold;
+      text-align : center;
+    }
+
+    .form {
+      display       : flex;
+      flex-direction: column;
+      margin        : 0 100rpx;
+
+      .formItem {
+        display    : flex;
+        align-items: center;
+        padding    : 20rpx 0;
+        border-top : 1px solid #ccc;
+
+        .prefix {
+          width: 120rpx;
+        }
+
+        input {
+          flex: 1;
+        }
+
+        button {
+          width  : 60rpx;
+          height : 60rpx;
+          border : none;
+          margin : 0;
+          padding: 0;
+
+          image {
+            width : 60rpx;
+            height: 60rpx;
+          }
+        }
+
+        .eye {
+          width      : 40rpx;
+          height     : 40rpx;
+          margin-left: 20rpx;
+        }
+      }
+
+      .formItem:last-child {
+        border-bottom: 1px solid #ccc;
+      }
+    }
+
+    .btn {
+      margin: 40rpx 100rpx;
+    }
+  }
+
   .table {
     margin: 40rpx 0;
 

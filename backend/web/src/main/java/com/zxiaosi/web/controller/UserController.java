@@ -1,5 +1,6 @@
 package com.zxiaosi.web.controller;
 
+import com.zxiaosi.common.entity.User;
 import com.zxiaosi.common.utils.Result;
 import com.zxiaosi.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

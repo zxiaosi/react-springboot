@@ -1,6 +1,6 @@
 import { LAYOUT_PAGE, LOGIN_ROUTE } from "@/assets/js/global";
 import { lazy, Suspense } from "react";
-import { LoaderFunctionArgs, Navigate, RouteObject } from "react-router-dom";
+import { Navigate, RouteObject } from "react-router-dom";
 import * as Icons from "@ant-design/icons";
 import React from "react";
 import IsAuth from "./isAuth";
@@ -11,7 +11,7 @@ import DomTitle from "./domTitle";
 const modules = import.meta.glob("@/views/**/*.tsx");
 
 /** 异步懒加载组件 */
-export const lazyLoad = (moduleName: string) => {
+const lazyLoad = (moduleName: string) => {
   const Module = lazy(modules[`/src/views${moduleName}/index.tsx`] as any);
 
   return (
@@ -24,8 +24,7 @@ export const lazyLoad = (moduleName: string) => {
 /** 动态创建Icon */
 const dynamicIcon = (icon: string) => {
   const antIcon: { [key: string]: any } = Icons; // 防止类型报错
-  const DynamicIcon = React.createElement(antIcon[icon]);
-  return DynamicIcon;
+  return React.createElement(antIcon[icon]);
 };
 
 /** 路由元信息 */
@@ -114,5 +113,5 @@ export const generateRouter = (data: any) => {
     return item;
   });
 
-  return routers.slice();
+  return routers.slice(); // 注意这里要浅拷贝返回一个新的数组，否则会报错
 };

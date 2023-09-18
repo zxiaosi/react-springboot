@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { View, Image, Button } from "@tarojs/components";
 import Taro, { useReady } from "@tarojs/taro";
+import { View, Button, Image } from "@tarojs/components";
 import MyLayout from "@/components/myLayout";
-import { userInfoStorage } from "@/global";
-import defaultAvatar from "@/images/defaultAvatar.jpg";
+import { imageUrl, userInfoStorage } from "@/global";
+import defaultAvatar from "@/images/default-avatar.jpg";
 
 import styles from "./index.module.scss";
 
@@ -27,8 +27,8 @@ const catalog = [
 
 function User() {
   const [user, setUser] = useState({
-    nickName: "微信用户",
-    avatarUrl: defaultAvatar,
+    username: "未知",
+    avatar: "",
   });
 
   useReady(() => {
@@ -39,14 +39,14 @@ function User() {
   /**
    * 点击item事件
    */
-  const onItemClick = (item) => {
+  const handleItemClick = (item) => {
     Taro.showToast({ title: "功能正在开发中...", icon: "none" });
   };
 
   /**
    * 退出登录
    */
-  const onLogout = () => {
+  const handleLogout = () => {
     Taro.showToast({ title: "功能正在开发中...", icon: "none" });
   };
 
@@ -54,8 +54,8 @@ function User() {
     <MyLayout tabId={2} navBarClass={styles.navBarClass}>
       <View className={styles.page}>
         <View className={styles.top}>
-          <Image src={user.avatarUrl} className={styles.avatar} />
-          <View className={styles.name}>{user.nickName}</View>
+          <Image src={user.avatar ? (imageUrl + user.avatar) : defaultAvatar} className={styles.avatar} />
+          <View className={styles.name}>{user.username}</View>
         </View>
 
         <View className={styles.middle}>
@@ -63,7 +63,7 @@ function User() {
             <View
               className={styles.item}
               key={item.id}
-              onClick={() => onItemClick(item)}
+              onClick={() => handleItemClick(item)}
             >
               <View className={styles.left}>
                 <View
@@ -78,7 +78,7 @@ function User() {
           ))}
         </View>
 
-        <Button className={styles.bottom} onClick={onLogout}>
+        <Button className={styles.bottom} onClick={handleLogout}>
           退出登录
         </Button>
       </View>

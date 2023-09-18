@@ -7,15 +7,23 @@
     <!-- parameterType: 参数类型 -->
     <!-- 实体类字段和数据库一致直接用resultType -->
 
-    <!-- 根据 用户id 获取资源集合 -->
-    <select id="getResourcesByUserId" parameterType="integer" resultType="Resource">
+    <!-- 根据 角色名集合 获取资源集合 -->
+    <select id="getResourcesByRoleNames" resultType="Resource">
         select resource.*
         from resource
-                 left join role_resource rr on rr.resource_id = resource.id
-                 left join user_role ur on rr.role_id = ur.role_id
-        where ur.user_id = #{userId}
-          and resource.level != 2
-          and resource.is_deleted = 0
+        where resource.id in (
+            select rr.resource_id
+            from role_resource rr
+            where rr.role_id in (
+                select id
+                from role
+                where name in
+                <foreach collection="roleNames" item="roleName" open="(" separator="," close=")">
+                    #{roleName}
+                </foreach>
+            )
+        )
+        and resource.level != 2
     </select>
 
 </mapper>

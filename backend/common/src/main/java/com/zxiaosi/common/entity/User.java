@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -56,7 +57,7 @@ public class User implements UserDetails, Serializable {
     /**
      * 是否删除
      */
-    private Short isDeleted;
+    private Integer isDeleted;
 
     /**
      * 创建时间

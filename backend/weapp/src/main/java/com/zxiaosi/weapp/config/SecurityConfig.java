@@ -39,7 +39,7 @@ public class SecurityConfig {
 
                 // 配置请求授权
                 .authorizeHttpRequests()
-                .antMatchers("/login").permitAll() // 不需要认证
+                .antMatchers("/api/login", "/images/**").permitAll() // 不需要认证
                 .anyRequest().authenticated() // 其他请求需要认证
 
                 // 配置异常

@@ -1,4 +1,4 @@
-import useSWR, { SWRConfiguration, SWRResponse } from "swr";
+import useSWR, { SWRConfiguration, SWRResponse, useSWRConfig } from "swr";
 import http, { IRequestOption, IResponseData } from "@/request/http";
 import { matchURLMethod } from "@/utils";
 

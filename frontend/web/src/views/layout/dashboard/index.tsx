@@ -1,7 +1,7 @@
 import { useUserInfoApi } from "@/apis";
 import { Button, Card } from "antd";
 
-const Dashboard = () => {
+const Index = () => {
   const { mutate, repsonse } = useUserInfoApi();
 
   return (
@@ -23,4 +23,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Index;

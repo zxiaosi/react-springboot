@@ -2,6 +2,7 @@ import Taro from "@tarojs/taro";
 import { loginUrl, tokenStorage } from "@/global";
 import { post } from ".";
 import { removeLocalSync } from "./auth";
+import { IRequestOption } from "./http";
 
 /**
  * 获取 Token
@@ -23,7 +24,7 @@ export async function requestToken() {
 /**
  * 请求拦截器
  */
-async function requestInterceptor(request: Taro.RequestParams) {
+async function requestInterceptor(request: IRequestOption) {
   const { header, isNeedToken, isShowLoading } = request;
 
   if (isShowLoading) Taro.showLoading({ title: "加载中", mask: true });
@@ -36,7 +37,7 @@ async function requestInterceptor(request: Taro.RequestParams) {
 /**
  * 响应拦截器
  */
-function responseInterceptor(request: Taro.RequestParams, response: Taro.request.SuccessCallbackResult) {
+function responseInterceptor(request: IRequestOption, response: Taro.request.SuccessCallbackResult) {
   const { isShowLoading, isShowFailToast, isThrowError } = request;
   const { statusCode, data, errMsg } = response; // HTTP 返回的数据格式
 
@@ -61,7 +62,7 @@ function responseInterceptor(request: Taro.RequestParams, response: Taro.request
 
     if (statusCode === -1) title = "网络请求失败，请检查您的网络。";
 
-    if (statusCode > 0) title = `url:${request.url.toString()}, statusCode:${response.statusCode}`;
+    if (statusCode > 0) title = `url:${request.url?.toString()}, statusCode:${response.statusCode}`;
 
     // if (statusCode == 401) {
     //   Taro.clearStorage();

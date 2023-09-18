@@ -45,7 +45,7 @@ export interface IRequestOption extends Partial<Taro.request.Option<string | IRe
 
   /**
    * 是否显示失败Toast弹框
-   * @default false
+   * @default true
    */
   isShowFailToast?: boolean;
 
@@ -61,7 +61,7 @@ class HttpRequest {
   customOptions: IRequestOption = {
     isNeedToken: true,
     isShowLoading: false,
-    isShowFailToast: false,
+    isShowFailToast: true,
     isThrowError: false,
   };
 

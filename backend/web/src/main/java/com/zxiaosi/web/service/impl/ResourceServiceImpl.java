@@ -1,15 +1,18 @@
 package com.zxiaosi.web.service.impl;
 
 import com.zxiaosi.common.entity.Resource;
+import com.zxiaosi.common.entity.Role;
 import com.zxiaosi.common.entity.User;
 import com.zxiaosi.common.mapper.ResourceMapper;
 import com.zxiaosi.web.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 资源服务
@@ -25,9 +28,9 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public List<Resource> getResourcesService() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Resource> resources = resourceMapper.getResourcesByUserId(user.getId());
-        return buildTreeMenu(resources);
+        Collection<? extends GrantedAuthority> authentication = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        List<String> roleNames = authentication.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()); // 将权限集合转换为角色名集合
+        return buildTreeMenu(resourceMapper.getResourcesByRoleNames(roleNames));
     }
 
     @Override

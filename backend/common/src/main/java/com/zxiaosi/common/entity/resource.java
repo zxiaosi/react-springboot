@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -65,7 +66,7 @@ public class Resource implements Serializable {
     /**
      * 是否删除
      */
-    private Short isDeleted;
+    private Integer isDeleted;
 
     /**
      * 创建时间

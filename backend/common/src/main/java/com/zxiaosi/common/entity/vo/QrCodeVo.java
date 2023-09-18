@@ -3,6 +3,8 @@ package com.zxiaosi.common.entity.vo;
 import lombok.Data;
 
 /**
+ * 二维码
+ *
  * @author zxiaosi
  * @date 2023-08-31 16:58
  */

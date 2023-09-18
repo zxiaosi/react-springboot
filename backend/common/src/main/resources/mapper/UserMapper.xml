@@ -12,7 +12,6 @@
         select *
         from user
         where user.id = #{userId}
-          and user.is_deleted = 0
     </select>
 
     <!-- 根据 openid 获取用户信息  -->
@@ -20,13 +19,35 @@
         select *
         from user
         where open_id = #{openId}
-          and user.is_deleted = 0
     </select>
 
     <!-- 插入用户信息 -->
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
-        insert into user (username, avatar, phone, password, open_id)
-        values (#{username}, #{avatar}, #{phone}, #{password}, #{openId})
+        insert into user (username, avatar, phone, password, open_id, is_deleted, create_time, update_time)
+        values (#{username}, #{avatar}, #{phone}, #{password}, #{openId}, #{isDeleted}, #{createTime}, #{updateTime})
     </insert>
+
+    <!-- 根据 用户id 更新用户信息 -->
+    <update id="updateUserByUserId" parameterType="User">
+        update user
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="isDeleted != null">is_deleted = #{isDeleted},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!-- 根据 用户名 获取用户信息 -->
+    <select id="getUserByUsername" parameterType="string" resultType="User">
+        select *
+        from user
+        where username = #{username}
+        limit 1
+    </select>
 
 </mapper>

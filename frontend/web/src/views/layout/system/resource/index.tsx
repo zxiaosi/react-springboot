@@ -1,4 +1,4 @@
-const Resource = () => {
+const Index = () => {
   return (
     <div>
       <h1>Resource</h1>
@@ -6,4 +6,4 @@ const Resource = () => {
   );
 };
 
-export default Resource;
+export default Index;

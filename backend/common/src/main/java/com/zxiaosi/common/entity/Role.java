@@ -34,7 +34,7 @@ public class Role implements Serializable {
     /**
      * 是否删除
      */
-    private Short isDeleted;
+    private Integer isDeleted;
 
     /**
      * 创建时间

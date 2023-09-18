@@ -1,14 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Image, Input, Tabs } from "antd";
+import { Button, Image, Input, message, Tabs } from "antd";
 import { KeyOutlined, LockOutlined, UserOutlined, WechatOutlined } from "@ant-design/icons";
 import { useWeappQrcodeApi, useLoginApi } from "@/apis";
-import { DEFAULT_IMAGE } from "@/assets/js/global";
+import { DEFAULT_IMAGE, TITLE, USER_STORAGE } from "@/assets/js/global";
 import beian from "@/assets/images/beian.png";
 import styles from "./index.module.less";
+import { setLocal } from "@/request/auth";
 
-const Login = () => {
+const Index = () => {
   const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
 
   const [tab, setTab] = useState("1"); // 选项卡
   const [form, setForm] = useState({
@@ -30,14 +32,20 @@ const Login = () => {
    * 登录
    */
   const handleLogin = async () => {
-    const { data: { code } }: any = await mutate();
+    if (form.username == "微信用户") {
+      messageApi.warning("请前往小程序更新用户信息");
+      return;
+    }
+    const { data: { data, code } }: any = await mutate();
+    setLocal(USER_STORAGE, data);
     code === 0 && navigate("/dashboard", { replace: true });
   };
 
   return (
     <div className={styles.page}>
+      {contextHolder}
       <div className={styles.content}>
-        <div className={styles.title}>小四先生的栈</div>
+        <div className={styles.title}>{TITLE}</div>
 
         <Tabs
           centered
@@ -91,4 +99,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Index;

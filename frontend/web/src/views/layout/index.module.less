@@ -1,12 +1,12 @@
 @colorBg: #fff;
 
 .sider {
-  overflow: auto;
-  height  : 100vh;
-  position: fixed;
-  left    : 0;
-  top     : 0;
-  bottom  : 0;
+  min-height: 100vh;
+  overflow  : auto;
+  position  : fixed;
+  left      : 0;
+  top       : 0;
+  bottom    : 0;
 
   .logo_title {
     color          : @colorBg;
@@ -52,7 +52,8 @@
 .content {
   margin    : 24px 16px;
   padding   : 24px;
-  min-height: 280px;
+  max-height: calc(100vh - 64px - 48px); // 64px 头部 48px 外边距
+  overflow  : overlay;
   background: @colorBg;
 }
 

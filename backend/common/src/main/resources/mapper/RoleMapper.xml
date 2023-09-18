@@ -13,7 +13,6 @@
         from role
                  left join user_role ur on ur.role_id = role.id
         where ur.user_id = #{userId}
-          and role.is_deleted = 0
     </select>
 
     <!-- 根据 请求url 获取角色集合 -->
@@ -24,7 +23,14 @@
                  left join resource on resource.id = rr.resource_id
         where rr.request_url = #{requestUrl}
           and role.is_deleted = 0
-          and resource.is_deleted = 0
+    </select>
+
+    <!-- 得到游客角色 -->
+    <select id="getGuestRole" resultType="Role">
+        select *
+        from role
+        where role.name = 'ROLE_GUEST'
+          and role.is_deleted = 0
     </select>
 
 </mapper>
