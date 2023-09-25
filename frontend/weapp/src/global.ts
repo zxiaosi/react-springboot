@@ -30,4 +30,4 @@ export const userInfoStorage = "userInfo";
 export const locationStorage = "userLocation";
 
 /** 全局事件 */
-export const globalEvents = new Taro.Events();
+export const globalEvents = new Taro.Events();  

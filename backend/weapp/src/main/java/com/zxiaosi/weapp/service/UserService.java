@@ -3,6 +3,7 @@ package com.zxiaosi.weapp.service;
 
 import com.zxiaosi.common.entity.User;
 import com.zxiaosi.common.entity.vo.AccountVo;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 用户服务
@@ -34,12 +35,14 @@ public interface UserService {
      * @param userId 用户id
      * @return List<Role>
      */
+    @Transactional
     User getUserRolesByUserIdService(Integer userId);
 
     /**
      * 根据 用户id 更新用户信息
      * @param accountVo 用户信息
      */
+    @Transactional
     void updateUserService(AccountVo accountVo);
 
 }

@@ -21,16 +21,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //class目录下的
-//        registry
-//                .addResourceHandler("/**") // 以什么样的路径来访问静态资源
-//                .addResourceLocations("classpath:/static/"); // 指定静态资源文件的查找路径
+        // class目录下的
+        registry
+                .addResourceHandler("/images/**") // 以什么样的路径来访问静态资源
+                .addResourceLocations("classpath:/images/"); // 指定静态资源文件的查找路径
 
-        // 获取绝对路径
-        String staticPath = "file:" + PathUtils.getSavePath(this.getClass(), UPLOAD_PATH) + "\\";
-        System.out.println("图片映射路径: " + staticPath.replaceAll("\\\\", "/"));
+        String path = PathUtils.getSystemImagePath(UPLOAD_PATH);
+        System.out.println("windows | linux目录下的 = " + path);
 
-        //windows目录下的
-        registry.addResourceHandler("/images/**").addResourceLocations(staticPath.replaceAll("\\\\", "/"));
+        // windows | linux目录下的
+        registry.addResourceHandler("/images/**").addResourceLocations("file:" + path);
     }
 }

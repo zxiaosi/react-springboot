@@ -1,6 +1,9 @@
 package com.zxiaosi.common.utils;
 
-import org.springframework.boot.system.ApplicationHome;
+import org.springframework.util.ResourceUtils;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * 路径工具类
@@ -15,19 +18,34 @@ public class PathUtils {
     }
 
     /**
-     * 获取绝对路径
+     * 获取图片存放路径
+     * <a href="https://blog.csdn.net/weixin_43612925/article/details/123372621">参考</a>
      *
-     * @param clazz 父类
-     * @param path  路径
      * @return 绝对路径
      */
-    public static String getSavePath(Class<?> clazz, String path) {
-        // 这里需要注意的是ApplicationHome是属于SpringBoot的类
-        // 获取项目下resources/static/img路径
-        ApplicationHome applicationHome = new ApplicationHome(clazz);
+    public static String getSystemImagePath(String imagesPath) {
+        String imagePath = "";
+        try {
+            // 获取根目录
+            File path = new File(ResourceUtils.getURL("classpath:").getPath());
+            if (!path.exists()) {
+                path = new File("");
+            }
 
-        // 保存目录位置根据项目需求可随意更改
-        return applicationHome.getDir().getParentFile().getParentFile().getAbsolutePath() + path;
+            // 如果上传目录为/images/,则可以如下获取
+            File upload = new File(path.getAbsolutePath() + imagesPath);
+            if (!upload.exists()) {
+                upload.mkdirs();
+            }
+
+            // 需要拼接一个 / 上面方法生成的路径缺少/
+            imagePath = upload.getAbsolutePath() + File.separator;
+        } catch (FileNotFoundException e) {
+            System.out.println("getSystemImagePath 异常" + e);
+        }
+
+//        System.out.println("getSystemImagePath generate path = " + imagePath);
+        return imagePath;
     }
 
 }

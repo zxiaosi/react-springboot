@@ -4,7 +4,6 @@ import com.zxiaosi.common.exception.CustomException;
 import com.zxiaosi.common.utils.PathUtils;
 import com.zxiaosi.common.utils.Result;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.system.ApplicationHome;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * 文件上传
+ *
  * @author zxiaosi
  * @date 2023-09-15 13:41
  */
@@ -27,7 +28,9 @@ public class UploadController {
     @Value("${config.upload.path}")
     private String UPLOAD_PATH;
 
-
+    /**
+     * <a href="https://blog.csdn.net/JenSuper/article/details/106732776">参考</a>
+     */
     @PostMapping("/upload")
     public Result<?> upload(@RequestParam("file") MultipartFile fileUpload) throws IOException {
         if (fileUpload.isEmpty()) {
@@ -46,11 +49,8 @@ public class UploadController {
         // 生成新的文件名
         String newFileName = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date()) + suffixName;
 
-        // 获取项目下resources/static/img路径
-        File saveFile = new File(PathUtils.getSavePath(this.getClass(), UPLOAD_PATH), newFileName);
-        if (!saveFile.getParentFile().exists()) {  // 不存在，则创建该文件夹
-            saveFile.getParentFile().mkdirs();
-        }
+        // 获取项目下 resources/images 路径
+        File saveFile = new File(PathUtils.getSystemImagePath(UPLOAD_PATH) + newFileName);
 
         // 上传文件到本地
         fileUpload.transferTo(saveFile);

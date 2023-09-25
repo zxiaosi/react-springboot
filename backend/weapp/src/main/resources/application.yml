@@ -19,7 +19,7 @@ config:
     expire: 604800 # 7 * 24 * 60 * 60
     header: Authorization
   upload:
-    path: "\\src\\main\\resources\\images" # 上传文件的路径
+    path: /images/ # 上传文件的路径
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
