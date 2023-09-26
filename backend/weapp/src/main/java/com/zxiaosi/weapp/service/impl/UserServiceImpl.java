@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 /**
@@ -43,6 +44,7 @@ public class UserServiceImpl implements UserService {
         return appid.equals(appId);
     }
 
+    @Transactional
     @Override
     public String createTokenService(String code) {
         JSONObject openidSessionKey = wxUserService.getOpenIdSessionKeyService(code);
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
         if (ObjectUtils.isEmpty(user)) {
             user = new User();
             user.setOpenId(openId);
-            user.setUsername("微信用户");
+            user.setUsername("微信用户" + openId.substring(openId.length() - 4));
             user.setPassword(new BCryptPasswordEncoder().encode("123456"));
             userMapper.insertUser(user);
         }
@@ -65,6 +67,7 @@ public class UserServiceImpl implements UserService {
         return JwtUtils.createToken(openId, user.getId(), Integer.parseInt(expire));
     }
 
+    @Transactional
     @Override
     public User getUserRolesByUserIdService(Integer userId) {
         User user = userMapper.getUserByUserId(userId);
@@ -76,18 +79,9 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Transactional
     @Override
     public void updateUserService(AccountVo accountVo) {
-//        User user = userMapper.getUserByUsername(accountVo.getUsername());
-
-//        if (user != null && !user.getId().equals(accountVo.getId())) {
-//            throw new CustomException("用户名已存在!");
-//        }
-//
-//        if (user == null) {
-//            user = new User();
-//        }
-
         try {
             User user = new User();
             user.setId(accountVo.getId());
@@ -99,9 +93,8 @@ public class UserServiceImpl implements UserService {
 
             userMapper.updateUserByUserId(user);
         } catch (Exception e) {
-            throw new CustomException("用户不存在!");
+            throw new CustomException("更新用户信息失败!");
         }
-
     }
 
 }

@@ -4,10 +4,7 @@ import com.zxiaosi.common.entity.vo.QrCodeVo;
 import com.zxiaosi.common.utils.Result;
 import com.zxiaosi.web.service.WxQrCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -18,6 +15,7 @@ import java.io.IOException;
  * @date 2023-08-29 23:53
  */
 @RestController
+@RequestMapping("/api")
 public class WxQrCodeController {
 
     @Autowired

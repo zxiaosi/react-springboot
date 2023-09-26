@@ -1,20 +1,26 @@
+server:
+  port: 8082 # 配置端口
+
 spring:
   profiles:
     active: dev # 配置环境
-
-server:
-  port: 8082 # 配置端口
   servlet:
-    context-path: /api # 配置接口前缀
+    multipart: # 修改文件的上传大小
+      max-request-size: 5MB # 运行请求传递文件大小最大为5MB
+      max-file-size: 5MB # 运行服务器可以处理的最大文件大小
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.zxiaosi.common.entity
   configuration:
     map-underscore-to-camel-case: true # 大小写转换
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印sql语句
 
 # 自定义配置
 config:
   weixin:
     appid: wx25adff2e6b2572ed
-    secret: wx25adff2e6b2572edwx25adff2e6b25
+#    secret: wx25adff2e6b2572edwx25adff2e6b25
+    secret: b6941cfcf55bd59da4c04669eac4ef8b
+  upload:
+    path: /images/ # 上传文件的路径

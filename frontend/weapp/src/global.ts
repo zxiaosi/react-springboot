@@ -16,7 +16,7 @@ const baseApi = {
 };
 
 /** 请求路径 */
-export const baseUrl = baseApi[env] + (env == "develop" ? "/api" : "/wxapi");
+export const baseUrl = baseApi[env] + "/wxapi";
 
 /** 图片路径 */
 export const imageUrl = baseApi[env] + "/images/";

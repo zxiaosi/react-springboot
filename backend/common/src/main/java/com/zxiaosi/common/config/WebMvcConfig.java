@@ -1,4 +1,4 @@
-package com.zxiaosi.weapp.config;
+package com.zxiaosi.common.config;
 
 import com.zxiaosi.common.utils.PathUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +27,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/images/"); // 指定静态资源文件的查找路径
 
         String path = PathUtils.getSystemImagePath(UPLOAD_PATH);
-        System.out.println("windows | linux目录下的 = " + path);
+        System.out.println("windows | linux目录下的图片路径 = " + path);
 
         // windows | linux目录下的
         registry.addResourceHandler("/images/**").addResourceLocations("file:" + path);

@@ -4,6 +4,7 @@ import com.zxiaosi.common.utils.Result;
 import com.zxiaosi.web.service.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2023-08-31 18:38
  */
 @RestController
+@RequestMapping("/api")
 public class ResourceController {
 
     @Autowired

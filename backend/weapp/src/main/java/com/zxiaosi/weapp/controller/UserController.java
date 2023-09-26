@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
  * @date 2023-07-28 13:42
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/wxapi")
 public class UserController {
 
-    @Autowired
+    @Autowired//
     private UserService userService;
 
     @PostMapping("/login")

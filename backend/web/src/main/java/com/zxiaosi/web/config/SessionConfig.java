@@ -56,6 +56,7 @@ public class SessionConfig {
 //        serializer.setCookieName("JSESSIONID"); // spring-session 默认为 SESSION
         serializer.setCookiePath("/"); // 一定要设置, 否则无法在浏览器无法看到 cookie, 且无法获取
         serializer.setUseHttpOnlyCookie(false); // cookie 是否只读, 设置为false方便前端获取
+        serializer.setCookieMaxAge(24 * 60 * 60); // 配置session时间 单位 秒
         return serializer;
     }
 

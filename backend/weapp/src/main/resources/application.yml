@@ -1,25 +1,13 @@
+server:
+  port: 8081 # 配置端口
+
 spring:
   profiles:
     active: dev # 配置环境
   servlet:
     multipart: # 修改文件的上传大小
-      max-request-size: 5MB # 运行请求传递文件大小最大为10M
+      max-request-size: 5MB # 运行请求传递文件大小最大为5MB
       max-file-size: 5MB # 运行服务器可以处理的最大文件大小
-
-server:
-  port: 8081
-
-# 自定义配置
-config:
-  weixin:
-    appid: wx25adff2e6b2572ed
-    secret: wx25adff2e6b2572edwx25adff2e6b25
-  jwt:
-    secret: 2159cslsknjgvehr
-    expire: 604800 # 7 * 24 * 60 * 60
-    header: Authorization
-  upload:
-    path: /images/ # 上传文件的路径
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
@@ -27,3 +15,16 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true # 大小写转换
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl # 打印sql语句
+
+# 自定义配置
+config:
+  weixin:
+    appid: wx25adff2e6b2572ed
+#    secret: wx25adff2e6b2572edwx25adff2e6b25
+    secret: b6941cfcf55bd59da4c04669eac4ef8b
+  jwt:
+    secret: 2159cslsknjgvehr
+    expire: 604800 # 7 * 24 * 60 * 60
+    header: Authorization
+  upload:
+    path: /images/ # 上传文件的路径

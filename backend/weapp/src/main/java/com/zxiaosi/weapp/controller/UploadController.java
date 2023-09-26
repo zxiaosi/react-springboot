@@ -22,7 +22,7 @@ import java.util.Date;
  * @date 2023-09-15 13:41
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/wxapi")
 public class UploadController {
 
     @Value("${config.upload.path}")

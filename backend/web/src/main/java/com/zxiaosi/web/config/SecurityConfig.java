@@ -102,13 +102,13 @@ public class SecurityConfig {
                         return o;
                     }
                 })
-                .antMatchers("/login", "/wechat/qrcode").permitAll() // 不需要认证
+                .antMatchers("/api/login", "/api/wechat/qrcode").permitAll() // 不需要认证
                 .anyRequest().authenticated() // 其他请求需要认证
 
                 // 配置登出
                 .and()
                 .logout()
-                .logoutUrl("/logout") // 登出请求路径
+                .logoutUrl("/api/logout") // 登出请求路径
                 .invalidateHttpSession(true) // 使HttpSession失效
                 .clearAuthentication(true) // 清除认证信息
                 .logoutSuccessHandler(new MyLogoutSuccessHandler()) // 退出成功处理器
@@ -140,7 +140,7 @@ public class SecurityConfig {
     public MyUsernamePasswordAuthenticationFilter myUsernamePasswordAuthenticationFilter() {
         MyUsernamePasswordAuthenticationFilter filter = new MyUsernamePasswordAuthenticationFilter();
 
-        filter.setFilterProcessesUrl("/login");
+        filter.setFilterProcessesUrl("/api/login");
         filter.setUsernameParameter("username");
         filter.setPasswordParameter("password");
         filter.setAuthenticationSuccessHandler(new MyAuthenticationSuccessHandler());

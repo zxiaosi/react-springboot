@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { DownOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { Layout, Menu, Button, Image, MenuProps, Dropdown, Space } from "antd";
+import { Layout, Menu, Button, Image, MenuProps, Dropdown, Space, Avatar } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import logo from "@/assets/images/logo.png";
 import { generateMenu } from "@/router";
 import { clearLocal, getLocal, setLocal } from "@/request/auth";
 import styles from "./index.module.less";
-import { LOGIN_ROUTE, MENU_STORAGE, TITLE, USER_STORAGE } from "@/assets/js/global";
+import { DEFAULT_IMAGE, IMAGE_URL, LOGIN_ROUTE, MENU_STORAGE, TITLE, USER_STORAGE } from "@/assets/js/global";
 const { Header, Sider, Content } = Layout;
 import { useLogoutApi } from "@/apis";
 import { useSWRConfig } from "swr";
@@ -63,9 +63,8 @@ const Index = () => {
     if (code == 0) {
       clearLocal();
       navigate(LOGIN_ROUTE, { replace: true });
+      clearCache();
     }
-
-    clearCache();
   }
 
   /**
@@ -89,6 +88,8 @@ const Index = () => {
           <Button type="text" className={styles.collapsed} icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={handleCollapsed} />
 
           <div className={styles.right}>
+            <Avatar className={styles.avatar} src={<img src={userInfo.avatar ? IMAGE_URL + userInfo.avatar : DEFAULT_IMAGE} alt="avatar" />} />
+
             <Dropdown
               menu={{
                 items: [
@@ -112,7 +113,7 @@ const Index = () => {
               }}>
               <a onClick={(e) => e.preventDefault()}>
                 <Space>
-                  {userInfo?.username || "未知用户"}
+                  <div className={styles.username}>{userInfo?.username || "未知用户"}</div>
                   <DownOutlined />
                 </Space>
               </a>

@@ -6,7 +6,7 @@ export const TITLE: string = "小四先生的栈";
 /**
  * 是否是开发环境
  */
-export const IS_DEV: boolean = false;
+export const IS_DEV: boolean = true;
 
 /**
  * 开发、测试、线上环境
@@ -19,6 +19,13 @@ export const BASE_URL: string = IS_DEV ? DEVELOPMENT : PRODUCTION;
  * API地址
  */
 export const API_URL: string = BASE_URL + "/api";
+
+
+/**
+ * 图片地址
+ */
+export const IMAGE_URL: string = BASE_URL + "/images/";
+
 
 /**
  * 认证前缀
