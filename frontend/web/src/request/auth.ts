@@ -1,10 +1,10 @@
-import { AUTH_PREFIX } from "@/assets/js/global";
+import { AuthPrefix } from "@/assets/js/global";
 
 /*
  * 获取getItem
  * */
 export function getLocal(Key?: string | undefined) {
-  const local = localStorage.getItem(Key ? Key : AUTH_PREFIX);
+  const local = localStorage.getItem(Key ? Key : AuthPrefix);
   try {
     if (local) return JSON.parse(local);
   } catch (e) {
@@ -17,13 +17,13 @@ export function getLocal(Key?: string | undefined) {
  * */
 export function setLocal(Key?: string, params?: any) {
   if (params instanceof Object) params = JSON.stringify(params);
-  localStorage.setItem(Key ? Key : AUTH_PREFIX, params);
+  localStorage.setItem(Key ? Key : AuthPrefix, params);
 }
 /*
  * 移除removeItem
  * */
 export function removeLocal(key?: string) {
-  localStorage.removeItem(key ? key : AUTH_PREFIX);
+  localStorage.removeItem(key ? key : AuthPrefix);
 }
 
 /*

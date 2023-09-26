@@ -1,52 +1,49 @@
 import MyLayout from "@/components/myLayout";
-import { Swiper, SwiperItem, View } from "@tarojs/components";
-import { AtTimeline } from "taro-ui";
+import { View } from "@tarojs/components";
+import Taro from "@tarojs/taro";
 import styles from "./index.module.scss";
 
 // index.config.ts
 definePageConfig({});
 
-const changeLog = [
-  { title: "初始化项目", icon: "check-circle" },
-  { title: "封装请求方法", icon: "check-circle" },
-  { title: "审核小程序", icon: "check-circle" },
-  { title: "调试后端接口", icon: "check-circle" },
-  { title: "调试用户功能", icon: "check-circle" },
-  { title: "权限拦截", icon: "clock" },
-  { title: "开始业务详情", icon: "clock" },
-];
+const catalogList = [
+  { id: 1, name: "更新日志", icon: "bell", url: "/pages/subFeature/changeLog/index" },
+  { id: 2, name: "echart图", icon: "calendar", url: "" },
+  { id: 3, name: "地图", icon: "map-pin", url: "" },
+  { id: 4, name: "拍照", icon: "camera", url: "" },
+]
 
-function Feature() {
+const Index = () => {
+
+  const handleCatalog = (item) => {
+    if (item.url) {
+      Taro.navigateTo({ url: item.url + `?item=${JSON.stringify(item)}` });
+    } else {
+      Taro.showToast({ title: '功能正在开发中...', icon: 'none' });
+    }
+  }
+
   return (
-    <MyLayout tabId={1}>
+    <MyLayout
+      tabId={1}
+      navBarClass={styles.navBarClass}
+    >
       <View className={styles.page}>
-        <View className={styles.changeLog}>
-          <View>更新日志</View>
-          <AtTimeline className={styles.timeline} items={changeLog} />
-        </View>
+        {
+          catalogList.map((catalog) => (
+            <View key={catalog.id} className={styles.catalog} onClick={() => handleCatalog(catalog)}>
+              <View className={styles.left}>
+                <View className={`at-icon at-icon-${catalog.icon} ${styles.icon}`} />
+                <View className={styles.name} >{catalog.name}</View>
+              </View>
 
-        <Swiper
-          className={styles.swiper}
-          indicatorColor="#999"
-          indicatorActiveColor="#333"
-          vertical={false}
-          circular
-          indicatorDots
-          autoplay
-        >
-          <SwiperItem className={styles.swiperItem}>
-            <View className="at-icon at-icon-file-audio" />
-          </SwiperItem>
-          <SwiperItem className={styles.swiperItem}>
-            <View className="at-icon at-icon-file-code" />
-          </SwiperItem>
-          <SwiperItem className={styles.swiperItem}>
-            <View className="at-icon at-icon-file-png" />
-          </SwiperItem>
-        </Swiper>
+              <View className={`at-icon at-icon-chevron-right ${styles.right}`} />
+            </View>
+          ))
+        }
       </View>
     </MyLayout>
   );
 }
 
-export default Feature;
+export default Index;

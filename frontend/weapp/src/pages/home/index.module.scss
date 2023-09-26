@@ -1,3 +1,11 @@
+$bgColor: linear-gradient(90deg, #74DACE, #4DA1FC);
+
+.navBarClass {
+  color        : #fff;
+  background   : $bgColor;
+  border-bottom: 0;
+}
+
 .page {
   width : 100vw;
   height: 100%;
@@ -59,56 +67,11 @@
       }
     }
 
-    .btn {
-      margin: 40rpx 100rpx;
-    }
-  }
-
-  .table {
-    margin: 40rpx 0;
-
-    .row {
-      height    : 100rpx;
-      display   : flex;
-      border-top: 1px solid #ccc;
-
-      .col {
-        width          : 45vw;
-        display        : flex;
-        align-items    : center;
-        justify-content: center;
-
-        button {
-          padding        : 0;
-          margin         : 0;
-          width          : 100%;
-          border         : none;
-          outline        : none;
-          border-radius  : none;
-          background     : #fff;
-          display        : flex;
-          align-items    : center;
-          justify-content: center;
-
-          image {
-            width : 80rpx;
-            height: 80rpx;
-          }
-        }
-
-        button::after {
-          border: none;
-          color : transparent;
-        }
-      }
-
-      .col:first-child {
-        border-right: 1px solid #ccc;
-      }
-    }
-
-    .row:last-child {
-      border-bottom: 1px solid #ccc;
+    .update {
+      color     : #fff;
+      border    : 0;
+      margin    : 40rpx 100rpx;
+      background: $bgColor;
     }
   }
 }

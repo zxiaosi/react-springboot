@@ -2,6 +2,8 @@ server:
   port: 8081 # 配置端口
 
 spring:
+  jmx:
+    default-domain: weapp # 防止docker部署多个项目端口冲突
   profiles:
     active: dev # 配置环境
   servlet:
@@ -20,8 +22,7 @@ mybatis:
 config:
   weixin:
     appid: wx25adff2e6b2572ed
-#    secret: wx25adff2e6b2572edwx25adff2e6b25
-    secret: b6941cfcf55bd59da4c04669eac4ef8b
+    secret: wx25adff2e6b2572edwx25adff2e6b25
   jwt:
     secret: 2159cslsknjgvehr
     expire: 604800 # 7 * 24 * 60 * 60

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
-import { API_URL, LOGIN_ROUTE } from "@/assets/js/global";
+import { ApiUrl, LoginUrl } from "@/assets/js/global";
 import { clearLocal } from "./auth";
 import { message } from "antd";
 
@@ -12,7 +12,7 @@ import { message } from "antd";
  */
 
 // Axios全局配置 https://axios-http.com/docs/config_defaults
-axios.defaults.baseURL = API_URL;
+axios.defaults.baseURL = ApiUrl;
 
 // 请求拦截器(全局配置)
 axios.interceptors.request.use(
@@ -56,7 +56,7 @@ axios.interceptors.response.use(
         stateMsg = "warning";
         clearLocal();
         setTimeout(() => {
-          window.location.href = LOGIN_ROUTE;
+          window.location.href = LoginUrl;
         }, 2000);
       }
     } else { // 请求已经成功发起，但没有收到响应

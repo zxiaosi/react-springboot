@@ -1,0 +1,114 @@
+$bgColor: linear-gradient(90deg, #74DACE, #4DA1FC);
+
+.navBarClass {
+  color        : #fff;
+  background   : $bgColor;
+  border-bottom: 0;
+}
+
+.page {
+  position: relative;
+
+  .header {
+    width         : 100vw;
+    height        : 320rpx;
+    display       : flex;
+    flex-direction: column;
+    align-items   : center;
+    background    : $bgColor;
+    position      : relative;
+    margin-bottom : 80rpx; // 板块半高
+
+    .avatar {
+      width        : 140rpx;
+      height       : 140rpx;
+      border-radius: 50%;
+      border       : 2rpx solid #fff;
+      margin       : 24rpx 0 16rpx;
+    }
+
+    .name {
+      color: #fff;
+    }
+
+    .plateList {
+      width        : calc(100vw - 64rpx);
+      height       : 160rpx;
+      border-radius: 16rpx;
+      background   : #FFFFFF;
+      box-shadow   : 0px 4rpx 20rpx 0rpx rgba(61, 178, 43, 0.2);
+      position     : absolute;
+      left         : 32rpx;
+      bottom       : -80rpx;
+      display      : flex;
+
+      .plate {
+        flex           : 1;
+        display        : flex;
+        flex-direction : column;
+        justify-content: center;
+
+        .top {
+          font-size    : 36rpx;
+          font-weight  : 500;
+          text-align   : center;
+          color        : #323332;
+          margin-bottom: 8rpx;
+        }
+
+        .bottom {
+          font-size : 26rpx;
+          text-align: center;
+          color     : #969997;
+        }
+      }
+
+      .line {
+        width     : 2rpx;
+        height    : 46rpx;
+        background: #E6EBE7;
+        margin    : auto;
+      }
+    }
+  }
+
+  .menuList {
+    width    : calc(100vw - 64rpx);
+    margin   : 20px 32rpx;
+    display  : flex;
+    flex-flow: wrap;
+
+    .menu {
+      width          : 25%;
+      max-width      : 170rpx;
+      height         : 166rpx;
+      display        : flex;
+      flex-direction : column;
+      justify-content: center;
+      align-items    : center;
+
+      .icon {
+        color        : #4DA1FC;
+        font-size    : 40rpx;
+        margin-bottom: 16rpx;
+      }
+
+      .name {
+        font-size: 26rpx;
+        color    : #323332;
+      }
+    }
+  }
+
+  .logout {
+    width        : calc(100vw - 64rpx);
+    height       : 92rpx;
+    color        : #4DA1FC;
+    background   : #E6EBE7;
+    border-radius: 16rpx;
+    border       : 0;
+    margin       : 20rpx 32rpx;
+    position     : fixed;
+    bottom       : calc(120rpx + env(safe-area-inset-bottom)); // 底部tabBar(120rpx) + 安全区域(env(safe-area-inset-bottom))
+  }
+}

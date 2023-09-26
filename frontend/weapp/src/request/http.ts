@@ -1,4 +1,4 @@
-import { baseUrl } from "@/global";
+import { ApiUrl } from "@/global";
 import Taro from "@tarojs/taro";
 import interceptor from "./interceptors";
 
@@ -80,14 +80,14 @@ class HttpRequest {
   private normalizationUrl(url: string) {
     let requestUrl = url;
 
-    if (baseUrl[baseUrl.length - 1] === '/') {  // 判断 baseUrl 最后是否有 '/'
+    if (ApiUrl[ApiUrl.length - 1] === '/') {  // 判断 baseUrl 最后是否有 '/'
       requestUrl[0] === '/' && (requestUrl = requestUrl.replace('/', '')); // 去除 requestUrl 最前面的 '/'
     } else {
       requestUrl[0] !== '/' && (requestUrl = '/' + requestUrl); // 给 requestUrl 最前面加上 '/'
     }
 
     if (!/^https{0,1}:\/\//g.test(requestUrl)) { // 判断 requestUrl 是否是 http:// 或 https:// 开头
-      requestUrl = `${baseUrl}${requestUrl}`;
+      requestUrl = `${ApiUrl}${requestUrl}`;
     }
 
     return requestUrl;

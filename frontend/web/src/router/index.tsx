@@ -1,4 +1,4 @@
-import { LAYOUT_PAGE, LOGIN_ROUTE } from "@/assets/js/global";
+import { LayoutPage, LoginUrl } from "@/assets/js/global";
 import { lazy, Suspense } from "react";
 import { Navigate, RouteObject } from "react-router-dom";
 import * as Icons from "@ant-design/icons";
@@ -45,14 +45,14 @@ export const routers: MyRouteObject[] = [
     element: <Navigate to="/dashboard" replace={true} />,
   },
   {
-    path: LOGIN_ROUTE,
+    path: LoginUrl,
     meta: { title: "登录" },
-    element: lazyLoad(LOGIN_ROUTE),
+    element: lazyLoad(LoginUrl),
   },
   {
     path: "/",
-    id: LAYOUT_PAGE,
-    element: <IsAuth>{lazyLoad("/" + LAYOUT_PAGE)}</IsAuth>,
+    id: LayoutPage,
+    element: <IsAuth>{lazyLoad("/" + LayoutPage)}</IsAuth>,
   },
   {
     path: "*",
@@ -88,7 +88,7 @@ const iterateRouter = (data: any) => {
     result.push({
       path: item.menuUrl,
       meta: { title: item.name, icon: item.icon },
-      element: <DomTitle title={item.name}>{lazyLoad("/" + LAYOUT_PAGE + item.menuUrl)}</DomTitle>,
+      element: <DomTitle title={item.name}>{lazyLoad("/" + LayoutPage + item.menuUrl)}</DomTitle>,
     });
 
     if (item.children?.length > 0) result[index].children = iterateRouter(item.children);
@@ -104,7 +104,7 @@ export const generateRouter = (data: any) => {
   const dynamicRouters = data ? iterateRouter(data) : [];
 
   // 2. 合并所有路由 = 动态路由 + 静态路由
-  const idx = routers.findIndex((item: any) => item.id == LAYOUT_PAGE);
+  const idx = routers.findIndex((item: any) => item.id == LayoutPage);
   routers[idx].children = [...dynamicRouters];
 
   // 3. 静态路由添加标题 document.title - 可不要

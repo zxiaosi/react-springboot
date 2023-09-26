@@ -1,7 +1,6 @@
 import { View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { useEffect, useState } from "react";
-import { AtTabBar } from "taro-ui";
 import styles from "./index.module.scss";
 
 /**

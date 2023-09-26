@@ -2,14 +2,15 @@ import { useEffect, useMemo, useState } from "react";
 import { DownOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Layout, Menu, Button, Image, MenuProps, Dropdown, Space, Avatar } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import logo from "@/assets/images/logo.png";
 import { generateMenu } from "@/router";
 import { clearLocal, getLocal, setLocal } from "@/request/auth";
 import styles from "./index.module.less";
-import { DEFAULT_IMAGE, IMAGE_URL, LOGIN_ROUTE, MENU_STORAGE, TITLE, USER_STORAGE } from "@/assets/js/global";
+import { ImageUrl, LoginUrl, MenuStore, Title, UserInfoStore } from "@/assets/js/global";
 const { Header, Sider, Content } = Layout;
 import { useLogoutApi } from "@/apis";
 import { useSWRConfig } from "swr";
+import logo from "@/assets/images/logo.png";
+import defaultImg from "@/assets/images/default.png";
 
 const Index = () => {
   const { cache } = useSWRConfig();
@@ -22,9 +23,9 @@ const Index = () => {
 
   const { mutate } = useLogoutApi({}, { revalidateOnMount: false });
 
-  const userInfo = getLocal(USER_STORAGE); // 用户信息
+  const userInfo = getLocal(UserInfoStore); // 用户信息
 
-  const menuItems = useMemo(() => generateMenu(getLocal(MENU_STORAGE) || []), []); // 防止每次渲染都重新生成
+  const menuItems = useMemo(() => generateMenu(getLocal(MenuStore) || []), []); // 防止每次渲染都重新生成
 
   /** 监听浏览器地址栏路由变化 */
   useEffect(() => {
@@ -62,7 +63,7 @@ const Index = () => {
     const { data: { code } }: any = await mutate();
     if (code == 0) {
       clearLocal();
-      navigate(LOGIN_ROUTE, { replace: true });
+      navigate(LoginUrl, { replace: true });
       clearCache();
     }
   }
@@ -77,7 +78,7 @@ const Index = () => {
       <Sider className={styles.sider} trigger={null} collapsible collapsed={collapsed}>
         <div className={styles.logo_title}>
           <Image className={styles.logo} preview={false} src={logo} />
-          {!collapsed && <div className={styles.title}>{TITLE}</div>}
+          {!collapsed && <div className={styles.title}>{Title}</div>}
         </div>
 
         <Menu theme="dark" mode="inline" openKeys={parentMenu} selectedKeys={[currentMenu]} items={menuItems} onClick={handleMenu} onOpenChange={handleParentMenu} />
@@ -88,7 +89,7 @@ const Index = () => {
           <Button type="text" className={styles.collapsed} icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />} onClick={handleCollapsed} />
 
           <div className={styles.right}>
-            <Avatar className={styles.avatar} src={<img src={userInfo.avatar ? IMAGE_URL + userInfo.avatar : DEFAULT_IMAGE} alt="avatar" />} />
+            <Avatar className={styles.avatar} src={<img src={userInfo.avatar ? ImageUrl + userInfo.avatar : defaultImg} alt="avatar" />} />
 
             <Dropdown
               menu={{

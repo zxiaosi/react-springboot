@@ -2,7 +2,16 @@ export default defineAppConfig({
   pages: [
     "pages/home/index", // 首页
     "pages/feature/index", // 功能页
-    "pages/user/index", // 用户页
+    "pages/mine/index", // 用户页
+  ],
+  subpackages: [
+    {
+      root: "pages/subFeature",
+      pages: [
+        "index", // 占位页面
+        "changeLog/index", // 更新日志
+      ]
+    }
   ],
   tabBar: {
     list: [
@@ -15,7 +24,7 @@ export default defineAppConfig({
         text: "功能",
       },
       {
-        pagePath: "pages/user/index",
+        pagePath: "pages/mine/index",
         text: "用户",
       },
     ],

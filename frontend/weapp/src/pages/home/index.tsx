@@ -3,11 +3,11 @@ import { AtNoticebar } from "taro-ui";
 import Taro, { useReady } from "@tarojs/taro";
 import { useState } from "react";
 import MyLayout from "@/components/myLayout";
-import { baseUrl, imageUrl, tokenStorage, userInfoStorage } from "@/global";
+import { ApiUrl, ImageUrl, TokenStore, UserInfoStore } from "@/global";
 import { getUserInfoApi, updateUserApi } from "@/apis";
 import { getLocalSync, setLocalSync } from "@/request/auth";
 import styles from "./index.module.scss";
-import defaultAvatar from "@/images/default-avatar.jpg";
+import defaultImg from "@/images/default.png";
 import eye from "@/images/eye.png";
 import eyeClose from "@/images/eye-close.png";
 import { MyRegEx } from "@/utils/constant";
@@ -15,7 +15,7 @@ import { MyRegEx } from "@/utils/constant";
 // index.config.ts
 definePageConfig({});
 
-function Home() {
+const Index = () => {
   const [isShowPwd, setIsShowPwd] = useState(false); // 是否显示密码
 
   const [user, setUser] = useState({ // 用户信息
@@ -25,12 +25,13 @@ function Home() {
   });
 
   useReady(async () => {
-    let userInfo = getLocalSync(userInfoStorage);
+
+    let userInfo = getLocalSync(UserInfoStore);
 
     if (!userInfo) {
       const resp = await getUserInfoApi();
       userInfo = resp.data.data
-      setLocalSync(userInfoStorage, userInfo);
+      setLocalSync(UserInfoStore, userInfo);
     }
 
     setUser({ ...userInfo });
@@ -43,16 +44,16 @@ function Home() {
     console.log("handleAvatar", e.detail.avatarUrl);
 
     Taro.uploadFile({
-      url: baseUrl + "/upload",
+      url: ApiUrl + "/upload",
       name: 'file',
       filePath: e.detail.avatarUrl,
-      header: { Authorization: getLocalSync(tokenStorage) },
+      header: { Authorization: getLocalSync(TokenStore) },
       success: (res) => {
         const resp = JSON.parse(res.data);
         console.log("uploadFile-resp", resp);
         const userInfo = { ...user, avatar: resp.data }
         setUser(userInfo);
-        setLocalSync(userInfoStorage, userInfo);
+        setLocalSync(UserInfoStore, userInfo);
       },
       fail: (err) => {
         console.log("uploadFile-err", err);
@@ -105,19 +106,19 @@ function Home() {
       }
     }
 
-    const userInfo = { ...getLocalSync(userInfoStorage), ...user };
+    const userInfo = { ...getLocalSync(UserInfoStore), ...user };
     const { data: { msg, code } } = await updateUserApi({ ...userInfo });
     if (code == 0) {
       Taro.showToast({ title: '更新成功', icon: 'success' })
       delete userInfo.password;
-      setLocalSync(userInfoStorage, { ...userInfo });
+      setLocalSync(UserInfoStore, { ...userInfo });
     } else {
       Taro.showToast({ title: msg, icon: 'none' })
     }
   }
 
   return (
-    <MyLayout tabId={0}>
+    <MyLayout tabId={0} navBarClass={styles.navBarClass}>
       <View className={styles.page}>
         {/* 
           获取用户信息: https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01
@@ -166,12 +167,12 @@ function Home() {
                 openType="chooseAvatar"
                 onChooseAvatar={handleAvatar}
               >
-                <Image src={user.avatar ? (imageUrl + user.avatar) : defaultAvatar} />
+                <Image src={user.avatar ? (ImageUrl + user.avatar) : defaultImg} />
               </Button>
             </View>
           </View>
 
-          <Button type="primary" className={styles.btn} onClick={handleSumit}>
+          <Button plain type="primary" className={styles.update} onClick={handleSumit}>
             更新账号信息
           </Button>
         </View>
@@ -183,4 +184,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Index;

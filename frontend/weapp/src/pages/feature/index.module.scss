@@ -1,21 +1,37 @@
+$bgColor: linear-gradient(90deg, #74DACE, #4DA1FC);
+
+.navBarClass {
+  color        : #fff;
+  background   : $bgColor;
+  border-bottom: 0;
+}
+
 .page {
+  color : #fff;
+  margin: 24rpx 32rpx;
 
-  .changeLog {
-    margin: 20rpx;
+  .catalog {
+    height         : 100rpx;
+    padding        : 0 20rpx;
+    margin-top     : 20rpx;
+    border-radius  : 10rpx;
+    background     : $bgColor;
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
 
-    .timeline {
-      margin-top: 20rpx;
+    .left {
+      display    : flex;
+      align-items: center;
+
+      .icon {
+        font-size   : 34rpx;
+        margin-right: 20rpx;
+      }
+
+      .name {}
     }
-  }
 
-  .swiper {
-    margin: 20rpx;
-
-    .swiperItem {
-      display        : flex;
-      align-items    : center;
-      justify-content: center;
-      font-size      : 40rpx;
-    }
+    .right {}
   }
 }

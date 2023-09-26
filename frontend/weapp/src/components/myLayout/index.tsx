@@ -22,13 +22,16 @@ const tabList = [
   {
     title: "我的",
     iconType: "user",
-    url: "/pages/user/index",
+    url: "/pages/mine/index",
   },
 ];
 
 interface Props extends Partial<MyNavBarProps & CustomTabBarProps> {
   /** 当前 tabId */
   tabId: number;
+
+  /** 额外的高度 */
+  extraHeight?: string;
 
   /** MyLayout子组件 */
   children?: ReactNode;
@@ -39,7 +42,7 @@ interface Props extends Partial<MyNavBarProps & CustomTabBarProps> {
  * @param props {@link Props}
  */
 const MyLayout = (props: Props) => {
-  const { tabId, leftIcon, navBarClass } = props;
+  const { tabId, leftIcon, navBarClass, extraHeight } = props;
 
   return (
     <View>
@@ -58,7 +61,7 @@ const MyLayout = (props: Props) => {
         scrollY
         scrollWithAnimation
         style={{
-          height: `calc(100vh - ${statusBarHeight + navHeight}px - 120rpx - env(safe-area-inset-bottom))`,
+          height: `calc(100vh - ${statusBarHeight + navHeight}px - 120rpx - env(safe-area-inset-bottom) - ${extraHeight})`,
         }}
       >
         {props?.children}

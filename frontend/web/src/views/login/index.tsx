@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Button, Image, Input, message, Tabs } from "antd";
 import { KeyOutlined, LockOutlined, UserOutlined, WechatOutlined } from "@ant-design/icons";
 import { useWeappQrcodeApi, useLoginApi } from "@/apis";
-import { DEFAULT_IMAGE, TITLE, USER_STORAGE } from "@/assets/js/global";
+import { Title, UserInfoStore } from "@/assets/js/global";
 import beian from "@/assets/images/beian.png";
 import styles from "./index.module.less";
 import { setLocal } from "@/request/auth";
+import defaultImg from "@/assets/images/default.png";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const Index = () => {
       return;
     }
     const { data: { data, code } }: any = await mutate();
-    setLocal(USER_STORAGE, data);
+    setLocal(UserInfoStore, data);
     code === 0 && navigate("/dashboard", { replace: true });
   };
 
@@ -45,7 +46,7 @@ const Index = () => {
     <div className={styles.page}>
       {contextHolder}
       <div className={styles.content}>
-        <div className={styles.title}>{TITLE}</div>
+        <div className={styles.title}>{Title}</div>
 
         <Tabs
           centered
@@ -78,7 +79,7 @@ const Index = () => {
                   扫码注册
                 </span>
               ),
-              children: <Image src={repsonse?.data ? "data:image/jpeg;base64," + repsonse?.data : DEFAULT_IMAGE} preview={false} />,
+              children: <Image src={repsonse?.data ? "data:image/jpeg;base64," + repsonse?.data : defaultImg} preview={false} />,
             },
           ]}
         />
