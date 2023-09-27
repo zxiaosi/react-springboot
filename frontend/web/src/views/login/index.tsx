@@ -33,10 +33,6 @@ const Index = () => {
    * 登录
    */
   const handleLogin = async () => {
-    if (form.username == "微信用户") {
-      messageApi.warning("请前往小程序更新用户信息");
-      return;
-    }
     const { data: { data, code } }: any = await mutate();
     setLocal(UserInfoStore, data);
     code === 0 && navigate("/dashboard", { replace: true });

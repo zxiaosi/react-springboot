@@ -1,6 +1,6 @@
 package com.zxiaosi.web.service;
 
-import com.zxiaosi.common.entity.User;
+import com.zxiaosi.common.entity.vo.UserVo;
 
 /**
  * 用户服务
@@ -10,6 +10,9 @@ import com.zxiaosi.common.entity.User;
  */
 public interface UserService {
 
-    User getUserService();
+    /**
+     * 获取当前用户
+     */
+    UserVo getCurrentUser();
 
 }

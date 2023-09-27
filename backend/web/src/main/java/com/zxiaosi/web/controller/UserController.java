@@ -20,7 +20,7 @@ public class UserController {
 
     @GetMapping("/userInfo")
     public Result<?> user() {
-        return Result.success(userService.getUserService());
+        return Result.success(userService.getCurrentUser());
     }
 
 }

@@ -2,3 +2,18 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* 加载框 */
+.globalSpinContext {
+  width: 100%;
+  height: calc(100% - 16px);
+  background-color: rgba(22, 119, 255, 0.1);
+  border-radius: 8px;
+  position: relative;
+}
+
+.globalSpin {
+  position: absolute;
+  top: 50%;
+  inset-inline-start: 50%;
+}

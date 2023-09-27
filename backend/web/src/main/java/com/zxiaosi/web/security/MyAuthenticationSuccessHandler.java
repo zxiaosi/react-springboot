@@ -26,6 +26,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         UserVo userVo = new UserVo();
         BeanUtils.copyProperties(authentication.getPrincipal(), userVo); // 深拷贝
+        userVo.setRoleName(authentication.getAuthorities().toArray()[0].toString());
         GenericRespUtils.resp(response, Result.success(userVo));
     }
 

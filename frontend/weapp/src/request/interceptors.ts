@@ -1,20 +1,20 @@
 import Taro from "@tarojs/taro";
 import { LoginUrl, TokenStore } from "@/global";
 import { post } from ".";
-import { removeLocalSync } from "./auth";
+import { getLocalSync, removeLocalSync, setLocalSync } from "./auth";
 import { IRequestOption } from "./http";
 
 /**
  * 获取 Token
  */
 export async function requestToken() {
-  let token = Taro.getStorageSync(TokenStore) || "";
+  let token = getLocalSync(TokenStore);
 
   if (!token) {
     const appid = Taro.getAccountInfoSync().miniProgram.appId;
     const { code } = await Taro.login();
     const { data: { data }, } = await post(`/login?code=${code}&appId=${appid}`, {}, { isNeedToken: false });
-    Taro.setStorageSync(TokenStore, data);
+    setLocalSync(TokenStore, data);
     token = data;
   }
 

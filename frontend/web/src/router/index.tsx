@@ -5,6 +5,7 @@ import * as Icons from "@ant-design/icons";
 import React from "react";
 import IsAuth from "./isAuth";
 import DomTitle from "./domTitle";
+import { Skeleton, Space, Spin } from "antd";
 // 参考 https://juejin.cn/post/7132393527501127687
 
 /** 导入指定文件下的路由模块 */
@@ -15,7 +16,13 @@ const lazyLoad = (moduleName: string) => {
   const Module = lazy(modules[`/src/views${moduleName}/index.tsx`] as any);
 
   return (
-    <Suspense fallback={<div>loading...</div>}>
+    <Suspense
+      fallback={
+        <Space direction="vertical" className="globalSpinContext">
+          <Spin size="large" className="globalSpin" />
+        </Space>
+      }
+    >
       <Module />
     </Suspense>
   );

@@ -3,6 +3,7 @@ package com.zxiaosi.weapp.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.zxiaosi.common.entity.vo.AccountVo;
+import com.zxiaosi.common.entity.vo.UserVo;
 import com.zxiaosi.common.mapper.RoleMapper;
 import com.zxiaosi.common.mapper.UserMapper;
 import com.zxiaosi.common.entity.User;
@@ -10,12 +11,19 @@ import com.zxiaosi.common.exception.CustomException;
 import com.zxiaosi.weapp.utils.JwtUtils;
 import com.zxiaosi.weapp.service.UserService;
 import com.zxiaosi.weapp.service.WxUserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+
+import java.util.Collection;
 
 /**
  * @author zxiaosi
@@ -57,10 +65,12 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.getUserByOpenId(openId);
 
         if (ObjectUtils.isEmpty(user)) {
+            String encodePwd = new BCryptPasswordEncoder().encode("123456");
+
             user = new User();
             user.setOpenId(openId);
-            user.setUsername("微信用户" + openId.substring(openId.length() - 4));
-            user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+            user.setUsername("微信用户" + encodePwd.substring(encodePwd.length() - 4));
+            user.setPassword(encodePwd);
             userMapper.insertUser(user);
         }
 
@@ -79,7 +89,6 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Transactional
     @Override
     public void updateUserService(AccountVo accountVo) {
         try {
@@ -97,4 +106,14 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public UserVo getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(authentication.getPrincipal(), userVo); // 深拷贝
+        userVo.setRoleName(authentication.getAuthorities().toArray()[0].toString());
+
+        return userVo;
+    }
 }

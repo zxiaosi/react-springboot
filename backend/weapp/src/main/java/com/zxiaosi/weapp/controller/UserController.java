@@ -1,11 +1,17 @@
 package com.zxiaosi.weapp.controller;
 
+import com.zxiaosi.common.entity.User;
 import com.zxiaosi.common.entity.vo.AccountVo;
 import com.zxiaosi.common.utils.Result;
 import com.zxiaosi.weapp.service.UserService;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 /**
  * @author zxiaosi
@@ -30,8 +36,7 @@ public class UserController {
 
     @GetMapping("/userInfo")
     public Result<?> getUserInfo() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return Result.success(principal);
+        return Result.success(userService.getCurrentUser());
     }
 
     @PostMapping("/updateUser")

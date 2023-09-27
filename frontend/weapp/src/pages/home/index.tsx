@@ -53,7 +53,6 @@ const Index = () => {
         console.log("uploadFile-resp", resp);
         const userInfo = { ...user, avatar: resp.data }
         setUser(userInfo);
-        setLocalSync(UserInfoStore, userInfo);
       },
       fail: (err) => {
         console.log("uploadFile-err", err);
@@ -79,16 +78,6 @@ const Index = () => {
    */
   const handleSumit = async () => {
     console.log("handleSumit", user);
-    if (user.username?.length <= 0 || user.username == null) {
-      Taro.showToast({ title: '用户名不能为空', icon: 'none' })
-      return;
-    }
-
-    if (user.username == "微信用户") {
-      Taro.showToast({ title: '用户名不能为微信用户', icon: 'none' })
-      return;
-    }
-
     if (!MyRegEx.UserName.test(user.username)) {
       Taro.showToast({ title: '用户名格式不正确', icon: 'none' })
       return;
@@ -111,14 +100,17 @@ const Index = () => {
     if (code == 0) {
       Taro.showToast({ title: '更新成功', icon: 'success' })
       delete userInfo.password;
-      setLocalSync(UserInfoStore, { ...userInfo });
+      setLocalSync(UserInfoStore, userInfo);
     } else {
       Taro.showToast({ title: msg, icon: 'none' })
     }
   }
 
   return (
-    <MyLayout tabId={0} navBarClass={styles.navBarClass}>
+    <MyLayout
+      tabId={0}
+      navBarClass={styles.navBarClass}
+    >
       <View className={styles.page}>
         {/* 
           获取用户信息: https://developers.weixin.qq.com/community/develop/doc/00022c683e8a80b29bed2142b56c01

@@ -3,6 +3,7 @@ package com.zxiaosi.weapp.service;
 
 import com.zxiaosi.common.entity.User;
 import com.zxiaosi.common.entity.vo.AccountVo;
+import com.zxiaosi.common.entity.vo.UserVo;
 
 /**
  * 用户服务
@@ -38,8 +39,14 @@ public interface UserService {
 
     /**
      * 根据 用户id 更新用户信息
+     *
      * @param accountVo 用户信息
      */
     void updateUserService(AccountVo accountVo);
+
+    /**
+     * 获取当前用户
+     */
+    UserVo getCurrentUser();
 
 }

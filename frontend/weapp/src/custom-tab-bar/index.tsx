@@ -1,5 +1,5 @@
 import { View } from "@tarojs/components";
-import Taro from "@tarojs/taro";
+import Taro, { useRouter } from "@tarojs/taro";
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 
@@ -24,10 +24,10 @@ export interface CustomTabBarProps {
  */
 const CustomTabBar = (props: CustomTabBarProps) => {
   const { tabList, onClick } = props;
-  const [selected, setSelected] = useState(0);
 
-  const pages = Taro.getCurrentPages(); // 获取当前页面栈
-  const currentPage = pages[0]; // 获取当前页面
+  const router = useRouter(); // 获取当前页面路由
+
+  const [selected, setSelected] = useState(0); // 当前选中的Tab
 
   // Taro.useDidShow(() => {
   //   const pageObj = Taro.getCurrentInstance().page;
@@ -38,11 +38,11 @@ const CustomTabBar = (props: CustomTabBarProps) => {
   // 监听路由变化, 防止 tabbar 选中状态不同步
   useEffect(() => {
     const index = tabList?.findIndex(
-      (item: any) => item.url === "/" + currentPage.route
+      (item: any) => item.url === router.path
     );
 
     index > -1 && setSelected(index);
-  }, [currentPage.route]);
+  }, [router.path]);
 
   /** 切换Tab */
   const switchTab = (index: number, url: string) => {

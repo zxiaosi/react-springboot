@@ -20,7 +20,7 @@ const Index = () => {
   /**
    * 搜索事件
    */
-  const onSearch = () => {
+  const handleSearch = () => {
     setSearch({ ...search, loading: true });
 
     // 模拟请求
@@ -34,7 +34,7 @@ const Index = () => {
   /**
    * 展开所有评论
    */
-  const onOpenAllComment = () => {
+  const handleOpenAllComment = () => {
     setIsOpen(!isOpen);
     resetIsReply()
   }
@@ -42,7 +42,7 @@ const Index = () => {
   /**
    * 展开子评论
    */
-  const onOpenComment = (idx: number) => {
+  const handleOpenComment = (idx: number) => {
     console.log("onOpenComment", idx);
     isReply[idx] = !isReply[idx]; // 切换当前评论的回复状态
     isReply.splice(idx + 1); // 删除当前评论下的所有子状态
@@ -111,7 +111,7 @@ const Index = () => {
                   <MessageOutlined />
                   <div>{item.repliedCount}</div>
                 </div>
-                <div className={styles.otherInfoItem} onClick={() => item?.children.length > 0 ? onOpenComment(item.id) : {}}>
+                <div className={styles.otherInfoItem} onClick={() => item?.children.length > 0 ? handleOpenComment(item.id) : {}}>
                   <EditOutlined />
                   <div>回复评论</div>
                 </div>
@@ -143,7 +143,7 @@ const Index = () => {
         <div className={styles.searchBtn}>
           <Space.Compact className={styles.search}>
             <Input value={search.value} placeholder="请输入" prefix={<SearchOutlined style={{ color: "#BFBFBF" }} />} onChange={(e) => setSearch({ ...search, value: e.target.value })} />
-            <Button type="primary" loading={search.loading} onClick={onSearch}>{search.loading ? "正在搜索" : "搜索"}</Button>
+            <Button type="primary" loading={search.loading} onClick={handleSearch}>{search.loading ? "正在搜索" : "搜索"}</Button>
           </Space.Compact>
 
           <Button type="primary">我要提问</Button>
@@ -196,7 +196,7 @@ const Index = () => {
                   size="small"
                   className={styles.tagRight}
                   icon={<MessageOutlined />}
-                  onClick={onOpenAllComment}
+                  onClick={handleOpenAllComment}
                 >点我展开评论</Button>
               </div>
 

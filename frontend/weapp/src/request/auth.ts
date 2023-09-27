@@ -5,8 +5,7 @@ import Taro from "@tarojs/taro";
  * Taro.getStorageSync
  */
 export function getLocalSync(Key?: string | undefined) {
-  const local = Taro.getStorageSync(Key ? Key : UserInfoStore);
-  return local || null;
+  return Taro.getStorageSync(Key ? Key : UserInfoStore);
 }
 
 /**

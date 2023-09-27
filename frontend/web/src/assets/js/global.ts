@@ -2,7 +2,7 @@
 export const Title: string = "小四先生的栈";
 
 /** 是否是开发环境 */
-export const IsDev: boolean = false;
+export const IsDev: boolean = true;
 
 /**
  * 开发、测试、线上环境

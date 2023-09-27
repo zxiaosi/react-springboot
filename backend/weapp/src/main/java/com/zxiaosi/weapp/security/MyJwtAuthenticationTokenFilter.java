@@ -71,6 +71,10 @@ public class MyJwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
             List<SimpleGrantedAuthority> authorities = user.getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 
+            if (ObjectUtils.isEmpty(authorities)) { // 如果没有角色，就给他一个游客角色
+                authorities.add(new SimpleGrantedAuthority("ROLE_GUEST"));
+            }
+
             UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user, null, authorities); // 添加Token令牌
             SecurityContextHolder.getContext().setAuthentication(authRequest); // 将token加入安全上下文
             chain.doFilter(request, response);

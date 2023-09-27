@@ -27,6 +27,8 @@ const Index = () => {
 
   const menuItems = useMemo(() => generateMenu(getLocal(MenuStore) || []), []); // 防止每次渲染都重新生成
 
+
+
   /** 监听浏览器地址栏路由变化 */
   useEffect(() => {
     const pageCurrentMenu = location.pathname;
@@ -73,6 +75,15 @@ const Index = () => {
    */
   const clearCache = () => [...cache.keys()].forEach((key) => cache.delete(key));
 
+  /**
+   * 下拉菜单
+   */
+  const dropdownMenu = [
+    { key: "1", text: "Github仓库", url: "https://github.com/zxiaosi/react-springboot" },
+    { key: "2", text: "Gitee仓库", url: "https://gitee.com/zxiaosi/react-springboot" },
+    { key: "3", text: "退出登录", func: handleLogout },
+  ]
+
   return (
     <Layout>
       <Sider className={styles.sider} trigger={null} collapsible collapsed={collapsed}>
@@ -93,24 +104,14 @@ const Index = () => {
 
             <Dropdown
               menu={{
-                items: [
-                  {
-                    key: "1",
-                    label: (
-                      <a target="_blank" rel="noopener noreferrer" href="https://github.com/zxiaosi/react-springboot">
-                        Github仓库
-                      </a>
-                    ),
-                  },
-                  {
-                    key: "2",
-                    label: (
-                      <div onClick={handleLogout}>
-                        退出登录
-                      </div>
-                    ),
-                  },
-                ],
+                items: dropdownMenu.map((dropdown) => {
+                  return {
+                    key: dropdown.key,
+                    label: dropdown.url
+                      ? <a target="_blank" rel="noopener noreferrer" href={dropdown.url}> {dropdown.text} </a>
+                      : <div onClick={dropdown.func}>{dropdown.text}</div>
+                  }
+                })
               }}>
               <a onClick={(e) => e.preventDefault()}>
                 <Space>
