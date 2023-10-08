@@ -1,5 +1,5 @@
 import { View, Image, Input, Button } from "@tarojs/components";
-import { AtNoticebar } from "taro-ui";
+import { AtIcon, AtNoticebar } from "taro-ui";
 import Taro, { useReady } from "@tarojs/taro";
 import { useState } from "react";
 import MyLayout from "@/components/myLayout";
@@ -7,9 +7,9 @@ import { ApiUrl, ImageUrl, TokenStore, UserInfoStore } from "@/global";
 import { getUserInfoApi, updateUserApi } from "@/apis";
 import { getLocalSync, setLocalSync } from "@/request/auth";
 import styles from "./index.module.scss";
-import defaultImg from "@/images/default.png";
-import eye from "@/images/eye.png";
-import eyeClose from "@/images/eye-close.png";
+import defaultImg from "@/assets/images/default.png";
+import eye from "@/assets/images/eye.png";
+import eyeClose from "@/assets/images/eye-close.png";
 import { MyRegEx } from "@/utils/constant";
 
 // index.config.ts
@@ -109,7 +109,7 @@ const Index = () => {
   return (
     <MyLayout
       tabId={0}
-      navBarClass={styles.navBarClass}
+      isUseBgColor={true} // 是否使用背景(主题)色
     >
       <View className={styles.page}>
         {/* 
@@ -148,7 +148,7 @@ const Index = () => {
                 onInput={(e) => setUser({ ...user, password: e.detail.value })}
                 value={user.password}
               />
-              <Image className={styles.eye} src={isShowPwd ? eye : eyeClose} onClick={() => { setIsShowPwd(!isShowPwd) }} />
+              <AtIcon prefixClass='iconfont' value={isShowPwd ? "eye" : "eye-close"} className={styles.eye} onClick={() => { setIsShowPwd(!isShowPwd) }} />
             </View>
 
             <View className={styles.formItem}>

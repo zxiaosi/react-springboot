@@ -1,6 +1,47 @@
 import Taro from "@tarojs/taro";
 import { MyRegEx } from "./constant";
 
+let isUpdate = false; // 是否更新
+
+/**
+ * 版本更新提示
+ */
+export function updateManager() {
+  const updateManager = Taro.getUpdateManager();
+
+  updateManager.onCheckForUpdate(function (res) {
+    // 请求完新版本信息的回调
+    console.log(`%c是否存在最新版本 ${res.hasUpdate}`, "color:yellow");
+
+    if (!(res.hasUpdate && !isUpdate)) {
+      isUpdate = true;
+
+      // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+      updateManager.onUpdateReady(function () {
+        console.log("%c小程序更新成功", "color:green");
+
+        let timer1 = setTimeout(() => {
+          updateManager.applyUpdate();
+          isUpdate = false;
+          clearTimeout(timer1);
+        }, 1000);
+      });
+
+      updateManager.onUpdateFailed(function (res) {
+        console.log(`%c小程序更新失败 ${res}`, "color:red");
+
+        let timer2 = setTimeout(() => {
+          isUpdate = false;
+          // 提示 更新失败
+          Taro.showToast({ title: "版本更新失败，请删除小程序重新进入" });
+          clearTimeout(timer2);
+        }, 1000);
+      });
+
+    }
+  });
+}
+
 /**
  * 获取系统环境
  * @returns 系统环境 develop 开发环境 trial 体验版 release 正式版

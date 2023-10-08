@@ -31,6 +31,9 @@ export interface MyNavBarProps {
   /** 自定义导航栏样式 */
   navBarClass?: string;
 
+  /** 是否使用背景色 -- 主题色 */
+  isUseBgColor?: boolean;
+
   /** 自定义返回事件 */
   backFunc?: () => void;
 }
@@ -46,7 +49,8 @@ const MyNavBar = (props: MyNavBarProps) => {
     iconColor = "#000",
     backUrl,
     modalText,
-    navBarClass,
+    navBarClass = false,
+    isUseBgColor,
     backFunc,
   } = props;
 
@@ -87,7 +91,7 @@ const MyNavBar = (props: MyNavBarProps) => {
 
   return (
     <View
-      className={`${styles.navBar} ${navBarClass}`}
+      className={`${styles.navBar} ${isUseBgColor && styles.bg} ${navBarClass} `}
       style={{
         height: statusBarHeight + navHeight + "px",
         paddingTop: statusBarHeight + "px",

@@ -1,3 +1,5 @@
+$bgColor: linear-gradient(90deg, #74DACE, #4DA1FC);
+
 .navBar,
 .back,
 .title {
@@ -25,4 +27,10 @@
     justify-content: center;
     font-weight    : bold;
   }
+}
+
+.bg {
+  color        : #fff;
+  background   : $bgColor;
+  border-bottom: 0;
 }

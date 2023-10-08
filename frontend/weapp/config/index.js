@@ -46,7 +46,7 @@ const config = {
       url: { // 小程序端样式引用本地资源内联配置
         enable: true,
         config: {
-          limit: 1024 // 设定转换尺寸上限, 单位为 b,(图片超过这个大小 不会 转为base64)
+          limit: 10240 // 设定转换尺寸上限, 单位为 b,(图片超过这个大小 不会 转为base64)
         }
       },
       cssModules: {

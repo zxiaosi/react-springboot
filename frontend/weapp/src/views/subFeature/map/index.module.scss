@@ -1,0 +1,39 @@
+.page {
+  position: relative;
+
+  .modal {
+    width          : calc(100vw - 112rpx);
+    background     : #fff;
+    border-radius  : 16rpx;
+    box-shadow     : 0 0 16rpx 0 rgba(0, 0, 0, 0.16);
+    padding        : 24rpx;
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+    position       : absolute;
+    bottom         : 20rpx;
+    left           : 32rpx;
+
+    .left {
+      flex        : 1;
+      margin-right: 32rpx;
+
+      .title {
+        font-weight  : bold;
+        margin-bottom: 8rpx;
+      }
+
+      .address {
+        font-size: small;
+        color    : #999;
+      }
+    }
+
+    .right {
+      width        : 80rpx;
+      height       : 80rpx;
+      border       : 2rpx solid #ccc;
+      border-radius: 50%;
+    }
+  }
+}

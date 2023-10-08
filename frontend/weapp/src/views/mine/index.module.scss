@@ -1,11 +1,5 @@
 $bgColor: linear-gradient(90deg, #74DACE, #4DA1FC);
 
-.navBarClass {
-  color        : #fff;
-  background   : $bgColor;
-  border-bottom: 0;
-}
-
 .page {
   position: relative;
 
@@ -89,7 +83,7 @@ $bgColor: linear-gradient(90deg, #74DACE, #4DA1FC);
 
       .icon {
         color        : #4DA1FC;
-        font-size    : 40rpx;
+        font-size    : 40rpx !important;
         margin-bottom: 16rpx;
       }
 

@@ -1,18 +1,19 @@
 import { useState } from "react";
 import Taro, { useDidShow } from "@tarojs/taro";
-import { View, Button, Image } from "@tarojs/components";
+import { View, Button, Image, WebView } from "@tarojs/components";
 import MyLayout from "@/components/myLayout";
 import { ImageUrl, LoginUrl, UserInfoStore } from "@/global";
 import { getLocalSync, removeLocalSync } from "@/request/auth";
-import defaultImg from "@/images/default.png";
+import defaultImg from "@/assets/images/default.png";
 import styles from "./index.module.scss";
+import { AtIcon } from "taro-ui";
 
 // index.config.ts
 definePageConfig({});
 
 const catalog = [
-  { id: 1, name: "公告通知", icon: "bell", url: "/pages/order/index" },
-  { id: 2, name: "关于项目", icon: "settings", url: "/pages/collection/index" },
+  { id: 1, name: "公告通知", icon: "notice", url: "/views/order/index" },
+  { id: 2, name: "关于项目", icon: "about", url: "/views/collection/index" },
 ];
 
 // 仅支持在正式版小程序中获取
@@ -41,6 +42,7 @@ const Index = () => {
    */
   const handleClick = (item) => {
     Taro.showToast({ title: "功能正在开发中...", icon: "none" });
+    Taro.openDocument
   };
 
   /**
@@ -56,7 +58,7 @@ const Index = () => {
     <MyLayout
       tabId={2}
       extraHeight={"132rpx"} // 底部退出登录按钮高度
-      navBarClass={styles.navBarClass}
+      isUseBgColor={true} // 是否使用背景(主题)色
     >
       <View className={styles.page}>
 
@@ -91,7 +93,7 @@ const Index = () => {
               className={styles.menu}
               onClick={() => handleClick(menu)}
             >
-              <View className={`at-icon at-icon-${menu.icon} ${styles.icon}`} />
+              <AtIcon prefixClass='iconfont' value={menu.icon} className={styles.icon} />
               <View className={styles.name}>{menu.name}</View>
             </View>
           ))}

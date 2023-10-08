@@ -1,34 +1,42 @@
 export default defineAppConfig({
   pages: [
-    "pages/home/index", // 首页
-    "pages/feature/index", // 功能页
-    "pages/mine/index", // 用户页
+    "views/home/index", // 首页
+    "views/feature/index", // 功能页
+    "views/mine/index", // 用户页
   ],
   subpackages: [
     {
-      root: "pages/subFeature",
+      root: "views/subFeature",
       pages: [
         "index", // 占位页面
         "changeLog/index", // 更新日志
+        "map/index", // 地图
       ]
     }
   ],
   tabBar: {
     list: [
       {
-        pagePath: "pages/home/index",
+        pagePath: "views/home/index",
         text: "首页",
       },
       {
-        pagePath: "pages/feature/index",
+        pagePath: "views/feature/index",
         text: "功能",
       },
       {
-        pagePath: "pages/mine/index",
+        pagePath: "views/mine/index",
         text: "用户",
       },
     ],
     custom: true, // 自定义tabbar
+  },
+  requiredPrivateInfos: ["getLocation"],
+  requiredBackgroundModes: ["location"],
+  permission: {
+    "scope.userLocation": {
+      desc: "你的位置信息将用于小程序定位", // 持续后台定位
+    },
   },
   usingComponents: {}, // 全局引入组件
   window: {

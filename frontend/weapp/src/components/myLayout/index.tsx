@@ -11,18 +11,21 @@ const { statusBarHeight, navHeight } = getNavBarHeight(); // 顶部状态栏高�
 const tabList = [
   {
     title: "首页",
-    iconType: "home",
-    url: "/pages/home/index",
+    default: "home",
+    activity: "home-fill",
+    url: "/views/home/index",
   },
   {
     title: "功能",
-    iconType: "filter",
-    url: "/pages/feature/index",
+    default: "feature",
+    activity: "feature-fill",
+    url: "/views/feature/index",
   },
   {
     title: "我的",
-    iconType: "user",
-    url: "/pages/mine/index",
+    default: "user",
+    activity: "user-fill",
+    url: "/views/mine/index",
   },
 ];
 
@@ -42,15 +45,14 @@ interface Props extends Partial<MyNavBarProps & CustomTabBarProps> {
  * @param props {@link Props}
  */
 const MyLayout = (props: Props) => {
-  const { tabId, leftIcon, navBarClass, extraHeight } = props;
+  const { tabId, extraHeight } = props;
 
   return (
     <View>
       {/* 顶部导航栏 */}
       <MyNavBar
-        navBarClass={navBarClass}
         title={tabList[tabId]?.title}
-        leftIcon={leftIcon ? "chevron-left" : ""}
+        {...props}
       />
 
       {/* 

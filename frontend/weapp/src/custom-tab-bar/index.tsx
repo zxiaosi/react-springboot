@@ -1,11 +1,12 @@
 import { View } from "@tarojs/components";
 import Taro, { useRouter } from "@tarojs/taro";
 import { useEffect, useState } from "react";
+import { AtIcon } from "taro-ui";
 import styles from "./index.module.scss";
 
 /**
  * 使用须知
- * 1. 组件位置需要与pages在同一级目录
+ * 1. 组件位置需要与views在同一级目录
  * 2. 文件夹名称必须是 custom-tab-bar
  * 3. 文件名必须是 index.后缀
  */
@@ -59,7 +60,7 @@ const CustomTabBar = (props: CustomTabBarProps) => {
             onClick={() => switchTab(index, item.url)}
             className={`${styles.tabBarItem} ${selected === index && styles.active}`}
           >
-            <View className={`at-icon at-icon-${item.iconType} ${styles.iconType}`} />
+            <AtIcon prefixClass='iconfont' value={selected === index ? item.activity : item.default} className={styles.iconType} />
             <View className={styles.title}>{item.title}</View>
           </View>
         ))}

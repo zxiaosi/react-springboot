@@ -1,5 +1,4 @@
 import MyNavBar from "@/components/myNavBar";
-import { GlobalEvents } from "@/global";
 import { View } from "@tarojs/components";
 import Taro, { useReady, useRouter } from "@tarojs/taro";
 import { AtTimeline } from "taro-ui";
@@ -26,7 +25,12 @@ const Index = () => {
 
   return (
     <>
-      <MyNavBar title={routerParams?.name} leftIcon="chevron-left" backFunc={() => Taro.navigateBack()} />
+      <MyNavBar
+        isUseBgColor={true}
+        leftIcon="chevron-left"
+        title={routerParams?.name}
+        backFunc={() => Taro.navigateBack()}
+      />
 
       <View className={styles.changeLog}>
         <View>更新日志</View>

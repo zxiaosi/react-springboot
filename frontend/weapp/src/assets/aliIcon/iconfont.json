@@ -1,0 +1,107 @@
+{
+  "id": "4269283",
+  "name": "React+Spring Boot",
+  "font_family": "iconfont",
+  "css_prefix_text": "iconfont-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "24599955",
+      "name": "关于",
+      "font_class": "about",
+      "unicode": "e7a2",
+      "unicode_decimal": 59298
+    },
+    {
+      "icon_id": "8682597",
+      "name": "公告",
+      "font_class": "notice",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "6517471",
+      "name": "日志",
+      "font_class": "log",
+      "unicode": "e715",
+      "unicode_decimal": 59157
+    },
+    {
+      "icon_id": "10352335",
+      "name": "图表",
+      "font_class": "charts",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "4765896",
+      "name": "眼睛",
+      "font_class": "eye",
+      "unicode": "e78f",
+      "unicode_decimal": 59279
+    },
+    {
+      "icon_id": "8092167",
+      "name": "眼睛（闭）",
+      "font_class": "eye-close",
+      "unicode": "e8ff",
+      "unicode_decimal": 59647
+    },
+    {
+      "icon_id": "1788676",
+      "name": "用户",
+      "font_class": "user",
+      "unicode": "e697",
+      "unicode_decimal": 59031
+    },
+    {
+      "icon_id": "1112550",
+      "name": "首页（填充）",
+      "font_class": "home-fill",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "1112551",
+      "name": "首页",
+      "font_class": "home",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "10593837",
+      "name": "用户（填充）",
+      "font_class": "user-fill",
+      "unicode": "e6a5",
+      "unicode_decimal": 59045
+    },
+    {
+      "icon_id": "2060272",
+      "name": "功能",
+      "font_class": "feature",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "2060273",
+      "name": "功能（填充）",
+      "font_class": "feature-fill",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "1727478",
+      "name": "拍照",
+      "font_class": "camera",
+      "unicode": "e8d2",
+      "unicode_decimal": 59602
+    },
+    {
+      "icon_id": "11372655",
+      "name": "地图",
+      "font_class": "map",
+      "unicode": "e8ad",
+      "unicode_decimal": 59565
+    }
+  ]
+}

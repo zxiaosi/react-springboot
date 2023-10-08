@@ -22,7 +22,7 @@ export const ApiUrl: string = BaseUrl[Env] + "/wxapi";
 export const ImageUrl: string = BaseUrl[Env] + "/images/";
 
 /** 默认登录页 */
-export const LoginUrl: string = "/pages/home/index";
+export const LoginUrl: string = "/views/home/index";
 
 /** 本地缓存名字 */
 export const TokenStore: string = "userToken";
@@ -30,4 +30,7 @@ export const UserInfoStore: string = "userInfo";
 export const LocationStore: string = "userLocation";
 
 /** 全局事件 */
-export const GlobalEvents = new Taro.Events();  
+export const GlobalEvents = new Taro.Events();
+
+/** 腾讯地图key */
+export const QQMapKey = "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx";

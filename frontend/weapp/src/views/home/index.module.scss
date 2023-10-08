@@ -1,11 +1,5 @@
 $bgColor: linear-gradient(90deg, #74DACE, #4DA1FC);
 
-.navBarClass {
-  color        : #fff;
-  background   : $bgColor;
-  border-bottom: 0;
-}
-
 .page {
   width : 100vw;
   height: 100%;
@@ -56,9 +50,9 @@ $bgColor: linear-gradient(90deg, #74DACE, #4DA1FC);
         }
 
         .eye {
-          width      : 40rpx;
-          height     : 40rpx;
+          font-size  : 40rpx !important;
           margin-left: 20rpx;
+          color      : rgba(0, 0, 0, 0.3);
         }
       }
 

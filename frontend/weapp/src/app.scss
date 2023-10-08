@@ -2,3 +2,6 @@
 @import "~taro-ui/dist/style/components/icon.scss"; // 图标
 @import "~taro-ui/dist/style/components/noticebar.scss"; // 通告栏
 @import "~taro-ui/dist/style/components/timeline.scss"; // 时间轴
+
+// 引入阿里巴巴矢量库 (前缀一定要是 iconfont)
+@import "./assets/aliIcon/iconfont.css";

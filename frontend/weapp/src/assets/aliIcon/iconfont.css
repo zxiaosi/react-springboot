@@ -1,0 +1,71 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 4269283 */
+  src: url('iconfont.woff2?t=1696756204053') format('woff2'),
+       url('iconfont.woff?t=1696756204053') format('woff'),
+       url('iconfont.ttf?t=1696756204053') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconfont-about:before {
+  content: "\e7a2";
+}
+
+.iconfont-notice:before {
+  content: "\e626";
+}
+
+.iconfont-log:before {
+  content: "\e715";
+}
+
+.iconfont-charts:before {
+  content: "\e61a";
+}
+
+.iconfont-eye:before {
+  content: "\e78f";
+}
+
+.iconfont-eye-close:before {
+  content: "\e8ff";
+}
+
+.iconfont-user:before {
+  content: "\e697";
+}
+
+.iconfont-home-fill:before {
+  content: "\e612";
+}
+
+.iconfont-home:before {
+  content: "\e613";
+}
+
+.iconfont-user-fill:before {
+  content: "\e6a5";
+}
+
+.iconfont-feature:before {
+  content: "\e629";
+}
+
+.iconfont-feature-fill:before {
+  content: "\e62a";
+}
+
+.iconfont-camera:before {
+  content: "\e8d2";
+}
+
+.iconfont-map:before {
+  content: "\e8ad";
+}
+
