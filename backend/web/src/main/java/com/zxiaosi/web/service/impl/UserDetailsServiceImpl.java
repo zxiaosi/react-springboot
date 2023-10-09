@@ -5,6 +5,7 @@ import com.zxiaosi.common.entity.User;
 import com.zxiaosi.common.mapper.RoleMapper;
 import com.zxiaosi.common.mapper.UserDetailsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,6 +24,9 @@ import java.util.List;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService, UserDetailsPasswordService {
 
+    @Value("${config.role.guest}")
+    private String roleGuest;
+
     @Autowired
     private RoleMapper roleMapper;
 
@@ -40,8 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, UserDetailsPa
         if (!roles.isEmpty()) {
             user.setRoles(roles);
         } else {
-            roleMapper.getGuestRole();
-            user.getRoles().add(roleMapper.getGuestRole()); // 未设置角色的用户默认为游客
+            user.getRoles().add(roleMapper.getRoleByName(roleGuest)); // 未设置角色的用户默认为游客
         }
 
         return user;

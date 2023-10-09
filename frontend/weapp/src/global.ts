@@ -32,5 +32,8 @@ export const LocationStore: string = "userLocation";
 /** 全局事件 */
 export const GlobalEvents = new Taro.Events();
 
+/** 地图id(回到当前位置时用) */
+export const MapId: string = "myMap";
+
 /** 腾讯地图key */
-export const QQMapKey = "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx";
+export const QQMapKey: string = "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx";

@@ -25,11 +25,11 @@
           and role.is_deleted = 0
     </select>
 
-    <!-- 得到游客角色 -->
-    <select id="getGuestRole" resultType="Role">
+    <!-- 根据角色名获取角色 -->
+    <select id="getRoleByName" parameterType="string" resultType="Role">
         select *
         from role
-        where role.name = 'ROLE_GUEST'
+        where role.name = #{name}
           and role.is_deleted = 0
     </select>
 

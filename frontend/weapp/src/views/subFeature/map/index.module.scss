@@ -1,6 +1,24 @@
 .page {
   position: relative;
 
+  .rightBtn {
+    width          : 84rpx;
+    height         : 84rpx;
+    border-radius  : 20rpx;
+    background     : rgba(255, 255, 255, 1);
+    box-shadow     : 0 0 16rpx 0 rgba(0, 0, 0, 0.16);
+    position       : absolute;
+    right          : 32rpx;
+    top            : 20rpx;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+
+    image {
+      font-size: 26rpx !important;
+    }
+  }
+
   .modal {
     width          : calc(100vw - 112rpx);
     background     : #fff;

@@ -8,8 +8,6 @@ import { getUserInfoApi, updateUserApi } from "@/apis";
 import { getLocalSync, setLocalSync } from "@/request/auth";
 import styles from "./index.module.scss";
 import defaultImg from "@/assets/images/default.png";
-import eye from "@/assets/images/eye.png";
-import eyeClose from "@/assets/images/eye-close.png";
 import { MyRegEx } from "@/utils/constant";
 
 // index.config.ts

@@ -4,6 +4,7 @@ import com.zxiaosi.common.entity.Role;
 import com.zxiaosi.common.mapper.RoleMapper;
 import com.zxiaosi.common.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -25,6 +26,9 @@ import java.util.Set;
  */
 @Component
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+
+    @Value("${config.role.guest}")
+    private String roleGuest;
 
     @Autowired
     private RoleMapper roleMapper;
@@ -48,7 +52,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
         }
 
         if (ObjectUtils.isEmpty(set)) {
-            return SecurityConfig.createList("ROLE_GUEST"); // 游客身份
+            return SecurityConfig.createList(roleGuest); // 游客身份
         }
 
         return set;

@@ -29,3 +29,5 @@ config:
     header: Authorization
   upload:
     path: /images/ # 上传文件的路径
+  role:
+    guest: ROLE_GUEST # 游客身份

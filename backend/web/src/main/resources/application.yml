@@ -25,3 +25,5 @@ config:
     secret: wx25adff2e6b2572edwx25adff2e6b25
   upload:
     path: /images/ # 上传文件的路径
+  role:
+    guest: "ROLE_GUEST" # 游客身份

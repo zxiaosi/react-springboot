@@ -87,7 +87,9 @@ public class MyBatisOperateInterceptor implements Interceptor {
                     default:
                         break;
                 }
-            } else if (SqlCommandType.UPDATE.equals(sqlCommandType)) {
+            }
+
+            if (SqlCommandType.UPDATE.equals(sqlCommandType)) {
                 switch (declaredField.getName()) {
                     case UPDATE_TIME:
                         // 更新时间

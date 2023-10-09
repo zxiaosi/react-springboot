@@ -1,168 +1,107 @@
 import MyNavBar from "@/components/myNavBar";
 import { getNavBarHeight } from "@/utils";
-import { View, Map, MapProps, Image } from "@tarojs/components";
-import Taro, { useDidHide, useDidShow } from "@tarojs/taro";
+import { View, MapProps, Image } from "@tarojs/components";
+import Taro from "@tarojs/taro";
 import { useReady, useRouter } from "@tarojs/taro";
-import { useEffect, useRef, useState } from "react";
-import QQMapWX from '@/components/qqmap/qqmap-wx-jssdk.js';
-import { LocationStore, QQMapKey } from "@/global";
-import { setLocalSync } from "@/request/auth";
+import { useEffect, useState } from "react";
+import { LocationStore, MapId } from "@/global";
 import guidance from "@/assets/images/guidance.png";
 import mapMarker from "@/assets/images/marker.png";
 import styles from "./index.module.scss";
+import MyMap from "@/components/myMap";
+import { setLocalSync } from "@/request/auth";
+import { getLocation, handleReverseGeocoder } from "@/utils/handleMap";
+import { AtIcon } from "taro-ui";
+import MyLayout from "@/components/myLayout";
 
 interface MyMarker extends MapProps.marker {
   name?: string; // 标题
   address?: string; // 地址
 }
 
-let timer; // 获取小程序定位定时器
-const qqmapsdk = new QQMapWX({ key: QQMapKey }); // 实例化API核心类
 const { statusBarHeight, navHeight } = getNavBarHeight(); // 顶部状态栏高度
 
 const Index = () => {
   const router = useRouter();
 
-  const isClickMarker = useRef(false); // 是否点击了当前位置
-  const [marker, setMarker] = useState<MyMarker>(); // 标记点信息
-  const [location, setLocation] = useState({ latitude: 39.92, longitude: 116.46 });
-  const [markerList, setMarkerList] = useState<MyMarker[]>([]); // 标记点列表
-  const [isShowModal, setIsShowModal] = useState(false); // 是否显示弹窗
+  const [markers, setMarkers] = useState<MyMarker[]>([]); // 标记点列表
+  const [location, setLocation] = useState({
+    latitude: 39.92, // 默认北京
+    longitude: 116.46, // 默认北京
+    isGet: false, // 是否获取到定位
+  });
+  const [modal, setModal] = useState({
+    data: {} as MyMarker, // 标记点信息
+    isShow: false, // 是否显示
+  });
 
   const routerParams = JSON.parse(router?.params?.item || "{}");
 
   useReady(() => {
     console.log("routerParams", routerParams);
-  })
-
-  useDidShow(() => {
-    timer = setTimeout(() => {
-      getLocation();
-    }, 500);
-  })
-
-  useDidHide(() => {
-    timer && clearTimeout(timer);
-  })
+  });
 
   useEffect(() => {
-    const { latitude, longitude } = location;
-    const newMarkers = [] as MyMarker[];
+    if (location.isGet) { // 获取到定位后才能获取附近的标记点
+      const { latitude, longitude } = location;
+      const newMarkers: MyMarker[] = [];
 
-    for (let i = 0; i < 3; i++) {
-      newMarkers.push({
-        id: i,
-        width: 30,
-        height: 30,
-        name: "标记点" + i,
-        iconPath: mapMarker,
-        latitude: latitude + handleRandom(),
-        longitude: longitude + handleRandom(),
-      })
-    }
-    setMarkerList(newMarkers);
-  }, [location])
-
-  /**
-   * 获取当前位置
-   * 1. 小程序 未授权地理位置信息
-   * 2. 微信 未授权地理位置信息
-   * 3. 手机 未开启定位
-   */
-  const getLocation = () => {
-    Taro.getSetting({
-      success: function (res) {
-        const userLocation = res.authSetting['scope.userLocation'];
-
-        if (!userLocation) {
-          console.log("--小程序没有授权--", res);
-
-          Taro.showModal({
-            title: '小程序未授权地理位置信息',
-            content: '是否前往设置页面手动开启',
-            cancelText: '返回',
-            confirmText: '去设置',
-            success: function (res) {
-              if (res.confirm) Taro.openSetting({})
-              else Taro.navigateBack();
-            }
-          })
-        } else {
-          Taro.getLocation({
-            type: 'gcj02', // wgs84
-            success: function (res) {
-              console.log("小程序已授权定位成功--", res);
-              setLocalSync(LocationStore, res);
-              setLocation({ ...res });
-              timer && clearTimeout(timer);
-            },
-            fail: function (err) {
-              const appAuth = Taro.getAppAuthorizeSetting();
-
-              if (!appAuth.locationAuthorized) {
-                console.log("微信没有授权--", err);
-
-                Taro.showModal({
-                  title: '微信未授权地理位置信息',
-                  content: '是否前往设置页面手动开启',
-                  cancelText: '返回',
-                  confirmText: '去设置',
-                  success: function (res) {
-                    if (res.confirm) Taro.openAppAuthorizeSetting({});
-                    else Taro.navigateBack();
-                  }
-                })
-              } else {
-                console.log("手机定位未开启--", err);
-
-                Taro.showModal({
-                  title: '手机定位未开启',
-                  content: '请开启手机定位过再次进入此页面',
-                  showCancel: false,
-                  confirmText: '返回',
-                  success: function (res) {
-                    Taro.navigateBack();
-                  }
-                })
-              }
-            }
-          })
-        }
-      },
-      fail: function (err) {
-        console.log("获取用户授权失败", err);
+      for (let i = 0; i < 3; i++) {
+        newMarkers.push({
+          id: i,
+          width: 30,
+          height: 30,
+          name: "标记点" + i,
+          iconPath: mapMarker,
+          callout: { content: "" } as any, // 取消真机点位上方的气泡
+          latitude: latitude + handleRandom(),
+          longitude: longitude + handleRandom(),
+        });
       }
-    })
-  }
+
+      setMarkers(newMarkers);
+    }
+  }, [location]);
 
   /**
    * 点击地图时触发
    */
   const handleTap = (e) => {
-    if (!isClickMarker.current) {
-      console.log("地图其他地方被点击", e);
-    };
-    isClickMarker.current = false;
-  }
+    setModal({ ...modal, isShow: false });
+  };
 
   /**
    * 点击标记点时触发
    */
   const handleMarkerTap = (e) => {
-    isClickMarker.current = true;
-    const newMarker = markerList[e.markerId];
-    console.log("标记点被点击", newMarker);
+    Taro.showLoading({ title: "正在解析地址..." });
 
-    handleReverseGeocoder(newMarker.latitude, newMarker.longitude,
-      (res) => {
-        setIsShowModal(true);
-        setMarker({ address: res.result.address, ...newMarker });
+    const newMarker = markers[e.markerId];
+
+    handleReverseGeocoder(
+      newMarker.latitude,
+      newMarker.longitude,
+      (res: any) => {
+        Taro.hideLoading();
+        setModal({
+          data: { ...newMarker, address: res.result.address },
+          isShow: true,
+        });
       },
-      (err) => {
-        setIsShowModal(false);
-        Taro.showToast({ title: '逆地址解析失败', icon: 'none' });
+      (err: any) => {
+        Taro.hideLoading();
+        setModal({ ...modal, isShow: false });
+        Taro.showToast({ title: "逆地址解析失败", icon: "none" });
       }
     );
+  };
+
+  /**
+   * 获取位置信息回调
+   */
+  const handleLocaion = (res) => {
+    setLocalSync(LocationStore, res);
+    setLocation({ ...res, isGet: true });
   }
 
   /**
@@ -171,31 +110,11 @@ const Index = () => {
   const handleRandom = () => (Math.random() - 0.5) * 0.01;
 
   /**
-   * 逆向地址解析
-   * @param lat 纬度
-   * @param lng 经度
-   * @param success 成功回调
-   * @param fail 失败回调
-   */
-  const handleReverseGeocoder = (lat: number, lng: number, success?: Function, fail?: Function) => {
-    qqmapsdk.reverseGeocoder({
-      location: { latitude: lat, longitude: lng },
-      success: function (res) {
-        console.log("逆地址解析", res);
-        success?.(res);
-      },
-      fail: function (err) {
-        console.log("逆地址解析失败", err);
-        fail?.(err);
-      }
-    })
-  }
-
-  /**
    * 手机导航
    */
-  const handleNavigation = (detail) => {
+  const handleNavigation = (detail: MyMarker) => {
     const { name, latitude, longitude, address } = detail;
+
     Taro.openLocation({
       latitude,
       longitude,
@@ -207,44 +126,59 @@ const Index = () => {
       },
       fail: function (err) {
         console.log("打开手机导航失败", err);
-      }
-    })
+      },
+    });
+  };
+
+  /**
+   * 回到当前位置
+   */
+  const clickLocationBtn = () => {
+    getLocation((res) => {
+      setLocation(res)
+      let mapCtx = Taro.createMapContext(MapId);
+      mapCtx.moveToLocation(location);
+    });
   }
 
   return (
-    <>
-      <MyNavBar
-        isUseBgColor={true}
-        leftIcon="chevron-left"
-        title={routerParams?.name}
-        backFunc={() => Taro.navigateBack()}
-      />
-
+    <MyLayout
+      isUseBgColor={true}
+      leftIcon="chevron-left"
+      title={routerParams?.name}
+      backFunc={() => Taro.navigateBack()}
+    >
       <View className={styles.page}>
-        <Map
-          id="myMap"
-          showLocation
-          markers={markerList}
-          longitude={location.longitude}
+        <MyMap
           latitude={location.latitude}
-          style={{ width: "100%", height: `calc(100vh - ${(statusBarHeight + navHeight)}px)` }}
-          onClick={handleTap}
+          longitude={location.longitude}
+          height={`calc(100vh - ${statusBarHeight + navHeight}px)`}
+          markers={markers}
+          onTap={handleTap}
           onMarkerTap={handleMarkerTap}
+          successFunc={handleLocaion}
         />
 
-        {
-          isShowModal && <View className={styles.modal}>
-            <View className={styles.left}>
-              <View className={styles.title}>{marker?.name}</View>
-              <View className={styles.address}>{marker?.address}</View>
-            </View>
-            <Image src={guidance} className={styles.right} onClick={() => handleNavigation(marker)} />
-          </View>
-        }
-      </View>
-    </>
-  )
+        <View className={styles.rightBtn} onClick={() => { clickLocationBtn() }}>
+          <AtIcon prefixClass='iconfont' value={"position"} className={styles.icon} />
+        </View>
 
-}
+        {modal.isShow && (
+          <View className={styles.modal}>
+            <View className={styles.left}>
+              <View className={styles.title}>{modal.data?.name}</View>
+              <View className={styles.address}>{modal.data?.address}</View>
+            </View>
+            <Image
+              src={guidance}
+              className={styles.right}
+              onClick={() => handleNavigation(modal.data)}
+            />
+          </View>
+        )}
+      </View>
+    </MyLayout>
+  );
+};
 
 export default Index;

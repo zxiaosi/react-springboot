@@ -5,6 +5,7 @@ import com.zxiaosi.common.entity.Role;
 import com.zxiaosi.common.entity.User;
 import com.zxiaosi.common.mapper.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -24,6 +25,9 @@ import java.util.List;
 @Component
 public class MyAccessDecisionManager implements AccessDecisionManager {
 
+    @Value("${config.role.guest}")
+    private String roleGuest;
+
     @Autowired
     private RoleMapper roleMapper;
 
@@ -38,7 +42,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
             String needRole = configAttribute.getAttribute();
 
             // 游客不需要权限
-            if ("ROLE_GUEST".equals(needRole)) {
+            if (roleGuest.equals(needRole)) {
                 return;
             }
 

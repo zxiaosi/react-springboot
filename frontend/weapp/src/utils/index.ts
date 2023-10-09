@@ -6,7 +6,7 @@ let isUpdate = false; // 是否更新
 /**
  * 版本更新提示
  */
-export function updateManager() {
+export function checkUpdate() {
   const updateManager = Taro.getUpdateManager();
 
   updateManager.onCheckForUpdate(function (res) {
@@ -63,39 +63,10 @@ export function getSystemEnv() {
 }
 
 /**
- * 微信线上版本更新检测
- */
-export const checkUpdate = async () => {
-  const updateManager = Taro.getUpdateManager();
-
-  updateManager.onCheckForUpdate(function (res) {
-    // 请求完新版本信息的回调
-    console.log("是否有新版本推送:", res.hasUpdate);
-  });
-
-  updateManager.onUpdateReady(function () {
-    Taro.showModal({
-      title: "更新提示",
-      content: "新版本已经准备好，是否重启应用？",
-      success: function (res) {
-        if (res.confirm) {
-          // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-          updateManager.applyUpdate();
-        }
-      },
-    });
-  });
-
-  updateManager.onUpdateFailed(function () {
-    // 新的版本下载失败
-  });
-};
-
-/**
  * 获取手机信息
  * @returns 手机信息 sysInfo 系统信息，capsuleInfo 胶囊信息
  */
-export const getPhoneInfo = () => {
+export function getPhoneInfo() {
   let sysInfo = Taro.getSystemInfoSync(); //获取手机的信息
   let capsuleInfo = Taro.getMenuButtonBoundingClientRect(); //获取胶囊的信息
   return { sysInfo, capsuleInfo };
@@ -131,25 +102,16 @@ export function getNavBarHeight() {
 }
 
 /**
- * 判断机型是否为Android
+ * 1. 判断手机机型是否为 Android | IPhone 
+ * 2. 判断手机是否含有底部虚拟键
+ * @param type Android | IPhone | HasNavigator
  */
-export function getSysInfo() {
-  const { system } = Taro.getSystemInfoSync();
-  return MyRegEx.Android.test(system);
+export function checkPhoneModel(type: "Android" | "IPhone" | "HasNavigator") {
+  const { system, model } = Taro.getSystemInfoSync();
+
+  if (type == "Android") {
+    return MyRegEx[type].test(system);
+  } else {
+    return MyRegEx[type].test(model);
+  }
 }
-
-/** 
- * 判断机型是否为苹果手机
- */
-export const getIsIphone = () => {
-  const { model } = Taro.getSystemInfoSync();
-  return MyRegEx.IPhone.test(model);
-};
-
-/**
- * 判断手机是否含有底部虚拟键
- */
-export const JudgmentModel = () => {
-  const { model } = Taro.getSystemInfoSync();
-  return MyRegEx.HasNavigator.test(model);
-};
