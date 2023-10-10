@@ -1,15 +1,13 @@
-import MyNavBar from "@/components/myNavBar";
 import { getNavBarHeight } from "@/utils";
 import { View, MapProps, Image } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { useReady, useRouter } from "@tarojs/taro";
 import { useEffect, useState } from "react";
-import { LocationStore, MapId } from "@/global";
+import { MapId } from "@/global";
 import guidance from "@/assets/images/guidance.png";
 import mapMarker from "@/assets/images/marker.png";
 import styles from "./index.module.scss";
 import MyMap from "@/components/myMap";
-import { setLocalSync } from "@/request/auth";
 import { getLocation, handleReverseGeocoder } from "@/utils/handleMap";
 import { AtIcon } from "taro-ui";
 import MyLayout from "@/components/myLayout";
@@ -100,7 +98,7 @@ const Index = () => {
    * 获取位置信息回调
    */
   const handleLocaion = (res) => {
-    setLocalSync(LocationStore, res);
+    // 这里可以将定位信息存入本地
     setLocation({ ...res, isGet: true });
   }
 

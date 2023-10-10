@@ -1,4 +1,5 @@
 import { useUserInfoApi } from "@/apis";
+import MyEcharts from "@/components/myEcharts";
 import { Button, Card, Skeleton } from "antd";
 import { useState } from "react";
 
@@ -27,6 +28,8 @@ const Index = () => {
       </Card>
 
       <Button type="primary" onClick={handleClick}>点我更新接口</Button>
+
+      <MyEcharts />
     </div>
   );
 };

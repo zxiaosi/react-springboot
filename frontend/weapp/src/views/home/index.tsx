@@ -10,9 +10,6 @@ import styles from "./index.module.scss";
 import defaultImg from "@/assets/images/default.png";
 import { MyRegEx } from "@/utils/constant";
 
-// index.config.ts
-definePageConfig({});
-
 const Index = () => {
   const [isShowPwd, setIsShowPwd] = useState(false); // 是否显示密码
 

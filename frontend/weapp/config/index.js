@@ -17,6 +17,9 @@ const config = {
   },
   copy: { // 文件 copy 配置 https://taro.redwoodjs.cn/docs/config-detail#copy
     patterns: [
+      // { from: 'src/views/subEcharts/wxecharts/', to: 'dist/views/subEcharts/wxecharts/' }, // 指定需要 copy 的文件夹
+      { from: 'src/views/subEcharts/wxecharts/echarts.js', to: 'dist/views/subEcharts/wxecharts/echarts.js' }, // 指定需要 copy 的文件
+      { from: 'src/views/subEcharts/wxecharts/ec-canvas.wxml', to: 'dist/views/subEcharts/wxecharts/ec-canvas.wxml' }, // 指定需要 copy 的文件
     ],
     options: {
     }
@@ -28,8 +31,8 @@ const config = {
   compiler: { // https://github.com/NervJS/taro/issues/12553#issuecomment-1408347454
     type: "webpack5",
     prebundle: {
-      enable: false, // 是否强行弃用缓存
-      force: true // 是否强行弃用缓存
+      // enable: true, // 是否开启依赖预编译
+      // force: true // 是否强行弃用缓存
     }
   },
   cache: {
@@ -46,7 +49,7 @@ const config = {
       url: { // 小程序端样式引用本地资源内联配置
         enable: true,
         config: {
-          limit: 10240 // 设定转换尺寸上限, 单位为 b,(图片超过这个大小 不会 转为base64)
+          limit: 1024 // 设定转换尺寸上限, 单位为 b,(图片超过这个大小 不会 转为base64)
         }
       },
       cssModules: {
@@ -59,8 +62,15 @@ const config = {
     },
     compile: { // 编译过程的相关配置 https://taro.redwoodjs.cn/docs/config-detail#minicompile
       exclude: [ // 排除某个文件
-      ]
-    }
+        resolve(__dirname, '..', 'src/views/subEcharts/wxecharts/echarts.js')
+      ],
+    },
+    optimizeMainPackage: {
+      enable: true,
+      exclude: [
+        resolve(__dirname, '..', 'src/views/subEcharts/wxecharts/echarts.js')
+      ],
+    },
   },
   h5: {
     publicPath: '/',

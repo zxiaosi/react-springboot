@@ -11,7 +11,13 @@ export default defineAppConfig({
         "index", // 占位页面
         "changeLog/index", // 更新日志
         "map/index", // 地图
-      ]
+      ],
+    },
+    {
+      root: "views/subEcharts",
+      pages: [
+        "index", // echarts
+      ],
     }
   ],
   tabBar: {
