@@ -148,8 +148,8 @@ const Index = () => {
     >
       <View className={styles.page}>
         <MyMap
-          latitude={location.latitude}
-          longitude={location.longitude}
+          latitude={location?.latitude}
+          longitude={location?.longitude}
           height={`calc(100vh - ${statusBarHeight + navHeight}px)`}
           markers={markers}
           onTap={handleTap}
@@ -157,7 +157,7 @@ const Index = () => {
           successFunc={handleLocaion}
         />
 
-        <View className={styles.rightBtn} onClick={() => { clickLocationBtn() }}>
+        <View className={styles.rightBtn} onClick={clickLocationBtn}>
           <AtIcon prefixClass='iconfont' value={"position"} className={styles.icon} />
         </View>
 
@@ -167,6 +167,7 @@ const Index = () => {
               <View className={styles.title}>{modal.data?.name}</View>
               <View className={styles.address}>{modal.data?.address}</View>
             </View>
+
             <Image
               src={guidance}
               className={styles.right}

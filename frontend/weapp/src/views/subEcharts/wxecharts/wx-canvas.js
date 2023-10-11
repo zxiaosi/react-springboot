@@ -16,6 +16,9 @@ export default class WxCanvas {
     this._initEvent();
   }
 
+  removeEventListener() {
+  }
+
   getContext(contextType) {
     if (contextType === '2d') {
       return this.ctx;
@@ -83,9 +86,9 @@ export default class WxCanvas {
         this.chart.getZr().handler.dispatch(name.ecName, {
           zrX: name.wxName === 'tap' ? touch.clientX : touch.x,
           zrY: name.wxName === 'tap' ? touch.clientY : touch.y,
-          preventDefault: () => {},
-          stopImmediatePropagation: () => {},
-          stopPropagation: () => {}
+          preventDefault: () => { },
+          stopImmediatePropagation: () => { },
+          stopPropagation: () => { }
         });
       };
     });

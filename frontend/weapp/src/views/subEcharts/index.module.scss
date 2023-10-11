@@ -1,0 +1,18 @@
+.title {
+  text-align   : center;
+  margin-bottom: 20rpx;
+}
+
+.lineChart,
+.barChart,
+.pieChart,
+.radarChart {
+  margin        : 20rpx;
+  display       : flex;
+  flex-direction: column;
+
+  .chart {
+    width : 100%;
+    border: 1px solid red;
+  }
+}
