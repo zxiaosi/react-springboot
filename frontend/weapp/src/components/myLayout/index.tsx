@@ -33,6 +33,11 @@ interface Props extends Partial<MyNavBarProps & CustomTabBarProps> {
   /** 当前 tabId (-1 不带底部导航栏) */
   tabId?: number;
 
+  /**
+   * 是否需要滚动容器
+   */
+  isScroll?: boolean;
+
   /** 额外的高度 */
   extraHeight?: string;
 
@@ -45,7 +50,7 @@ interface Props extends Partial<MyNavBarProps & CustomTabBarProps> {
  * @param props {@link Props}
  */
 const MyLayout = (props: Props) => {
-  const { tabId = -1, extraHeight = "0px" } = props;
+  const { tabId = -1, isScroll = true, extraHeight = "0px" } = props;
 
   // 顶部导航栏((statusBarHeight + navHeight)px) + 底部tabBar(120rpx) + 安全区域(env(safe-area-inset-bottom))
   const pageHeight = `${statusBarHeight + navHeight}px + ${tabId > -1 ? "120rpx + env(safe-area-inset-bottom)" : "0px"}`;
@@ -59,15 +64,19 @@ const MyLayout = (props: Props) => {
       />
 
       {/* 页面内容 */}
-      <ScrollView
-        scrollY
-        scrollWithAnimation
-        style={{
-          maxHeight: `calc(100vh - (${pageHeight}) - ${extraHeight})`,
-        }}
-      >
-        {props?.children}
-      </ScrollView>
+      {
+        isScroll
+          ? <ScrollView
+            scrollY
+            scrollWithAnimation
+            style={{
+              maxHeight: `calc(100vh - (${pageHeight}) - ${extraHeight})`,
+            }}
+          >
+            {props?.children}
+          </ScrollView>
+          : <>{props?.children}</>
+      }
 
       {/* 底部导航栏 */}
       {tabId > -1 && <CustomTabBar tabList={tabList} />}

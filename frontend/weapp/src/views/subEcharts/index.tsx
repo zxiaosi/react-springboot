@@ -4,9 +4,6 @@ import { useRouter } from "@tarojs/taro";
 import Taro from "@tarojs/taro";
 import styles from "./index.module.scss";
 import { View } from "@tarojs/components";
-import img1 from "./3D/starfield.jpg"
-import img2 from "./3D/world.topo.bathy.200401.jpg"
-import hdr1 from "./3D/pisa.hdr"
 
 definePageConfig({
   // 使用echarts一定要先导入, 否则导致拿不到dom (会导致 useReady 出现问题)
@@ -16,7 +13,7 @@ definePageConfig({
 const Index = () => {
   const router = useRouter();
 
-  // const routerParams = JSON.parse(router?.params?.item || "{}");
+  const routerParams = JSON.parse(router?.params?.item || "{}");
 
   // 柱状图配置
   const barOption = {
@@ -164,7 +161,7 @@ const Index = () => {
    * 初始化折线图数据
    */
   const lineEchartsData = (chart) => {
-    const legendData = ['邮箱', '广告', '视频', '搜索引擎'];
+    const legendData = ['知乎', '微博', '贴吧', '搜索引擎'];
 
     const seriesData = [
       [120, 132, 101, 134, 90, 230, 210],
@@ -239,8 +236,7 @@ const Index = () => {
     <MyLayout
       isUseBgColor={true}
       leftIcon="chevron-left"
-      // title={routerParams?.name}
-      title={"图表"}
+      title={routerParams?.name}
       backFunc={() => Taro.navigateBack()}
     >
       <View className={styles.lineChart}>

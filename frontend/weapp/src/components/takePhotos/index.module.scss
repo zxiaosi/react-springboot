@@ -1,0 +1,39 @@
+$safeBottom: env(safe-area-inset-bottom);
+
+.camera {
+  width   : 100vw;
+  height  : 100vh;
+  position: relative;
+
+  // 提示文字
+  .text {
+    width      : 100vw;
+    font-size  : 14Px;
+    font-weight: 400;
+    text-align : center;
+    color      : #fff;
+    position   : absolute;
+    bottom     : calc(280rpx + $safeBottom);
+  }
+
+  // 拍照按钮
+  .circleSmall {
+    width        : 100rpx;
+    height       : 100rpx;
+    border-radius: 50%;
+    background   : #fff;
+    position     : absolute;
+    left         : calc((100vw - 100rpx) / 2);
+    bottom       : calc(150rpx + $safeBottom);
+
+    .circleBig {
+      width        : 130rpx;
+      height       : 130rpx;
+      border-radius: 50%;
+      background   : rgba(255, 255, 255, 0.4);
+      position     : absolute;
+      top          : -15rpx;
+      left         : -15rpx;
+    }
+  }
+}

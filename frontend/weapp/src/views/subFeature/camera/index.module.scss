@@ -1,0 +1,50 @@
+$bgColor: linear-gradient(90deg, #74DACE, #4DA1FC);
+
+.page {
+  margin        : 20rpx 32rpx;
+  display       : flex;
+  flex-direction: column;
+  align-items   : center;
+
+  .showPicture {
+    width     : 400rpx;
+    height    : 400rpx;
+    box-shadow: 0 0 16rpx 0 rgba(0, 0, 0, 0.16);
+    border    : 1rpx solid #4DA1FC;
+
+    image {
+      width : 100%;
+      height: 100%;
+    }
+  }
+
+  .btn {
+    width     : calc(100vw - 64rpx);
+    display   : flex;
+    flex-wrap : wrap;
+    margin-top: 20rpx;
+
+    .operate,
+    .normal,
+    .custom {
+      width          : 100%;
+      height         : 92rpx;
+      color          : #fff;
+      background     : $bgColor;
+      border-radius  : 16rpx;
+      box-shadow     : 0 0 16rpx 0 rgba(0, 0, 0, 0.16);
+      margin         : 20rpx 32rpx;
+      display        : flex;
+      align-items    : center;
+      justify-content: center;
+    }
+
+    .operate {
+      flex: 2;
+    }
+
+    .disable {
+      background: #ccc;
+    }
+  }
+}

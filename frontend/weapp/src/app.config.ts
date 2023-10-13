@@ -9,14 +9,16 @@ export default defineAppConfig({
       root: "views/subFeature",
       pages: [
         "index", // 占位页面
+        "camera/index", // 拍照
         "changeLog/index", // 更新日志
         "map/index", // 地图
+        "message/index", // 服务通知
       ],
     },
     {
       root: "views/subEcharts",
       pages: [
-        "index", // echarts
+        "index", // echarts 图表
       ],
     }
   ],

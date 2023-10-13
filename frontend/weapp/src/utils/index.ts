@@ -1,45 +1,66 @@
 import Taro from "@tarojs/taro";
 import { MyRegEx } from "./constant";
 
-let isUpdate = false; // 是否更新
-
 /**
  * 版本更新提示
  */
 export function checkUpdate() {
-  const updateManager = Taro.getUpdateManager();
+  // 判断当前微信版本是否支持检测更新接口,注：（基础库版本大于v1.9.90才可以使用getUpdateManager接口所以要做低版本兼容处理）
+  if (Taro.canIUse("getUpdateManager")) {
+    console.info("%c当前微信版本支持版本更新", "color:yellow");
 
-  updateManager.onCheckForUpdate(function (res) {
-    // 请求完新版本信息的回调
-    console.log(`%c是否存在最新版本 ${res.hasUpdate}`, "color:yellow");
+    const updateManager = Taro.getUpdateManager();
 
-    if (!(res.hasUpdate && !isUpdate)) {
-      isUpdate = true;
+    updateManager.onCheckForUpdate(function (res) {
+      console.log(`%c是否存在最新版本 ${res.hasUpdate}`, "color:yellow");
 
-      // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-      updateManager.onUpdateReady(function () {
-        console.log("%c小程序更新成功", "color:green");
+      if (res.hasUpdate) {
+        // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+        updateManager.onUpdateReady(function () {
+          console.log("%c小程序下载成功", "color:yellow");
 
-        let timer1 = setTimeout(() => {
-          updateManager.applyUpdate();
-          isUpdate = false;
-          clearTimeout(timer1);
-        }, 1000);
-      });
+          let time1 = setTimeout(() => {
+            Taro.showModal({
+              title: '更新提示',
+              content: '发现版本更新，已经准备好请重启应用~',
+              showCancel: false,
+              success: (res) => {
+                updateManager.applyUpdate();
+              }
+            })
 
-      updateManager.onUpdateFailed(function (res) {
-        console.log(`%c小程序更新失败 ${res}`, "color:red");
+            clearTimeout(time1);
+          }, 1000);
+        });
 
-        let timer2 = setTimeout(() => {
-          isUpdate = false;
-          // 提示 更新失败
-          Taro.showToast({ title: "版本更新失败，请删除小程序重新进入" });
-          clearTimeout(timer2);
-        }, 1000);
-      });
+        updateManager.onUpdateFailed(function (res) {
+          console.log(`%c小程序更新失败 ${JSON.stringify(res)}`, "color:red");
 
-    }
-  });
+          let time2 = setTimeout(() => {
+            Taro.showModal({
+              title: '更新提示',
+              content: '新版本已经上线啦~，请您删除当前小程序，重新搜索打开哟~',
+              showCancel: false
+            })
+
+            clearTimeout(time2);
+          }, 1000);
+        });
+      }
+    });
+  } else {
+    // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
+    Taro.showModal({
+      title: '提示',
+      content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。',
+      success(res) {
+        if (res.confirm) {
+          // 使用此接口可直接跳转至微信客户端更新下载页面
+          Taro.updateWeChatApp({});
+        }
+      }
+    })
+  }
 }
 
 /**
