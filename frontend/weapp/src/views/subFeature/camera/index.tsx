@@ -15,33 +15,47 @@ const Index = () => {
 
   const [isOpenCamera, setIsOpenCamera] = useState(false);
 
-  const [imgUrl, setImgUrl] = useState(""); // 图片地址
-
   const ctx = useRef<CanvasContext>(); // canvas 的绘图上下文实例
 
+  const [imgUrl, setImgUrl] = useState(""); // 图片地址
+
   const [canvasSize, setCanvasSize] = useState({ // canvas 大小
-    width: 300, // 默认宽度
-    height: 150, // 默认高度
+    width: 300 as any, // 默认宽度
+    height: 150 as any, // 默认高度
   })
 
+  const [imgList, setImgList] = useState({ // 保存四张图片, 防止图片失真(可不要)
+    idx: 0, // 当前图片索引
+    data: [] as string[], // 图片列表
+  })
   /**
    * 预览图片
    */
   const handlePreviewImage = () => {
     Taro.previewImage({
-      current: imgUrl, // 当前显示图片的http链接
       urls: [imgUrl], // 需要预览的图片http链接列表
     })
   }
 
   /**
-   * 旋转图片
+   * 旋转图片(会导致图片失真)
    */
   const handleRotateImage = () => {
+    const { idx, data } = imgList;
+
+    const index = idx % 4;
+    console.log(`当前是第${index + 1}旋转`);
+
+    if (data[index + 1]) { // 旋转四次后, 重置图片
+      setImgUrl(data[index + 1]);
+      setImgList({ data, idx: idx + 1 });
+      return;
+    }
+
     const { width, height } = canvasSize;
 
     ctx.current = Taro.createCanvasContext("canvasImg");
-    ctx.current?.clearRect(0, 0, width, height);
+    ctx.current?.clearRect(0, 0, width, height); // 清除画布
     ctx.current?.translate(width / 2, height / 2); // 以图片中心为原点
     ctx.current?.rotate(Math.PI / 2); // 旋转90度
     ctx.current?.drawImage(imgUrl, -height / 2, -width / 2, height, width);
@@ -56,6 +70,7 @@ const Index = () => {
         success: (res) => {
           setImgUrl(res.tempFilePath);
           setCanvasSize({ width: height, height: width });
+          setImgList({ idx: idx + 1, data: [...data, res.tempFilePath] });
         },
         fail: (err) => {
           console.log("旋转图片失败--", err);
@@ -76,6 +91,7 @@ const Index = () => {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         const newImgUrl = imgList.tempFilePaths[0];
         setImgUrl(newImgUrl);
+        setImgList({ idx: 0, data: [newImgUrl] });
 
         Taro.getImageInfo({
           src: newImgUrl,
@@ -97,6 +113,7 @@ const Index = () => {
   const handleTakePhotos = (imgUrl) => {
     setImgUrl(imgUrl);
     setIsOpenCamera(false);
+    setImgList({ idx: 0, data: [imgUrl] });
   }
 
   /**

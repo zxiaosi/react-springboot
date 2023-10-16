@@ -9,3 +9,6 @@ export const updatePhoneApi = (data: GetUserInfoApi) => post("/phone", { ...data
 
 /** 更新用户信息 */
 export const updateUserApi = (data: UpdateUserApi) => post("/updateUser", { ...data })
+
+/** 服务通知 */
+export const sendBizApi = (issue: string) => post(`/sendBiz?issue=${encodeURIComponent(issue)}`)

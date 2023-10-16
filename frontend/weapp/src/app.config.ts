@@ -12,7 +12,7 @@ export default defineAppConfig({
         "camera/index", // 拍照
         "changeLog/index", // 更新日志
         "map/index", // 地图
-        "message/index", // 服务通知
+        "notice/index", // 服务通知
       ],
     },
     {

@@ -80,8 +80,11 @@ const TakePhotos = (props: Props) => {
       onBeforeLeave={failFunc}
     >
       <Camera
-        flash="off"
-        devicePosition="back"
+        resolution="high" // 拍照质量
+        frameSize="large" // 相机帧大小
+        flash="off" // 闪光灯
+        devicePosition="back" // 相机朝向
+        outputDimension="max" // 相机拍照，录制的分辨率
         className={styles.camera}
       >
         <View className={styles.text}>自定义文案 (～￣▽￣)～</View>

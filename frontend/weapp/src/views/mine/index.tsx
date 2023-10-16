@@ -12,7 +12,7 @@ import { AtIcon } from "taro-ui";
 definePageConfig({});
 
 const catalog = [
-  { id: 1, name: "公告通知", icon: "notice", url: "/views/order/index" },
+  { id: 1, name: "公告通知", icon: "announcement", url: "/views/announcement/index" },
   { id: 2, name: "关于项目", icon: "about", url: "/views/collection/index" },
 ];
 

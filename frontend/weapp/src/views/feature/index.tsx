@@ -9,7 +9,7 @@ const catalogList = [
   { id: 3, name: "地图", icon: "map", url: "/views/subFeature/map/index", content: "本小程序不会上传您的位置信息，仅用于展示您的位置信息，如您不同意请点击取消！" },
   { id: 2, name: "echart图", icon: "charts", url: "/views/subEcharts/index" },
   { id: 4, name: "拍照", icon: "camera", url: "/views/subFeature/camera/index", content: "本小程序不会上传您所拍摄的图片，仅用于展示，如您不同意请点击取消！" },
-  { id: 5, name: "消息订阅", icon: "message", url: "" },
+  { id: 5, name: "服务通知", icon: "message", url: "/views/subFeature/notice/index" },
 ]
 
 const Index = () => {

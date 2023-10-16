@@ -37,3 +37,6 @@ export const MapId: string = "myMap";
 
 /** 腾讯地图key */
 export const QQMapKey: string = "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx";
+
+/** 服务通知模板id */
+export const tmplId: string = "xxxxxx-xxxxx-xxxxxxxxxxxxx-xxxxxxxxxxxxxxx";

@@ -19,32 +19,24 @@ export function checkUpdate() {
         updateManager.onUpdateReady(function () {
           console.log("%c小程序下载成功", "color:yellow");
 
-          let time1 = setTimeout(() => {
-            Taro.showModal({
-              title: '更新提示',
-              content: '发现版本更新，已经准备好请重启应用~',
-              showCancel: false,
-              success: (res) => {
-                updateManager.applyUpdate();
-              }
-            })
-
-            clearTimeout(time1);
-          }, 1000);
+          Taro.showModal({
+            title: '更新提示',
+            content: '发现版本更新，已经准备好请重启应用~',
+            showCancel: false,
+            success: (res) => {
+              updateManager.applyUpdate();
+            }
+          })
         });
 
         updateManager.onUpdateFailed(function (res) {
           console.log(`%c小程序更新失败 ${JSON.stringify(res)}`, "color:red");
 
-          let time2 = setTimeout(() => {
-            Taro.showModal({
-              title: '更新提示',
-              content: '新版本已经上线啦~，请您删除当前小程序，重新搜索打开哟~',
-              showCancel: false
-            })
-
-            clearTimeout(time2);
-          }, 1000);
+          Taro.showModal({
+            title: '更新提示',
+            content: '新版本已经上线啦~，请您删除当前小程序，重新搜索打开哟~',
+            showCancel: false
+          })
         });
       }
     });

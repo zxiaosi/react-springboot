@@ -1,0 +1,104 @@
+$bgColor: linear-gradient(90deg, #74DACE, #4DA1FC);
+
+.page {
+  margin: 20rpx 32rpx;
+
+  .title {
+    text-align   : center;
+    color        : rgb(255, 215, 0);
+    font-size    : 32rpx !important;
+    font-weight  : bold;
+    margin       : 20rpx 0;
+    padding      : 32rpx;
+    border-radius: 20rpx;
+    background   : rgba(1, 1, 1, 0.8);
+    box-shadow   : 0 0 16rpx 0 rgba(0, 0, 0, 0.16);
+  }
+
+  .context {
+    padding      : 32rpx 20rpx;
+    border-radius: 20rpx;
+    background   : rgba(255, 255, 255, 1);
+    box-shadow   : 0 0 16rpx 0 rgba(0, 0, 0, 0.16);
+
+    .steps {
+      :global {
+        .at-steps__title {
+          font-size: 24rpx !important;
+        }
+      }
+    }
+
+    .tabs {
+      background-color: #fafbfc;
+
+      .btn {
+        width        : 100%;
+        height       : 80rpx;
+        line-height  : 80rpx;
+        text-align   : center;
+        color        : #fff;
+        border-radius: 16rpx;
+        background   : linear-gradient(90deg, #74DACE, #4DA1FC);
+      }
+
+      // 订阅服务通知
+      .subscribe {
+        height         : 400rpx;
+        display        : flex;
+        align-items    : center;
+        justify-content: center;
+        flex-direction : column;
+      }
+
+      // 选择问题类型
+      .issues {
+        font-weight: bold;
+
+        .issue {
+          width          : 100%;
+          min-height     : 32rpx;
+          font-size      : 32rpx !important;
+          padding        : 24rpx;
+          display        : flex;
+          align-items    : center;
+          justify-content: space-between;
+          color          : #333;
+          box-sizing     : border-box;
+        }
+
+        .subIssue {
+          font-weight    : normal;
+          margin         : 0 25rpx 0 60rpx;
+          padding        : 20rpx 0;
+          display        : flex;
+          align-items    : center;
+          justify-content: space-between;
+          border-bottom  : 1rpx solid #d6e4ef;
+        }
+      }
+
+      // 订阅服务通知
+      .send {
+        padding: 32rpx;
+
+        .column {
+          display      : flex;
+          align-items  : flex-start;
+          margin-bottom: 30rpx;
+
+          .label {
+            margin-right: 20rpx;
+          }
+
+          .textarea {
+            flex      : 1;
+            background: #fff;
+            min-height: 200rpx;
+            padding   : 10rpx;
+          }
+        }
+      }
+    }
+  }
+}
