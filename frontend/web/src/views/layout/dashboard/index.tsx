@@ -29,7 +29,9 @@ const Index = () => {
 
       <Button type="primary" onClick={handleClick}>点我更新接口</Button>
 
-      <MyEcharts />
+      <div style={{ marginTop: 20 }}>
+        <MyEcharts />
+      </div>
     </div>
   );
 };

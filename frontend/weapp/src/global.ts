@@ -39,4 +39,4 @@ export const MapId: string = "myMap";
 export const QQMapKey: string = "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx";
 
 /** 服务通知模板id */
-export const tmplId: string = "xxxxxx-xxxxx-xxxxxxxxxxxxx-xxxxxxxxxxxxxxx";
+export const tmplId: string = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";

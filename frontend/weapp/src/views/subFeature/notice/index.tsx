@@ -150,6 +150,7 @@ const Index = () => {
 
     if (code == 0) {
       setSetpItems(stepItems.map((step) => { return { ...step, status: "success" } }));
+      Taro.showToast({ title: '发送成功, 返回小程序查看', icon: 'none' });
     } else {
       Taro.showToast({ title: '发送失败', icon: 'none' });
     }

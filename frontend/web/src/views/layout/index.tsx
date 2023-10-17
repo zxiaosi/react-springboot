@@ -27,8 +27,6 @@ const Index = () => {
 
   const menuItems = useMemo(() => generateMenu(getLocal(MenuStore) || []), []); // 防止每次渲染都重新生成
 
-
-
   /** 监听浏览器地址栏路由变化 */
   useEffect(() => {
     const pageCurrentMenu = location.pathname;

@@ -31,3 +31,6 @@ export const useLogoutApi = createApiHook({ url: "/logout", method: Method.GET }
 
 /** 用户菜单 */
 export const useMenuApi = createApiHook({ url: "/menu", method: Method.GET });
+
+/** 测试接口 */
+export const useTestApi = createApiHook({ url: "/test", method: Method.GET });

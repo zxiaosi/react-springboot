@@ -23,7 +23,7 @@ config:
   weixin:
     appid: wx25adff2e6b2572ed # 小程序的appid
     secret: wx25adff2e6b2572edwx25adff2e6b25 # 小程序的secret
-    tmplId: xxxxxx-xxxxx-xxxxxxxxxxxxx-xxxxxxxxxxxxxxx # 模板消息id
+    tmplId: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx # 模板消息id
   jwt:
     secret: 2159cslsknjgvehr
     expire: 604800 # 7 * 24 * 60 * 60

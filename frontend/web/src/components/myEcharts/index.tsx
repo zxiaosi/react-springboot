@@ -5,8 +5,7 @@ const MyEcharts = () => {
   const echartsRef = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
 
   useEffect(() => {
-
-    echarts.init(echartsRef.current).setOption({
+    echarts?.init(echartsRef.current).setOption({
       title: {
         text: 'ECharts 入门示例'
       },
@@ -21,11 +20,6 @@ const MyEcharts = () => {
         data: [5, 20, 36]
       }]
     })
-
-    return () => {
-      echarts.dispose(echartsRef.current)
-    }
-
   }, [])
 
   return <div ref={echartsRef} style={{ width: 800, height: 300 }} />

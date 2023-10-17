@@ -20,7 +20,7 @@ const Index = () => {
   }); // 表单
 
   const { mutate } = useLoginApi({ data: { ...form } }, { revalidateOnMount: false }); // 登录请求
-  const { repsonse } = useWeappQrcodeApi({ isReq: tab === "2", data: { path: "pages/home/index", width: 100 } }); // 获取小程序二维码
+  const { repsonse } = useWeappQrcodeApi({ isReq: tab === "2", data: { path: "views/home/index", width: 100 } }); // 获取小程序二维码
 
   /**
    * 切换选项卡
